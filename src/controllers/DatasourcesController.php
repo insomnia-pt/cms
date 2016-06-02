@@ -1,19 +1,19 @@
 <?php namespace Insomnia\Cms\Controllers;
 
 use Insomnia\Cms\Controllers\AdminController;
+use Insomnia\Cms\Models\Datasource as Datasource;
+use Insomnia\Cms\Models\DatasourceRelation as DatasourceRelation;
+use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
+use Insomnia\Cms\Models\Menu as Menu;
+use Insomnia\Cms\Models\ModelBuilder as ModelBuilder;
 use Input;
 use Lang;
 use Redirect;
 use Validator;
 use View;
 use Str;
-use Datasource;
-use DatasourceRelation;
-use DatasourceFieldtype;
 use Config;
 use Schema;
-use Menu;
-use ModelBuilder;
 use Helpers;
 use DB;
 
@@ -25,7 +25,7 @@ class DatasourcesController extends AdminController {
 		AdminController::checkPermission('datasources.view');
 
 		$datasources = Datasource::orderBy('created_at', 'DESC')->get();
-		return View::make('ocms::datasources/index', compact('datasources'));
+		return View::make('cms::datasources/index', compact('datasources'));
 	}
 
 	public function getCreate()

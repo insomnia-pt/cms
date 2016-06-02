@@ -1,4 +1,4 @@
-@extends('ocms::layouts/default')
+@extends('cms::layouts/default')
 
 {{-- Page title --}}
 @section('title')
@@ -11,7 +11,7 @@ Gestão de Data Sources ::
 	<div class="row">
       	<div class="col-lg-12">
 	          <ul class="breadcrumb pull-left">
-	              <li><a href="{{ URL::to('ocms') }}"><i class="icon-home"></i> Home</a></li>
+	              <li><a href="{{ URL::route('cms') }}"><i class="icon-home"></i> Home</a></li>
 	              <li><span class="active">Data Sources</span></li>
 	          </ul>
 	          <a href="{{ route('create/datasource') }}" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
@@ -58,9 +58,9 @@ Gestão de Data Sources ::
 @stop
 
 @section('scripts')
-	<script type="text/javascript" src="{{ asset('ocms-res/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('ocms-res/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('ocms-res/assets/js/dynamic-table.js') }}"></script>
+	<script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/dynamic-table.js') }}"></script>
     <script type="text/javascript">
 
     	var oTable = $('#main_table').dataTable();
