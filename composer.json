@@ -1,0 +1,32 @@
+{
+    "name": "insomnia/cms",
+    "description": "",
+    "authors": [
+        {
+            "name": "Miguel Pereira",
+            "email": "miguel@insomnia.pt"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "intervention/image": "dev-master",
+        "intervention/imagecache": "dev-master",
+        "thujohn/analytics": "dev-master",
+        "barryvdh/laravel-elfinder": "0.2.@dev"
+    },
+    "autoload": {
+        "classmap": [
+            "src/commands",
+            "src/migrations",
+            "src/seeds",
+            "src/controllers",
+            "src/views",
+            "src/models"
+        ],
+        "psr-0": {
+            "Insomnia\\Cms\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

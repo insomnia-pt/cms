@@ -1,0 +1,109 @@
+.easy-tree input, .easy-tree .input-group-addon {
+    cursor: pointer !important;
+}
+
+.easy-tree-list {
+    min-height: 20px;
+    max-height: 250px;
+    width: 96%;
+    border: 1px solid #ccc;
+    overflow: auto;
+    position: absolute;
+    margin: 2px 0 0 3px;
+    z-index: 999;
+    background: #fff;
+    display: none;
+}
+
+
+.easy-tree-list ul li {
+    list-style-type: none;
+    margin: 0;
+    position: relative
+}
+
+.easy-tree-list ul {
+    padding-left: 15px;
+}
+
+.easy-tree-list > ul {
+    padding-left: 0;
+}
+
+.easy-tree-list li::before, .easy-tree-list li::after {
+    content: '';
+    left: -8px;
+    position: absolute;
+    right: auto
+}
+
+.easy-tree-list li::before {
+    border-left: 1px solid #ccc;
+    bottom: 50px;
+    height: 100%;
+    top: 0;
+    width: 1px
+}
+
+.easy-tree-list li::after {
+    border-top: 1px solid #ccc;
+    height: 20px;
+    top: 16px;
+    width: 8px
+}
+
+.easy-tree-list li > span {
+    border: 1px solid #fff;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 5px;
+    text-decoration: none
+}
+
+.easy-tree-list li > span {
+    border: 1px solid #fff;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 5px;
+    text-decoration: none
+}
+
+.easy-tree-list li > span > span {
+    padding-right: 5px;
+}
+
+
+.easy-tree-list > ul > li::before, .easy-tree-list > ul > li::after {
+    border: 0
+}
+
+.easy-tree-list li:last-child::before {
+    height: 30px
+}
+
+.easy-tree-list li.parent_li > span:hover + ul li.li_selected span {
+
+}
+
+.easy-tree-list li > span > a {
+
+    text-decoration: none;
+}
+
+.easy-tree-list li a:hover {
+    font-weight: bold;
+}
+
+
+.easy-tree-list li.li_selected > span  {
+    background: #DEB774;
+}
+
+.easy-tree-list li.li_selected > span > a  {
+    color: #fff;
+}
+
+.easy-tree-list li.li_selected > span:hover, .easy-tree-list li.li_selected > span:hover > a {
+    background: #da9f3b;
+    color: #fff;
+}
