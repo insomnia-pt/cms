@@ -58,17 +58,17 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	# Data Sources Management
 	Route::group(array('prefix' => 'datasources'), function()
 	{
-		Route::get('/', array('as' => 'admin/datasource', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getIndex'));
-		Route::get('create', array('as' => 'create/datasource', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getCreate'));
+		Route::get('/', array('as' => 'datasources', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getIndex'));
+		Route::get('create', array('as' => 'datasources/create', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getCreate'));
 		Route::post('create', 'Insomnia\Cms\Controllers\DatasourcesController@postCreate');
-		Route::get('{datasourceId}/edit', array('as' => 'update/datasource', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getEdit'));
+		Route::get('{datasourceId}/edit', array('as' => 'datasources/edit', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getEdit'));
 		Route::post('{datasourceId}/edit', 'Insomnia\Cms\Controllers\DatasourcesController@postEdit');
 		Route::post('{datasourceId}/edit/relation/create', 'Insomnia\Cms\Controllers\DatasourcesController@postEditRelationCreate');
 		Route::post('{datasourceId}/edit/field/create', 'Insomnia\Cms\Controllers\DatasourcesController@postEditFieldCreate');
 		Route::post('{datasourceId}/edit/field/{fieldName}/edit', 'Insomnia\Cms\Controllers\DatasourcesController@postEditFieldEdit');
 		Route::get('{datasourceId}/relation/{relationId}/delete', array('as' => 'delete/datasource/relation', 'uses' =>'Insomnia\Cms\Controllers\DatasourcesController@getDeleteRelation'));
 		Route::get('{datasourceId}/field/{fieldName}/delete', array('as' => 'delete/datasource/field', 'uses' =>'Insomnia\Cms\Controllers\DatasourcesController@getDeleteField'));
-		Route::get('{datasourceId}/delete', array('as' => 'delete/datasource', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getDelete'));
+		Route::get('{datasourceId}/delete', array('as' => 'datasources/delete', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getDelete'));
 		Route::get('{datasourceId}/delete/all', array('as' => 'delete/datasource/all', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getDeleteAll'));
 	});
 
@@ -84,13 +84,13 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	# Data Source Table Management
 	Route::group(array('prefix' => 'ds'), function()
 	{
-		Route::get('/{datasourceId}', array('as' => 'admin/ds', 'uses' => 'Insomnia\Cms\Controllers\DsController@getIndex'));
-		Route::get('{datasourceId}/create', array('as' => 'create/ds', 'uses' => 'Insomnia\Cms\Controllers\DsController@getCreate'));
+		Route::get('/{datasourceId}', array('as' => 'cms/ds', 'uses' => 'Insomnia\Cms\Controllers\DsController@getIndex'));
+		Route::get('{datasourceId}/create', array('as' => 'cms/ds/create', 'uses' => 'Insomnia\Cms\Controllers\DsController@getCreate'));
 		Route::post('{datasourceId}/create', 'Insomnia\Cms\Controllers\DsController@postCreate');
-		Route::get('{datasourceId}/edit/{itemId}', array('as' => 'update/ds', 'uses' => 'Insomnia\Cms\Controllers\DsController@getEdit'));
+		Route::get('{datasourceId}/edit/{itemId}', array('as' => 'cms/ds/edit', 'uses' => 'Insomnia\Cms\Controllers\DsController@getEdit'));
 		Route::post('{datasourceId}/edit/{itemId}', 'Insomnia\Cms\Controllers\DsController@postEdit');
-		Route::get('{datasourceId}/delete/{itemId}', array('as' => 'delete/ds', 'uses' => 'Insomnia\Cms\Controllers\DsController@getDelete'));
-		Route::get('{datasourceId}/sub/{itemId}/{subDatasourceId}', array('as' => 'admin/ds/sub', 'uses' => 'Insomnia\Cms\Controllers\DsController@getSubIndex'));
+		Route::get('{datasourceId}/delete/{itemId}', array('as' => 'cms/ds/delete', 'uses' => 'Insomnia\Cms\Controllers\DsController@getDelete'));
+		Route::get('{datasourceId}/sub/{itemId}/{subDatasourceId}', array('as' => 'cms/ds/sub', 'uses' => 'Insomnia\Cms\Controllers\DsController@getSubIndex'));
 		// Route::get('{datasourceId}/delete/all', array('as' => 'delete/datasource/all', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getDeleteAll'));
 	});
 
@@ -98,26 +98,26 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	Route::group(array('prefix' => 'users'), function()
 	{
 		Route::get('/', array('as' => 'users', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getIndex'));
-		Route::get('import', array('as' => 'import/user', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getImport'));
+		Route::get('import', array('as' => 'users/import', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getImport'));
 		Route::post('import', 'Insomnia\Cms\Controllers\UsersController@postImport');
-		Route::get('create', array('as' => 'create/user', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getCreate'));
+		Route::get('create', array('as' => 'users/create', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getCreate'));
 		Route::post('create', 'Insomnia\Cms\Controllers\UsersController@postCreate');
-		Route::get('{userId}/edit', array('as' => 'update/user', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getEdit'));
+		Route::get('{userId}/edit', array('as' => 'users/edit', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getEdit'));
 		Route::post('{userId}/edit', 'Insomnia\Cms\Controllers\UsersController@postEdit');
-		Route::get('{userId}/delete', array('as' => 'delete/user', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getDelete'));
-		Route::get('{userId}/restore', array('as' => 'restore/user', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getRestore'));
+		Route::get('{userId}/delete', array('as' => 'users/delete', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getDelete'));
+		Route::get('{userId}/restore', array('as' => 'users/restore', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getRestore'));
 	});
 
 	# Group Management
 	Route::group(array('prefix' => 'groups'), function()
 	{
 		Route::get('/', array('as' => 'groups', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getIndex'));
-		Route::get('create', array('as' => 'create/group', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getCreate'));
+		Route::get('create', array('as' => 'groups/create', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getCreate'));
 		Route::post('create', 'Insomnia\Cms\Controllers\GroupsController@postCreate');
-		Route::get('{groupId}/edit', array('as' => 'update/group', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getEdit'));
+		Route::get('{groupId}/edit', array('as' => 'groups/edit', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getEdit'));
 		Route::post('{groupId}/edit', 'Insomnia\Cms\Controllers\GroupsController@postEdit');
-		Route::get('{groupId}/delete', array('as' => 'delete/group', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getDelete'));
-		Route::get('{groupId}/restore', array('as' => 'restore/group', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getRestore'));
+		Route::get('{groupId}/delete', array('as' => 'groups/delete', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getDelete'));
+		Route::get('{groupId}/restore', array('as' => 'groups/restore', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getRestore'));
 	});
 
 	# Settings Management

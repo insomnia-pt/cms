@@ -4,6 +4,9 @@ use Insomnia\Cms\Controllers\AdminController;
 use Cartalyst\Sentry\Groups\GroupExistsException;
 use Cartalyst\Sentry\Groups\GroupNotFoundException;
 use Cartalyst\Sentry\Groups\NameRequiredException;
+use Insomnia\Cms\Models\Menu as Menu;
+use Insomnia\Cms\Models\Datasource as Datasource;
+
 use Config;
 use Input;
 use Lang;
@@ -11,8 +14,6 @@ use Redirect;
 use Sentry;
 use Validator;
 use View;
-use Menu;
-use Datasource;
 use Session;
 
 class GroupsController extends AdminController {
@@ -24,7 +25,7 @@ class GroupsController extends AdminController {
 		$groups = Sentry::getGroupProvider()->createModel()->paginate();
 
 		// Show the page
-		return View::make('ocms::groups/index', compact('groups'));
+		return View::make('cms::groups/index', compact('groups'));
 	}
 
 
@@ -33,14 +34,14 @@ class GroupsController extends AdminController {
 		AdminController::checkPermission('groups.create');
 
 		// Get all the available permissions
-		$permissions = Config::get('permissions');
+		$permissions = Config::get('cms::permissions');
 		$this->encodeAllPermissions($permissions, true);
 
 		// Selected permissions
 		$selectedPermissions = Input::old('permissions', array());
 
 		// Show the page
-		return View::make('ocms::groups/create', compact('permissions', 'selectedPermissions'));
+		return View::make('cms::groups/create', compact('permissions', 'selectedPermissions'));
 	}
 
 	public function postCreate()
@@ -116,11 +117,11 @@ class GroupsController extends AdminController {
 
 				}
 
-				return Redirect::route('update/group', $group->id)->with('success', Lang::get('admin/groups/message.success.create'));
+				return Redirect::route('update/group', $group->id)->with('success', Lang::get('cms::groups/message.success.create'));
 			}
 
 			// Redirect to the new group page
-			return Redirect::route('create/group')->with('error', Lang::get('admin/groups/message.error.create'));
+			return Redirect::route('create/group')->with('error', Lang::get('cms::groups/message.error.create'));
 		}
 		catch (NameRequiredException $e)
 		{
@@ -132,7 +133,7 @@ class GroupsController extends AdminController {
 		}
 
 		// Redirect to the group create page
-		return Redirect::route('create/group')->withInput()->with('error', Lang::get('admin/groups/message.'.$error));
+		return Redirect::route('groups/create')->withInput()->with('error', Lang::get('cms::groups/message.'.$error));
 	}
 
 	public function getEdit($id = null)
@@ -146,7 +147,7 @@ class GroupsController extends AdminController {
 			$group = Sentry::getGroupProvider()->findById($id);
 
 			// Get all the available permissions
-			$permissions = Config::get('permissions');
+			$permissions = Config::get('cms::permissions');
 			$this->encodeAllPermissions($permissions, true);
 
 			// Get this group permissions
@@ -160,11 +161,11 @@ class GroupsController extends AdminController {
 		catch (GroupNotFoundException $e)
 		{
 			// Redirect to the groups management page
-			return Redirect::route('groups')->with('error', Lang::get('admin/groups/message.group_not_found', compact('id')));
+			return Redirect::route('groups')->with('error', Lang::get('cms::groups/message.group_not_found', compact('id')));
 		}
 
 		// Show the page
-		return View::make('ocms::groups/edit', compact('group', 'permissions', 'groupPermissions', 'datasources'));
+		return View::make('cms::groups/edit', compact('group', 'permissions', 'groupPermissions', 'datasources'));
 	}
 
 	public function postEdit($id = null)
@@ -172,7 +173,7 @@ class GroupsController extends AdminController {
 		AdminController::checkPermission('groups.update');
 
 		if(Session::get('settings_super_user') && $id == 1) {
-			return Redirect::route('update/group', $id)->withInput()->with('error', 'Sem permissões');
+			return Redirect::route('groups/edit', $id)->withInput()->with('error', 'Sem permissões');
 		}
 
 		// We need to reverse the UI specific logic for our
@@ -189,7 +190,7 @@ class GroupsController extends AdminController {
 		catch (GroupNotFoundException $e)
 		{
 			// Redirect to the groups management page
-			return Rediret::route('groups')->with('error', Lang::get('admin/groups/message.group_not_found', compact('id')));
+			return Rediret::route('groups')->with('error', Lang::get('cms::groups/message.group_not_found', compact('id')));
 		}
 
 		// Declare the rules for the form validation
@@ -217,21 +218,21 @@ class GroupsController extends AdminController {
 			if ($group->save())
 			{
 				// Redirect to the group page
-				return Redirect::route('update/group', $id)->with('success', Lang::get('admin/groups/message.success.update'));
+				return Redirect::route('groups/edit', $id)->with('success', Lang::get('cms::groups/message.success.update'));
 			}
 			else
 			{
 				// Redirect to the group page
-				return Redirect::route('update/group', $id)->with('error', Lang::get('admin/groups/message.error.update'));
+				return Redirect::route('groups/edit', $id)->with('error', Lang::get('cms::groups/message.error.update'));
 			}
 		}
 		catch (NameRequiredException $e)
 		{
-			$error = Lang::get('admin/group/message.group_name_required');
+			$error = Lang::get('cms::group/message.group_name_required');
 		}
 
 		// Redirect to the group page
-		return Redirect::route('update/group', $id)->withInput()->with('error', $error);
+		return Redirect::route('groups/edit', $id)->withInput()->with('error', $error);
 	}
 
 
@@ -255,12 +256,12 @@ class GroupsController extends AdminController {
 			Menu::where('group_id', $id)->delete();
 
 			// Redirect to the group management page
-			return Redirect::route('groups')->with('success', Lang::get('_ocms/messages.success'));
+			return Redirect::route('groups')->with('success', Lang::get('cms::messages.success'));
 		}
 		catch (GroupNotFoundException $e)
 		{
 			// Redirect to the group management page
-			return Redirect::route('groups')->with('error', Lang::get('_ocms/messages.not_found', compact('id')));
+			return Redirect::route('groups')->with('error', Lang::get('cms::messages.not_found', compact('id')));
 		}
 	}
 

@@ -11,7 +11,7 @@ Gestão de Páginas ::
 	<div class="row">
       	<div class="col-lg-12">
 	          <ul class="breadcrumb pull-left">
-	              <li><a href="{{ URL::route('cms') }}"><i class="icon-home"></i> Home</a></li>
+	              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
 	              <li><span class="active">Páginas</span></li>
 	          </ul>
 	          @if(array_key_exists('pages.create', $_groupPermissions))

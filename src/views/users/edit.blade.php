@@ -1,4 +1,4 @@
-@extends('ocms::layouts/default')
+@extends('cms::layouts/default')
 
 {{-- Page title --}}
 @section('title')
@@ -12,7 +12,7 @@ Editar Utilizador ::
 	<div class="row">
       <div class="col-lg-12">
           <ul class="breadcrumb pull-left">
-              <li><a href="{{ URL::to('ocms') }}"><i class="icon-home"></i> Home</a></li>
+              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
               <li><a href="{{ route('users') }}">Utilizadores</a></li>
               <li><span class="active">Editar</span></li>
           </ul>

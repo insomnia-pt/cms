@@ -25,7 +25,7 @@
 	              <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button"><span class="caret"></span></button>
 	              <ul role="menu" class="dropdown-menu">
 	                @foreach($parentPages as $parentPage)
-						@if($parentPage->id!=$parentPageId)<li><a href="{{ URL::to('ocms/pages?group='.$parentPage->id) }}">{{ $parentPage->title }}</a></li>@endif
+						@if($parentPage->id!=$parentPageId)<li><a href="{{ URL::to('cms/pages?group='.$parentPage->id) }}">{{ $parentPage->title }}</a></li>@endif
 					@endforeach
 	              </ul>
           		</div>
@@ -63,13 +63,13 @@
 				<a href="{{ URL::to($page->slug) }}" target="_blank" class="btn btn-xs" title="Abrir Página"><i class="fa fa-external-link"></i> Abrir</a>| 
 				<a href="{{ route('pages/edit', $page->id) }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" class="btn btn-xs btn-default">
 	          @if(array_key_exists($datasource->table.'.update', $_groupPermissions)) 
-	            @lang('button.edit') 
+	            @lang('cms::button.edit') 
 	          @else 
-	            @lang('button.view') 
+	            @lang('cms::button.view') 
 	          @endif
         	</a>
 	        @if(array_key_exists($datasource->table.'.delete', $_groupPermissions))
-					<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar a página?" data-reply="" data-toggle="modal" data-descr="{{ $page->title }}" data-url="{{ route('pages/delete', $page->id) }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" href="#modal-confirm">@lang('button.delete')</a>
+					<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar a página?" data-reply="" data-toggle="modal" data-descr="{{ $page->title }}" data-url="{{ route('pages/delete', $page->id) }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" href="#modal-confirm">@lang('cms::button.delete')</a>
 	        @endif
 			</td>
 		</tr>

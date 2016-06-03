@@ -33,7 +33,7 @@ class DatasourcesController extends AdminController {
 		AdminController::checkPermission('datasources.create');
 
 		$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
-		return View::make('ocms::datasources/create', compact('datasourceFieldtypes'));
+		return View::make('cms::datasources/create', compact('datasourceFieldtypes'));
 	}
 
 	public function postCreate()
@@ -54,7 +54,7 @@ class DatasourcesController extends AdminController {
 		$tableConfig = json_decode(Input::get('table_config'), true);
 
 		$newtableschema = array(
-            'table_name' => Config::get('app.datasource_table_prefix').Str::slug(Input::get('name')),
+            'table_name' => Config::get('cms::config.datasource_table_prefix').Str::slug(Input::get('name')),
             'table_config' => $tableConfig,
             'table_options' => array(
             	'subitems' => Input::get('subitems')?1:0,
@@ -102,11 +102,10 @@ class DatasourcesController extends AdminController {
 
 		if($datasource->save()) {
 			DB::commit();
-			return Redirect::to("ocms/datasources")->with('success', Lang::get('admin/datasources/message.create.success'));
+			return Redirect::to("cms/datasources")->with('success', Lang::get('cms::datasources/message.create.success'));
 		}
 
-
-		return Redirect::to('ocms/datasources/create')->with('error', Lang::get('admin/datasources/message.create.error'));
+		return Redirect::to('cms/datasources/create')->with('error', Lang::get('cms::datasources/message.create.error'));
 	}
 
 
@@ -116,14 +115,14 @@ class DatasourcesController extends AdminController {
 
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms/datasources')->with('error', Lang::get('admin/datasources/message.does_not_exist'));
+			return Redirect::to('cms/datasources')->with('error', Lang::get('cms::datasources/message.does_not_exist'));
 		}
 
 		$datasources = Datasource::get();
 		$table = ModelBuilder::fromTable($datasource->table)->get();
 		$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
 
-		return View::make('ocms::datasources/edit', compact('datasource','datasources','table','datasourceFieldtypes'));
+		return View::make('cms::datasources/edit', compact('datasource','datasources','table','datasourceFieldtypes'));
 	}
 
 
@@ -133,7 +132,7 @@ class DatasourcesController extends AdminController {
 
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms/datasources')->with('error', Lang::get('admin/datasources/message.does_not_exist'));
+			return Redirect::to('cms/datasources')->with('error', Lang::get('cms::datasources/message.does_not_exist'));
 		}
 
 		$rules = array(
@@ -151,10 +150,10 @@ class DatasourcesController extends AdminController {
 
 		if($datasource->save())
 		{
-			return Redirect::back()->with('success', Lang::get('admin/datasources/message.update.success'));
+			return Redirect::back()->with('success', Lang::get('cms::datasources/message.update.success'));
 		}
 
-		return Redirect::back()->with('error', Lang::get('admin/datasources/message.update.error'));
+		return Redirect::back()->with('error', Lang::get('cms::datasources/message.update.error'));
 	}
 
 	public function postEditFieldCreate($id = null)
@@ -163,7 +162,7 @@ class DatasourcesController extends AdminController {
 
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms/datasources')->with('error', Lang::get('admin/datasources/message.does_not_exist'));
+			return Redirect::to('cms/datasources')->with('error', Lang::get('cms::datasources/message.does_not_exist'));
 		}
 
 		$rules = array(
@@ -200,10 +199,10 @@ class DatasourcesController extends AdminController {
 
 		if($datasource->save())
 		{
-			return Redirect::back()->with('success', Lang::get('admin/datasources/message.update.success'));
+			return Redirect::back()->with('success', Lang::get('cms::datasources/message.update.success'));
 		}
 
-		return Redirect::back()->with('error', Lang::get('admin/datasources/message.update.error'));
+		return Redirect::back()->with('error', Lang::get('cms::datasources/message.update.error'));
 	}
 
 	public function postEditFieldEdit($id, $fieldName)
@@ -212,7 +211,7 @@ class DatasourcesController extends AdminController {
 
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms/datasources')->with('error', Lang::get('admin/datasources/message.does_not_exist'));
+			return Redirect::to('cms/datasources')->with('error', Lang::get('cms::datasources/message.does_not_exist'));
 		}
 
 		$rules = array(
@@ -251,10 +250,10 @@ class DatasourcesController extends AdminController {
 		
 		if($datasource->save())
 		{
-			return Redirect::back()->with('success', Lang::get('admin/datasources/message.update.success'));
+			return Redirect::back()->with('success', Lang::get('cms::datasources/message.update.success'));
 		}
 
-		return Redirect::back()->with('error', Lang::get('admin/datasources/message.update.error'));
+		return Redirect::back()->with('error', Lang::get('cms::datasources/message.update.error'));
 	}
 
 	public function postEditRelationCreate($id = null)
@@ -263,7 +262,7 @@ class DatasourcesController extends AdminController {
 
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms/datasources')->with('error', Lang::get('admin/datasources/message.does_not_exist'));
+			return Redirect::to('cms/datasources')->with('error', Lang::get('cms::datasources/message.does_not_exist'));
 		}
 
 		$rules = array(
@@ -310,10 +309,10 @@ class DatasourcesController extends AdminController {
 			
 
 		if($datasource->save()) {
-			return Redirect::back()->with('success', Lang::get('admin/datasources/message.update.success'));
+			return Redirect::back()->with('success', Lang::get('cms::datasources/message.update.success'));
 		}
 
-		return Redirect::back()->with('error', Lang::get('admin/datasources/message.update.error'));
+		return Redirect::back()->with('error', Lang::get('cms::datasources/message.update.error'));
 	}
 
 
@@ -324,7 +323,7 @@ class DatasourcesController extends AdminController {
 
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms/datasources')->with('error', Lang::get('admin/datasources/message.does_not_exist'));
+			return Redirect::to('cms/datasources')->with('error', Lang::get('cms::datasources/message.does_not_exist'));
 		}
 
 		Schema::drop($datasource->table);
@@ -332,7 +331,7 @@ class DatasourcesController extends AdminController {
 		$datasource->relations()->delete();
 		$datasource->delete();
 
-		return Redirect::to('ocms/datasources')->with('success', Lang::get('admin/datasources/message.delete.success'));
+		return Redirect::to('cms/datasources')->with('success', Lang::get('cms::datasources/message.delete.success'));
 	}
 
 	public function getDeleteRelation($id, $relationId)
@@ -341,12 +340,12 @@ class DatasourcesController extends AdminController {
 
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms/datasources')->with('error', Lang::get('admin/datasources/message.does_not_exist'));
+			return Redirect::to('cms/datasources')->with('error', Lang::get('cms::datasources/message.does_not_exist'));
 		}
 
 		if (is_null($relation = DatasourceRelation::find($relationId)))
 		{
-			return Redirect::to('ocms/datasources/'.$datasource->id.'/edit')->with('error', Lang::get('admin/datasources/relation/message.does_not_exist'));
+			return Redirect::to('cms/datasources/'.$datasource->id.'/edit')->with('error', Lang::get('cms::datasources/relation/message.does_not_exist'));
 		}
 
 		// $datasources = Datasource::get();
@@ -368,7 +367,7 @@ class DatasourcesController extends AdminController {
 
 		$relation->delete();
 
-		return Redirect::to('ocms/datasources/'.$datasource->id.'/edit')->with('success', Lang::get('admin/datasources/message.delete.success'));
+		return Redirect::to('cms/datasources/'.$datasource->id.'/edit')->with('success', Lang::get('cms::datasources/message.delete.success'));
 	}
 
 	public function getDeleteField($id, $fieldName)
@@ -377,7 +376,7 @@ class DatasourcesController extends AdminController {
 
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms/datasources')->with('error', Lang::get('admin/datasources/message.does_not_exist'));
+			return Redirect::to('cms/datasources')->with('error', Lang::get('cms::datasources/message.does_not_exist'));
 		}
 
 		Schema::table($datasource->table, function($table) use($fieldName) {
@@ -391,10 +390,10 @@ class DatasourcesController extends AdminController {
 
 		if($datasource->save())
 		{
-			return Redirect::back()->with('success', Lang::get('admin/datasources/message.update.success'));
+			return Redirect::back()->with('success', Lang::get('cms::datasources/message.update.success'));
 		}
 
-		return Redirect::to('ocms/datasources/'.$datasource->id.'/edit')->with('success', Lang::get('admin/datasources/message.delete.success'));
+		return Redirect::to('cms/datasources/'.$datasource->id.'/edit')->with('success', Lang::get('cms::datasources/message.delete.success'));
 	}
 
 

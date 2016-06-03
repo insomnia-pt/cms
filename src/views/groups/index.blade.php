@@ -1,4 +1,4 @@
-@extends('ocms::layouts/default')
+@extends('cms::layouts/default')
 
 {{-- Page title --}}
 @section('title')
@@ -12,10 +12,10 @@ Gestão de Grupos ::
 	<div class="row">
       <div class="col-lg-12">
           <ul class="breadcrumb pull-left">
-              <li><a href="{{ URL::to('ocms') }}"><i class="icon-home"></i> Home</a></li>
+              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
               <li><span class="active">Grupos</span></li>
           </ul>
-          <a href="{{ route('create/group') }}" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
+          <a href="{{ route('groups/create') }}" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
       </div>
   </div>
 
@@ -49,8 +49,8 @@ Gestão de Grupos ::
               <td class="hidden-phone">{{ $group->users()->count() }}</td>
               <td class="hidden-phone">{{ $group->created_at }}</td>
               <td class="text-right">
-                <a href="{{ route('update/group', $group->id) }}" class="btn btn-xs btn-default">@lang('button.edit')</a>
-                <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o grupo?" data-reply="" data-toggle="modal" data-descr="{{ $group->id }}" data-url="{{ route('delete/group', $group->id) }}" href="#modal-confirm">@lang('button.delete')</a>
+                <a href="{{ route('groups/edit', $group->id) }}" class="btn btn-xs btn-default">@lang('cms::button.edit')</a>
+                <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o grupo?" data-reply="" data-toggle="modal" data-descr="{{ $group->name }}" data-url="{{ route('groups/delete', $group->id) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
               </td>
             </tr>
           @endif
@@ -70,9 +70,9 @@ Gestão de Grupos ::
 @stop
 
 @section('scripts')
-	<script type="text/javascript" src="{{ asset('ocms-res/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('ocms-res/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('ocms-res/assets/js/dynamic-table.js') }}"></script>
+	<script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/dynamic-table.js') }}"></script>
     <script type="text/javascript">
 
       var oTable = $('#main_table').dataTable();

@@ -1,4 +1,7 @@
 <?php
+
+use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
+
 class Helpers {
 
     public static function getSlug($title, $model)

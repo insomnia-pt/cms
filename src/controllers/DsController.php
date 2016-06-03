@@ -1,6 +1,10 @@
 <?php namespace Insomnia\Cms\Controllers;
 
 use Insomnia\Cms\Controllers\AdminController;
+use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
+use Insomnia\Cms\Models\Datasource as Datasource;
+use Insomnia\Cms\Models\ModelBuilder as ModelBuilder;
+
 use Input;
 use Lang;
 use Redirect;
@@ -12,9 +16,6 @@ use Helpers;
 use Session;
 use Config;
 
-use DatasourceFieldtype;
-use Datasource;
-use ModelBuilder;
 
 class DsController extends AdminController {
 
@@ -27,7 +28,7 @@ class DsController extends AdminController {
 	public function getIndex($id)
 	{
 		if (is_null($datasource = Datasource::find($id))){
-			return Redirect::to('ocms')->with('error', Lang::get('_ocms/ds/message.does_not_exist'));
+			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
 		AdminController::checkPermission($datasource->table.'.'.'view');
@@ -38,7 +39,7 @@ class DsController extends AdminController {
 		$parentDatasourceItem = null;
 		if(Input::get('pds')&&Input::get('item')){
 			if (is_null($parentDatasource = Datasource::find(Input::get('pds')))) {
-				return Redirect::to('ocms')->with('error', Lang::get('_ocms/ds/message.does_not_exist'));
+				return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 			}
 			$parentDatasourceItem = ModelBuilder::fromTable($parentDatasource->table)->find(Input::get('item'));
 			$dsItems = ModelBuilder::fromTable($datasource->table)->where($parentDatasource->table.'_id', Input::get('item'))->orderBy($orderBy)->get();
@@ -49,14 +50,14 @@ class DsController extends AdminController {
 
 		$parameters = $this::parameters();
 
-		return View::make('ocms::ds/index', compact('datasource','parentDatasource','dsItems','parameters','parentDatasourceItem'));
+		return View::make('cms::ds/index', compact('datasource','parentDatasource','dsItems','parameters','parentDatasourceItem'));
 	}
 
 	public function getCreate($id)
 	{
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms')->with('error', Lang::get('_ocms/ds/message.does_not_exist'));
+			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
 		AdminController::checkPermission($datasource->table.'.'.'create');
@@ -64,13 +65,13 @@ class DsController extends AdminController {
 		$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
 		$parameters = $this::parameters();
 
-		return View::make('ocms::ds/create', compact('datasource','parameters','datasourceFieldtypes'));
+		return View::make('cms::ds/create', compact('datasource','parameters','datasourceFieldtypes'));
 	}
 
 	public function postCreate($id)
 	{
 		if (is_null($datasource = Datasource::find($id))) {
-			return Redirect::to('ocms')->with('error', Lang::get('_ocms/ds/message.does_not_exist'));
+			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
 		AdminController::checkPermission($datasource->table.'.'.'create');
@@ -80,27 +81,27 @@ class DsController extends AdminController {
 
 		if(Input::get('pds')){
 			if (is_null($parentDatasource = Datasource::find(Input::get('pds')))) {
-				return Redirect::to('ocms')->with('error', Lang::get('_ocms/ds/message.does_not_exist'));
+				return Redirect::to('ocms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 			}
 
 			$inputs[$parentDatasource->table.'_id'] = Input::get('item');
 		}
 		
 		$ds = ModelBuilder::fromTable($datasource->table);
+		$ds->fill($inputs);
 		
-		
-		if($ds->create($inputs)) {
-			return Redirect::back()->with('success', Lang::get('_ocms/ds/message.success.create'));
+		if($ds->save()) {
+			return Redirect::to('cms/ds/'.$datasource->id.'/edit/'.$ds->id)->with('success', Lang::get('cms::ds/message.success.create'));
 		}
 
-		return Redirect::to('ocms/ds/'.$datasource->id.'/create')->with('error', Lang::get('_ocms/ds/message.error.create'));
+		return Redirect::to('cms/ds/'.$datasource->id.'/create')->with('error', Lang::get('cms::ds/message.error.create'));
 	}
 
 	public function getEdit($id, $itemId)
 	{
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms')->with('error', Lang::get('_ocms/ds/message.does_not_exist'));
+			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
 		AdminController::checkPermission($datasource->table.'.'.'view');
@@ -109,14 +110,14 @@ class DsController extends AdminController {
 		$dsItem = ModelBuilder::fromTable($datasource->table)->find($itemId);
 		$parameters = $this::parameters();
 
-		return View::make('ocms::ds/edit', compact('datasource','dsItem','parameters','datasourceFieldtypes'));
+		return View::make('cms::ds/edit', compact('datasource','dsItem','parameters','datasourceFieldtypes'));
 	}
 
 	public function postEdit($id, $itemId)
 	{
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms')->with('error', Lang::get('_ocms/ds/message.does_not_exist'));
+			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
 		AdminController::checkPermission($datasource->table.'.'.'update');
@@ -128,17 +129,17 @@ class DsController extends AdminController {
 
 		if($dsItem->update($inputs))
 		{
-			return Redirect::back()->with('success', Lang::get('_ocms/ds/message.success.update'));
+			return Redirect::back()->with('success', Lang::get('cms::ds/message.success.update'));
 		}
 
-		return Redirect::to("ocms/ds/$id")->with('error', Lang::get('_ocms/ds/message.error.update'));
+		return Redirect::to("cms/ds/$id")->with('error', Lang::get('cms::ds/message.error.update'));
 	}
 
 	public function getDelete($id, $itemId)
 	{
 		if (is_null($datasource = Datasource::find($id)))
 		{
-			return Redirect::to('ocms')->with('error', Lang::get('_ocms/ds/message.does_not_exist'));
+			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
 		AdminController::checkPermission($datasource->table.'.'.'delete');
@@ -149,24 +150,24 @@ class DsController extends AdminController {
 		}
 		$dsItem->delete();
 
-		return Redirect::to('ocms/ds/'.$id)->with('success', Lang::get('_ocms/ds/message.success.delete'));
+		return Redirect::to('cms/ds/'.$id)->with('success', Lang::get('cms::ds/message.success.delete'));
 	}
 
 	public function getSubIndex($dsId, $itemId, $subDsId)
 	{
 		if (is_null($datasource = Datasource::find($dsId)))
 		{
-			return Redirect::to('ocms')->with('error', Lang::get('_ocms/ds/message.does_not_exist'));
+			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
 		if (is_null($subDatasource = Datasource::find($subDsId)))
 		{
-			return Redirect::to('ocms')->with('error', Lang::get('_ocms/ds/message.does_not_exist'));
+			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
 		$dsItems = ModelBuilder::fromTable($subDatasource->table)->where($datasource->table.'_id', $itemId)->get();
 
-		return View::make('ocms::ds/index', compact('datasource','subDatasource','dsItems'));
+		return View::make('cms::ds/index', compact('datasource','subDatasource','dsItems'));
 	}
 
 }

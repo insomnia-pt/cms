@@ -1,4 +1,4 @@
-@extends('ocms::layouts/default')
+@extends('cms::layouts/default')
 
 {{-- Page title --}}
 @section('title')
@@ -12,7 +12,7 @@ Adicionar Utilizador ::
 	<div class="row">
       <div class="col-lg-12">
           <ul class="breadcrumb pull-left">
-              <li><a href="{{ URL::to('ocms') }}"><i class="icon-home"></i> Home</a></li>
+              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
               <li><a href="{{ route('users') }}">Utilizadores</a></li>
               <li><span class="active">Adicionar</span></li>
           </ul>
@@ -124,7 +124,7 @@ Adicionar Utilizador ::
             <div class="form-group {{ $errors->has('photo') ? 'has-error' : '' }}">
                 <div class="col-lg-2">
                   <span class="task-thumb">
-                    <img alt="" width="120" height="120" src="{{ asset('ocms-res/assets/img/default_avatar.jpg') }}">
+                    <img alt="" width="120" height="120" src="{{ asset(Config::get('cms::config.assets_path').'/assets/img/default_avatar.jpg') }}">
                   </span>
                 </div>
                 <div class="col-lg-3">

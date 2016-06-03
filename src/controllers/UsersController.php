@@ -47,7 +47,7 @@ class UsersController extends AdminController {
 
 		if(Sentry::getUser()->hasAccess('admin')){
 			$users = $users->get();
-		} else {
+		} else { 
 			$admins = Sentry::findAllUsersWithAccess(array('admin'));
 			$adminsId = [];
 			foreach ($admins as $admin) {
@@ -56,7 +56,7 @@ class UsersController extends AdminController {
 	   		$users = $users->whereNotIn('id', $adminsId)->get();
 		}
 
-		return View::make('ocms::users/index', compact('users'));
+		return View::make('cms::users/index', compact('users'));
 	}
 
 	public function getCreate()
@@ -66,7 +66,7 @@ class UsersController extends AdminController {
 		$groups = Sentry::getGroupProvider()->findAll();
 		$selectedGroups = Input::old('groups', array());
 
-		return View::make('ocms::users/create', compact('groups', 'selectedGroups'));
+		return View::make('cms::users/create', compact('groups', 'selectedGroups'));
 	}
 
 
@@ -93,7 +93,7 @@ class UsersController extends AdminController {
 			{
 				if(Input::file('photo')){
 					$imageName = md5($user->username.date('YmdHis')).'.jpg';
-					Image::make(Input::file('photo')->getRealPath())->fit(150, 150)->save('ocms-res/users-photo/'.$imageName);
+					Image::make(Input::file('photo')->getRealPath())->fit(150, 150)->save('cms-res/users-photo/'.$imageName);
 					$user->photo = $imageName;
 				}
 
@@ -109,26 +109,26 @@ class UsersController extends AdminController {
 
 				$user->save();
 
-				$success = Lang::get('admin/users/message.success.create');
-				return Redirect::route('update/user', $user->id)->with('success', $success);
+				$success = Lang::get('cms::users/message.success.create');
+				return Redirect::route('users/edit', $user->id)->with('success', $success);
 			}
 
-			$error = Lang::get('admin/users/message.error.create');
+			$error = Lang::get('cms::users/message.error.create');
 
 			// Redirect to the user creation page
 			return Redirect::route('create/user')->with('error', $error);
 		}
 		catch (LoginRequiredException $e)
 		{
-			$error = Lang::get('admin/users/message.user_login_required');
+			$error = Lang::get('cms::users/message.user_login_required');
 		}
 		catch (PasswordRequiredException $e)
 		{
-			$error = Lang::get('admin/users/message.user_password_required');
+			$error = Lang::get('cms::users/message.user_password_required');
 		}
 		catch (UserExistsException $e)
 		{
-			$error = Lang::get('admin/users/message.user_exists');
+			$error = Lang::get('cms::users/message.user_exists');
 		}
 
 		// Redirect to the user creation page
@@ -173,14 +173,14 @@ class UsersController extends AdminController {
 		catch (UserNotFoundException $e)
 		{
 			// Prepare the error message
-			$error = Lang::get('admin/users/message.user_not_found', compact('id'));
+			$error = Lang::get('cms::users/message.user_not_found', compact('id'));
 
 			// Redirect to the user management page
 			return Redirect::route('users')->with('error', $error);
 		}
 
 		// Show the page
-		return View::make('ocms::users/edit', compact('user', 'groups', 'userGroups', 'permissions', 'userPermissions'));
+		return View::make('cms::users/edit', compact('user', 'groups', 'userGroups', 'permissions', 'userPermissions'));
 	}
 
 	/**
@@ -213,7 +213,7 @@ class UsersController extends AdminController {
 		catch (UserNotFoundException $e)
 		{
 			// Prepare the error message
-			$error = Lang::get('admin/users/message.user_not_found', compact('id'));
+			$error = Lang::get('cms::users/message.user_not_found', compact('id'));
 
 			// Redirect to the user management page
 			return Redirect::route('users')->with('error', $error);
@@ -245,8 +245,8 @@ class UsersController extends AdminController {
 		{
 			if(Input::file('photo')){
 				$imageName = md5($user->username.date('YmdHis')).'.jpg';
-				Image::make(Input::file('photo')->getRealPath())->fit(150, 150)->save('ocms-res/users-photo/'.$imageName);
-				if($user->photo){ File::delete('ocms-res/users-photo/'.$user->photo); }
+				Image::make(Input::file('photo')->getRealPath())->fit(150, 150)->save('cms-res/users-photo/'.$imageName);
+				if($user->photo){ File::delete('cms-res/users-photo/'.$user->photo); }
 				$user->photo = $imageName;
 			}
 
@@ -294,22 +294,22 @@ class UsersController extends AdminController {
 			if ($user->save())
 			{
 				// Prepare the success message
-				$success = Lang::get('admin/users/message.success.update');
+				$success = Lang::get('cms::users/message.success.update');
 
 				// Redirect to the user page
-				return Redirect::route('update/user', $id)->with('success', $success);
+				return Redirect::route('users/edit', $id)->with('success', $success);
 			}
 
 			// Prepare the error message
-			$error = Lang::get('admin/users/message.error.update');
+			$error = Lang::get('cms::users/message.error.update');
 		}
 		catch (LoginRequiredException $e)
 		{
-			$error = Lang::get('admin/users/message.user_login_required');
+			$error = Lang::get('cms::users/message.user_login_required');
 		}
 
 		// Redirect to the user page
-		return Redirect::route('update/user', $id)->withInput()->with('error', $error);
+		return Redirect::route('users/edit', $id)->withInput()->with('error', $error);
 	}
 
 
@@ -326,7 +326,7 @@ class UsersController extends AdminController {
 			if ($user->id === Sentry::getId())
 			{
 				// Prepare the error message
-				$error = Lang::get('admin/users/message.error.delete');
+				$error = Lang::get('cms::users/message.error.delete');
 
 				// Redirect to the user management page
 				return Redirect::route('users')->with('error', $error);
@@ -343,7 +343,7 @@ class UsersController extends AdminController {
 			$user->delete();
 
 			// Prepare the success message
-			$success = Lang::get('admin/users/message.success.delete');
+			$success = Lang::get('cms::users/message.success.delete');
 
 			// Redirect to the user management page
 			return Redirect::route('users')->with('success', $success);
@@ -351,7 +351,7 @@ class UsersController extends AdminController {
 		catch (UserNotFoundException $e)
 		{
 			// Prepare the error message
-			$error = Lang::get('admin/users/message.user_not_found', compact('id' ));
+			$error = Lang::get('cms::users/message.user_not_found', compact('id' ));
 
 			// Redirect to the user management page
 			return Redirect::route('users')->with('error', $error);
@@ -375,7 +375,7 @@ class UsersController extends AdminController {
 			$user->restore();
 
 			// Prepare the success message
-			$success = Lang::get('admin/users/message.success.restored');
+			$success = Lang::get('cms::users/message.success.restored');
 
 			// Redirect to the user management page
 			return Redirect::route('users')->with('success', $success);
@@ -383,7 +383,7 @@ class UsersController extends AdminController {
 		catch (UserNotFoundException $e)
 		{
 			// Prepare the error message
-			$error = Lang::get('admin/users/message.user_not_found', compact('id'));
+			$error = Lang::get('cms::users/message.user_not_found', compact('id'));
 
 			// Redirect to the user management page
 			return Redirect::route('users')->with('error', $error);

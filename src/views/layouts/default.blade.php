@@ -4,11 +4,11 @@
 		<meta charset="utf-8" />
 		<title>
 			@section('title')
-			OCMS
+			INSOMNIA CMS
 			@show
 		</title>
 		<meta name="keywords" content="" />
-		<meta name="author" content="Ubiquity Technology [ubiquity.pt]" />
+		<meta name="author" content="Miguel Pereira [insomnia.pt]" />
 		<meta name="description" content="" />
 
 		<!-- Mobile Specific Metas -->
@@ -78,7 +78,7 @@
 		                        </a>
 		                        <ul class="dropdown-menu extended logout">
 		                            <div class="log-arrow-up"></div>
-		                            <li><a href="{{ route('update/user', Sentry::getUser()->id ) }}"><i class=" fa fa-male"></i>Perfil</a></li>
+		                            <li><a href="{{ route('users/edit', Sentry::getUser()->id ) }}"><i class=" fa fa-male"></i>Perfil</a></li>
 		                            <li><a href="{{ route('admin/programador') }}"><i class="fa fa-code"></i>Modo Prog</a></li>
 		                            <li><a href="#"><i class="fa fa-cog"></i> Definições</a></li>
 		                            <li><a href="{{ route('logout') }}"><i class="fa fa-key"></i> Log Out</a></li>
@@ -138,8 +138,8 @@
 		================================================== -->
 		<script type="text/javascript">
 				
-			var $ocms_url = "{{ Config::get('app.url') }}/{{ Config::get('cms::config.uri') }}";
-			var $ocms_ckeditor_toolbar = @if(array_key_exists('component.ckeditor.adv', $_groupPermissions))"Full"@else"Mini"@endif;
+			var $cms_url = "{{ Config::get('app.url') }}/{{ Config::get('cms::config.uri') }}";
+			var $cms_ckeditor_toolbar = @if(array_key_exists('component.ckeditor.adv', $_groupPermissions))"Full"@else"Mini"@endif;
 
 
 		</script>
@@ -195,7 +195,7 @@
 			    var multiple = tagsinputElementSel.data('limit')>1?true:false;
 
 			    $(this).popupWindow({ 
-					windowURL:'{{ URL::to("ocms/elfinder/select?mode=selectDocuments") }}&multiple='+multiple+'&elementId='+tagsinputElementSel.attr('id'),
+					windowURL:'{{ URL::to("cms/elfinder/select?mode=selectDocuments") }}&multiple='+multiple+'&elementId='+tagsinputElementSel.attr('id'),
 					windowName:'Gestão de Ficheiros',
 					height:490, 
 					width:950,
@@ -218,7 +218,7 @@
 			    var multiple = tagsinputElementSel.data('limit')>1?true:false;
 
 			    $(this).popupWindow({ 
-					windowURL:'{{ URL::to("ocms/elfinder/select?mode=selectImages") }}&multiple='+multiple+'&elementId='+tagsinputElementSel.attr('id'),
+					windowURL:'{{ URL::to("cms/elfinder/select?mode=selectImages") }}&multiple='+multiple+'&elementId='+tagsinputElementSel.attr('id'),
 					windowName:'Gestão de Ficheiros',
 					height:490, 
 					width:980,

@@ -1,8 +1,8 @@
-@extends('ocms::layouts/default')
+@extends('cms::layouts/default')
 
 {{-- Page title --}}
 @section('title')
-Gestão de Páginas ::
+Gestão de Menus ::
 @parent
 @stop
 
@@ -13,7 +13,7 @@ Gestão de Páginas ::
 	<div class="row">
       	<div class="col-lg-12">
 			<ul class="breadcrumb pull-left">
-          		<li><a href="{{ URL::to('ocms') }}"><i class="icon-home"></i> Home</a></li>
+          		<li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
           		<li><span class="active">Menu</span></li>
       		</ul>
   			<button type="submit" class="btn btn-small btn-danger pull-right"><i class="icon-plus-sign icon-white"></i> Guardar Alterações</button>
@@ -37,7 +37,7 @@ Gestão de Páginas ::
 	              <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button"><span class="caret"></span></button>
 	              <ul role="menu" class="dropdown-menu">
 	                @foreach($groups as $group)
-						@if($group->id!=$groupId)<li><a href="{{ URL::to('ocms/menu/'.$group->id) }}">{{ $group->name }}</a></li>@endif
+						@if($group->id!=$groupId)<li><a href="{{ URL::to('cms/menu/'.$group->id) }}">{{ $group->name }}</a></li>@endif
 					@endforeach
 	              </ul>
           		</div>
@@ -145,12 +145,12 @@ Gestão de Páginas ::
 @stop
 
 @section('styles')
-	<link href="{{ asset('ocms-res/assets/css/jquery.nestable.css') }}" rel="stylesheet">
+	<link href="{{ asset(Config::get('cms::config.assets_path').'/assets/css/jquery.nestable.css') }}" rel="stylesheet">
 
 @stop
 
 @section('scripts')
-	<script type="text/javascript" src="{{ asset('ocms-res/assets/js/jquery.nestable.js') }}"></script>
+	<script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/jquery.nestable.js') }}"></script>
 
     <script type="text/javascript">
 

@@ -1,4 +1,4 @@
-@extends('ocms::layouts/default')
+@extends('cms::layouts/default')
 
 {{-- Page title --}}
 @section('title')
@@ -12,11 +12,11 @@ Editar Data Source ::
 	<div class="row">
       <div class="col-lg-12">
           <ul class="breadcrumb pull-left">
-              <li><a href="{{ URL::to('ocms') }}"><i class="icon-home"></i> Home</a></li>
-              <li><a href="{{ route('admin/datasource') }}">Data Sources</a></li>
+              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
+              <li><a href="{{ route('datasources') }}">Data Sources</a></li>
               <li><span class="active">Editar</span></li>
           </ul>
-          <a href="{{ route('admin/datasource') }}" class="btn btn-small btn-info pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
+          <a href="{{ route('datasources') }}" class="btn btn-small btn-info pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
       </div>
   </div>
 
@@ -61,7 +61,7 @@ Editar Data Source ::
 				            <div class="form-group">
 								<div class="col-lg-offset-2 col-lg-10">
 									<button class="btn btn-danger" type="submit">Guardar</button>
-									<a class="btn btn-default" href="{{ route('admin/datasource') }}">Cancelar</a>
+									<a class="btn btn-default" href="{{ route('datasources') }}">Cancelar</a>
 								</div>
 							</div>
 
@@ -382,7 +382,7 @@ Editar Data Source ::
 @stop
 
 @section('scripts')
-	<script type="text/javascript" src="{{ asset('ocms-res/assets/js/bootstrap-switch.js') }}"></script>
+	<script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/bootstrap-switch.js') }}"></script>
 	<script type="text/javascript" charset="utf-8">	
 
 		var fieldEditing;

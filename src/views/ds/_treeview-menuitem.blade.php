@@ -12,19 +12,19 @@
               ?>
                 @if($relation->relation_type=="hasOne")
                     @if($relationTable == 'pages' && $item->{'pages_id'}) <!--datasource 1 = pages table -->
-                    <a href="{{ route('update/page', $item->{'pages_id'}) }}" target="_blank" class="btn btn-xs "><i class="fa fa-external-link"></i> Editar {{ $relation->relation_description }}</a>
+                    <a href="{{ route('pages/edit', $item->{'pages_id'}) }}" target="_blank" class="btn btn-xs "><i class="fa fa-external-link"></i> Editar {{ $relation->relation_description }}</a>
                     @endif
                 @endif
             @endforeach
-            <a href="{{ route('update/ds', array($datasource->id, $item->id)) }}" class="btn btn-xs btn-default">
+            <a href="{{ route('cms/ds/edit', array($datasource->id, $item->id)) }}" class="btn btn-xs btn-default">
             @if(array_key_exists($datasource->table.'.update', $_groupPermissions))
-                @lang('button.edit')
+                @lang('cms::button.edit')
             @else
-                @lang('button.view') 
+                @lang('cms::button.view') 
             @endif
             </a>
             @if(array_key_exists($datasource->table.'.delete', $_groupPermissions))
-            <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o registo?" data-reply="" data-toggle="modal" data-descr="{{ $item->id }}" data-url="{{ route('delete/ds', array($datasource->id, $item->id)) }}" href="#modal-confirm">@lang('button.delete')</a>
+            <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o registo?" data-reply="" data-toggle="modal" data-descr="{{ $item->id }}" data-url="{{ route('cms/ds/delete', array($datasource->id, $item->id)) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
             @endif
         </div>
     @if(count($subItems)>0)

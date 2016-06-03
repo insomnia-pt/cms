@@ -1,6 +1,8 @@
 <?php namespace Insomnia\Cms\Controllers;
 
 use Insomnia\Cms\Controllers\AdminController;
+use Insomnia\Cms\Models\Datasource as Datasource;
+use Insomnia\Cms\Models\Menu as Menu;
 use Input;
 use Lang;
 use Redirect;
@@ -12,8 +14,6 @@ use URL;
 use Helpers;
 use Session;
 use Response;
-use Menu;
-use Datasource;
 use Artisan;
 
 
@@ -42,7 +42,7 @@ class MenuController extends AdminController {
 
 		
 
-		return View::make('ocms::menu/index', compact('menulist','allmenuoutlist','groups','groupId'));
+		return View::make('cms::menu/index', compact('menulist','allmenuoutlist','groups','groupId'));
 	}
 
 	public function postEdit($groupId=null)
@@ -166,7 +166,7 @@ class MenuController extends AdminController {
 
 		}
 
-		return Redirect::back()->with('success', Lang::get('_ocms/messages.success'));
+		return Redirect::back()->with('success', Lang::get('cms::messages.success'));
 	}
 
 }

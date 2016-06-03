@@ -5,4 +5,6 @@ return array(
 
     'assets_path' => 'packages/insomnia/cms/cms-res',
 
+    'datasource_table_prefix' => 'ds_',
+
 );

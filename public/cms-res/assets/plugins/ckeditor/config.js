@@ -7,13 +7,13 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
-	config.filebrowserBrowseUrl = $ocms_url+'/elfinder/ckeditor';
+	config.filebrowserBrowseUrl = $cms_url+'/elfinder/ckeditor';
 	config.allowedContent = true;
 
 	config.autoParagraph = false;
     config.enterMode = CKEDITOR.ENTER_BR;
 
-    config.toolbar = $ocms_ckeditor_toolbar;
+    config.toolbar = $cms_ckeditor_toolbar;
 	config.toolbar_Full =
 	[
 	    { name: 'document', items : [ 'Source','-','DocProps','Preview','Print' ] },

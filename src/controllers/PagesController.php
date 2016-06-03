@@ -30,7 +30,7 @@ class PagesController extends AdminController {
 		})->values();
 
 		if(@!$datasource->options()->subitems && @$datasource->options()->group && !Input::get('group')){
-			return Redirect::to('ocms/pages?group='.$parentPages->first()->id);
+			return Redirect::to('cms/pages?group='.$parentPages->first()->id);
 		} 
 
 		return View::make('cms::pages/index', compact('pages','datasource','parentPages'));
@@ -81,10 +81,10 @@ class PagesController extends AdminController {
 
 		if($page->save())
 		{
-			return Redirect::route('pages/edit', $page->id)->with('success', Lang::get('_ocms/pages/message.success.create'));
+			return Redirect::route('pages/edit', $page->id)->with('success',Lang::get('cms::pages/message.success.create'));
 		}
 		
-		return Redirect::route('pages/create')->with('error', Lang::get('_ocms/pages/message.error.create'));
+		return Redirect::route('pages/create')->with('error',Lang::get('cms::pages/message.error.create'));
 	}
 
 	public function getEdit($id = null)
@@ -93,7 +93,7 @@ class PagesController extends AdminController {
 
 		if (is_null($page = Page::find($id)))
 		{
-			return Redirect::route('pages')->with('error', Lang::get('_ocms/pages/message.does_not_exist'));
+			return Redirect::route('pages')->with('error',Lang::get('cms::pages/message.does_not_exist'));
 		}
 
 		$datasource = Datasource::where('table', 'pages')->first();
@@ -109,7 +109,7 @@ class PagesController extends AdminController {
 
 		if (is_null($page = Page::find($id)))
 		{
-			return Redirect::to('ocms/pages')->with('error', Lang::get('_ocms/pages/message.does_not_exist'));
+			return Redirect::to('cms/pages')->with('error',Lang::get('cms::pages/message.does_not_exist'));
 		}
 
 		$rules = array(
@@ -130,10 +130,10 @@ class PagesController extends AdminController {
 
 		if($page->save())
 		{
-			return Redirect::to("ocms/pages/$id/edit".(Input::get('group')?'?group='.Input::get('group'):null))->with('success', Lang::get('_ocms/pages/message.success.update'));
+			return Redirect::to("cms/pages/$id/edit".(Input::get('group')?'?group='.Input::get('group'):null))->with('success',Lang::get('cms::pages/message.success.update'));
 		}
 
-		return Redirect::to("ocms/pages/$id/edit")->with('error', Lang::get('_ocms/blogs/message.error.update'));
+		return Redirect::to("cms/pages/$id/edit")->with('error',Lang::get('cms::pages/message.error.update'));
 	}
 
 	public function getDelete($id)
@@ -141,12 +141,12 @@ class PagesController extends AdminController {
 		AdminController::checkPermission('pages.delete');
 		if (is_null($page = Page::find($id)))
 		{
-			return Redirect::to('ocms/pages')->with('error', Lang::get('_ocms/pages/message.does_not_exist'));
+			return Redirect::to('cms/pages')->with('error',Lang::get('cms::pages/message.does_not_exist'));
 		}
 
 		Page::where('id_parent', $page->id)->update(array('id_parent' => null));
 		$page->delete();
 
-		return Redirect::to('ocms/pages'.(Input::get('group')?'?group='.Input::get('group'):null))->with('success', Lang::get('_ocms/pages/message.success.delete'));
+		return Redirect::to('cms/pages'.(Input::get('group')?'?group='.Input::get('group'):null))->with('success',Lang::get('cms::pages/message.success.delete'));
 	}
 }

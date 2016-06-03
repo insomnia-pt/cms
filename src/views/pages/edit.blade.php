@@ -12,7 +12,7 @@ Editar Página ::
 	<div class="row">
       <div class="col-lg-12">
           <ul class="breadcrumb pull-left">
-              <li><a href="{{ URL::to('ocms') }}"><i class="icon-home"></i> Home</a></li>
+              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
               <li><a href="{{ route('pages') }}">Páginas</a></li>
               <li><span class="active">Editar</span></li>
           </ul>
@@ -154,7 +154,7 @@ Editar Página ::
 
 					@foreach($page->datasources as $component)
 					<div class="list-group">
-                      <a class="list-group-item" target="_blank" href="{{ @$component->options()->url?URL::to('ocms'.$component->options()->url):URL::to('ocms/ds/'.$component->id) }}">
+                      <a class="list-group-item" target="_blank" href="{{ @$component->options()->url?URL::to(Config::get('cms::config.uri').$component->options()->url):URL::to(Config::get('cms::config.uri').'/ds/'.$component->id) }}">
                           <i class="pull-right fa fa-external-link"></i>
                           <h4 class="list-group-item-heading">{{ $component->name }}</h4>
                           <p class="text-muted list-group-item-text">{{ $component->description }}</p>
@@ -173,18 +173,18 @@ Editar Página ::
 @stop
 
 @section('styles')
-	<link href="{{ asset('ocms-res/assets/plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet">
-	<link href="{{ asset('ocms-res/assets/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-	<link href="{{ asset('ocms-res/assets/css/easyTree.css') }}" rel="stylesheet">
+	<link href="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet">
+	<link href="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
+	<link href="{{ asset(Config::get('cms::config.assets_path').'/assets/css/easyTree.css') }}" rel="stylesheet">
 @stop
 
 @section('scripts')
-	<script type="text/javascript" src="{{ asset('ocms-res/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('ocms-res/assets/plugins/bootstrap-daterangepicker/date.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('ocms-res/assets/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('ocms-res/assets/js/jquery.tagsinput.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('ocms-res/assets/js/easyTree.js') }}"></script>
-    <script src="{{ asset('ocms-res/assets/plugins/ckeditor/ckeditor.js') }}"></script>
+	<script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/bootstrap-daterangepicker/date.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/jquery.tagsinput.js') }}"></script>
+	<script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/easyTree.js') }}"></script>
+    <script src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/ckeditor/ckeditor.js') }}"></script>
 	<script src="http://swip.codylindley.com/jquery.popupWindow.js"></script>
 
     <script type="text/javascript">

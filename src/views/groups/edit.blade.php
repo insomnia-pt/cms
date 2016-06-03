@@ -1,4 +1,4 @@
-@extends('ocms::layouts/default')
+@extends('cms::layouts/default')
 
 {{-- Page title --}}
 @section('title')
@@ -12,7 +12,7 @@ Editar Grupo ::
 	<div class="row">
       <div class="col-lg-12">
           <ul class="breadcrumb pull-left">
-              <li><a href="{{ URL::to('ocms') }}"><i class="icon-home"></i> Home</a></li>
+              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
               <li><a href="{{ route('groups') }}">Grupos</a></li>
               <li><span class="active">Editar</span></li>
           </ul>
@@ -58,7 +58,7 @@ Editar Grupo ::
 							@if($datasource->permissions())
 								@foreach ($datasource->permissions() as $permission)
 								<div class="control-group form-group">
-									<label class="col-lg-2 control-label">@lang('_ocms/permissions.'.$permission)</label>
+									<label class="col-lg-2 control-label">@lang('cms::permissions.'.$permission)</label>
 
 									<div class="col-lg-10">
 										<span class="radio-inline radio">

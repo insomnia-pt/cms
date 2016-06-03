@@ -1,17 +1,15 @@
 <?php namespace Insomnia\Cms\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Eloquent;
 use Cartalyst\Sentry\Users\Eloquent\User as SentryUserModel;
 use Config;
 
 class User extends SentryUserModel {
 
-	/**
-	 * Indicates if the model should soft delete.
-	 *
-	 * @var bool
-	 */
-	protected $softDelete = true;
+	use SoftDeletingTrait;
+
+    protected $dates = ['deleted_at'];
 
 	/**
 	 * Returns the user full name, it simply concatenates

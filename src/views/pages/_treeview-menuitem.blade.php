@@ -9,19 +9,19 @@
             @if($item->editable)
                 <a href="{{ route('pages/edit', $item->id) }}" class="btn btn-xs btn-default">
                 @if(array_key_exists('pages.update', $_groupPermissions))
-                    @lang('button.edit')
+                    @lang('cms::button.edit')
                 @else
-                    @lang('button.view')
+                    @lang('cms::button.view')
                 @endif
                 </a>
             @else
                 <a href="{{ route('pages/edit', $item->id) }}" class="btn btn-xs btn-default">
-                    @lang('button.view')
+                    @lang('cms::button.view')
                 </a>
             @endif
             @if(!$item->system)
                 @if(array_key_exists('pages.delete', $_groupPermissions))
-                <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o registo?" data-reply="" data-toggle="modal" data-descr="{{ $item->id }}" data-url="{{ route('pages/delete', $item->id) }}" href="#modal-confirm">@lang('button.delete')</a>
+                <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o registo?" data-reply="" data-toggle="modal" data-descr="{{ $item->id }}" data-url="{{ route('pages/delete', $item->id) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
                 @endif
             @endif
         </div>

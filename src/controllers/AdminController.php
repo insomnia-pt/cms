@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Routing\Controller;
-use Session;
-use Config;
 use Insomnia\Cms\Models\Setting as Setting;
 use Insomnia\Cms\Models\Menu as Menu;
+
+use Session;
+use Config;
+use Redirect;
 
 class AdminController extends Controller {
 
@@ -50,7 +52,7 @@ class AdminController extends Controller {
 	{
 		if (!\Sentry::getUser()->hasAccess($requiredPermission))
 		{
-			Redirect::route('admin')->send();
+			Redirect::route('cms')->send();
 			die();
 			return false;
 		}

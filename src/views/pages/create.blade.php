@@ -12,7 +12,7 @@ Adicionar Página ::
 	<div class="row">
       <div class="col-lg-12">
           <ul class="breadcrumb pull-left">
-              <li><a href="{{ URL::route('cms') }}"><i class="icon-home"></i> Home</a></li>
+              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
               <li><a href="{{ route('pages') }}">Páginas</a></li>
               <li><span class="active">Adicionar</span></li>
           </ul>

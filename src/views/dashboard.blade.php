@@ -13,13 +13,13 @@ Dashboard ::
 		<div class="col-lg-5">
 			<section class="panel">
 				<div class="panel-body">
-					<a class="task-thumb" href="{{ route('update/user', Sentry::getUser()->id ) }}">
+					<a class="task-thumb" href="{{ route('users/edit', Sentry::getUser()->id ) }}">
 						<img alt="" src="{{ Sentry::getUser()->thumbnail(90,83) }}">
 					</a>
 					<div class="task-thumb-details">
 						<h5>Olá,</h5>
 						<h1>
-							<a href="{{ route('update/user', Sentry::getUser()->id ) }}">{{ Sentry::getUser()->fullName() }}</a>
+							<a href="{{ route('users/edit', Sentry::getUser()->id ) }}">{{ Sentry::getUser()->fullName() }}</a>
 						</h1>
 					</div>
 				</div>

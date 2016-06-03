@@ -14,7 +14,7 @@ Gestão de Data Sources ::
 	              <li><a href="{{ URL::route('cms') }}"><i class="icon-home"></i> Home</a></li>
 	              <li><span class="active">Data Sources</span></li>
 	          </ul>
-	          <a href="{{ route('create/datasource') }}" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
+	          <a href="{{ route('datasources/create') }}" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
 	    </div>
   	</div>
 
@@ -42,8 +42,8 @@ Gestão de Data Sources ::
 						<td class="hidden-phone">{{ $datasource->created_at }}</td>
 						<td class="text-right">
 							@if(!$datasource->system)
-							<a href="{{ route('update/datasource', $datasource->id) }}" class="btn btn-xs btn-default">@lang('button.edit')</a>
-							<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o datasource?" data-reply="" data-toggle="modal" data-descr="{{ $datasource->name }}" data-url="{{ route('delete/datasource', $datasource->id) }}" href="#modal-confirm">@lang('button.delete')</a>
+							<a href="{{ route('datasources/edit', $datasource->id) }}" class="btn btn-xs btn-default">@lang('cms::button.edit')</a>
+							<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o datasource?" data-reply="" data-toggle="modal" data-descr="{{ $datasource->name }}" data-url="{{ route('datasources/delete', $datasource->id) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
 							@endif
 						</td>
 					</tr>

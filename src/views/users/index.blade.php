@@ -1,4 +1,4 @@
-@extends('ocms::layouts/default')
+@extends('cms::layouts/default')
 
 {{-- Page title --}}
 @section('title')
@@ -12,10 +12,10 @@ Gestão de Utilizadores ::
 	<div class="row">
       <div class="col-lg-12">
           <ul class="breadcrumb pull-left">
-              <li><a href="{{ URL::to('ocms') }}"><i class="icon-home"></i> Home</a></li>
+              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
               <li><span class="active">Utilizadores</span></li>
           </ul>
-          <a href="{{ route('create/user') }}" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
+          <a href="{{ route('users/create') }}" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
       </div>
   </div>
 
@@ -47,15 +47,15 @@ Gestão de Utilizadores ::
 	                  <td class="center hidden-phone">{{ $user->created_at }}</td>
 	                  <td class="hidden-phone"><span class="label label-success">Activo</span></td>
 	                  <td class="text-right">
-        						<a href="{{ route('update/user', $user->id) }}" class="btn btn-xs btn-default">@lang('button.edit')</a>
+        						<a href="{{ route('users/edit', $user->id) }}" class="btn btn-xs btn-default">@lang('cms::button.edit')</a>
 
         						@if ( ! is_null($user->deleted_at))
-        						<a href="{{ route('restore/user', $user->id) }}" class="btn btn-xs btn-warning">@lang('button.restore')</a>
+        						<a href="{{ route('users/restore', $user->id) }}" class="btn btn-xs btn-warning">@lang('cms::button.restore')</a>
         						@else
         						@if (Sentry::getUser()->id !== $user->id)
-        						<a href="{{ route('delete/user', $user->id) }}" class="btn btn-xs btn-danger">@lang('button.delete')</a>
+        						<a href="{{ route('users/delete', $user->id) }}" class="btn btn-xs btn-danger">@lang('cms::button.delete')</a>
         						@else
-        						<span class="btn btn-xs btn-danger disabled">@lang('button.delete')</span>
+        						<span class="btn btn-xs btn-danger disabled">@lang('cms::button.delete')</span>
         						@endif
         						@endif
         					   </td>
@@ -69,15 +69,15 @@ Gestão de Utilizadores ::
   	</div>
 
 
-<a class="btn btn-medium" href="{{ URL::to('ocms/users?withTrashed=true') }}">Incluir Eliminados</a>
-<a class="btn btn-medium" href="{{ URL::to('ocms/users?onlyTrashed=true') }}">Ver Apenas Eliminados</a>
+<a class="btn btn-medium" href="{{ URL::to('cms/users?withTrashed=true') }}">Incluir Eliminados</a>
+<a class="btn btn-medium" href="{{ URL::to('cms/users?onlyTrashed=true') }}">Ver Apenas Eliminados</a>
 
 @stop
 
 @section('scripts')
-	<script type="text/javascript" src="{{ asset('ocms-res/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('ocms-res/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('ocms-res/assets/js/dynamic-table.js') }}"></script>
+	<script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/dynamic-table.js') }}"></script>
     <script type="text/javascript">
 
       var oTable = $('#main_table').dataTable();

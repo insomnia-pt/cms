@@ -4,8 +4,6 @@ use Eloquent;
 
 class Setting extends Eloquent {
 
-	protected $softDelete = false;
-
 	public function parent() {
 	    return $this->belongsTo('Insomnia\Cms\Models\Setting', 'id_parent');
 	}

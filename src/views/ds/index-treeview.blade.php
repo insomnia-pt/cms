@@ -10,7 +10,7 @@ $parentItems = $dsItems->filter(function($item) {
 	@if(count($parentItems))
 	<ul class="list-group cd-accordion-menu animated">
 		@foreach ($parentItems as $parentitem)
-	       @include('ocms::ds._treeview-menuitem', array('item' => $parentitem))
+	       @include('cms::ds._treeview-menuitem', array('item' => $parentitem))
 	    @endforeach
 	</ul>
 	@else

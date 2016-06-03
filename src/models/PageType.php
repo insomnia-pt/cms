@@ -4,7 +4,6 @@ use Eloquent;
 
 class PageType extends Eloquent {
 
-	protected $softDelete = false;
 	public $timestamps = false;
 	protected $guarded = array();
 

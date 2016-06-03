@@ -4,7 +4,6 @@ use Eloquent;
 
 class Menu extends Eloquent {
 
-	protected $softDelete = false;
 	public $timestamps = false;
 
 	public function datasource() {

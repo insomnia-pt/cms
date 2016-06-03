@@ -4,7 +4,6 @@ use Eloquent;
 
 class DatasourceFieldtype extends Eloquent {
 
-	protected $softDelete = false;
 	public $timestamps = false;
 	protected $guarded = array();
 
