@@ -27,7 +27,7 @@
     			<td class="text-right">
     				@foreach($datasource->relations as $relation)
               <?php 
-                $relationTable = Datasource::find($relation->relation_datasource_id)->table;
+                $relationTable = Insomnia\Cms\Models\Datasource::find($relation->relation_datasource_id)->table;
               ?>
     					@if($relation->relation_type=="hasMany")<a href="{{ route('cms/ds', $relation->relation_datasource_id).'?pds='.$datasource->id.'&item='.$dsItem->id }}" class="btn btn-xs btn-info">{{ $relation->relation_description }}</a>@endif
               @if($relation->relation_type=="hasOne")

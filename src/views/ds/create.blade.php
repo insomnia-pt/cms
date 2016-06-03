@@ -65,7 +65,7 @@ Adicionar Registo ::
 					@foreach($datasource->relations as $relation)
 						@if($relation->relation_type=="hasOne")
 							<?php 
-								$relationTable = Datasource::find($relation->relation_datasource_id)->table;
+								$relationTable = Insomnia\Cms\Models\Datasource::find($relation->relation_datasource_id)->table;
 							?>
 							<div class="form-group">
 								<label for="{{ $relationTable }}_id" class="col-lg-2 control-label">{{ $relation->relation_description }}</label>

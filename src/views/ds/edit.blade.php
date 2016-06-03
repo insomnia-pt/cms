@@ -55,7 +55,7 @@ Editar Registo ::
 									    <ul>
 
 								       		@foreach ($parentItems as $parentitem)
-										       @include('ocms::ds._treeview-combolist', array('item' => $parentitem, 'selected'=> $dsItem->id_parent, 'editing'=>$dsItem->id ))
+										       @include('cms::ds._treeview-combolist', array('item' => $parentitem, 'selected'=> $dsItem->id_parent, 'editing'=>$dsItem->id ))
 										    @endforeach
 
 									    </ul>
@@ -69,7 +69,7 @@ Editar Registo ::
 					@foreach($datasource->relations as $relation)
 						@if($relation->relation_type=="hasOne")
 							<?php 
-								$relationTable = Datasource::find($relation->relation_datasource_id)->table;
+								$relationTable = Insomnia\Cms\Models\Datasource::find($relation->relation_datasource_id)->table;
 							?>
 							<div class="form-group">
 								<label for="{{ $relationTable }}_id" class="col-lg-2 control-label">{{ $relation->relation_description }}</label>
@@ -88,7 +88,7 @@ Editar Registo ::
 										<div class="easy-tree-list">
 										    <ul>
 									       		@foreach ($parentItems as $parentitem)
-											       @include('ocms::ds._treeview-combolist', array('item' => $parentitem, 'relation' => $relation, 'selected'=> $dsItem->{$relationTable.'_id'}))
+											       @include('cms::ds._treeview-combolist', array('item' => $parentitem, 'relation' => $relation, 'selected'=> $dsItem->{$relationTable.'_id'}))
 											    @endforeach
 										    </ul>
 									    </div>
