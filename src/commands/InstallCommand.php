@@ -50,7 +50,7 @@ class InstallCommand extends Command
         $this->call('config:publish', array('package' => 'cartalyst/sentry' ) );
         $this->call('config:publish', array('package' => 'insomnia/cms' ) );
 
-        $path = public_path().'/upload';
+        $path = public_path().'/uploads';
         File::makeDirectory($path, $mode = 0777, true, true);
     }
 }

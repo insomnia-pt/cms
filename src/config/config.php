@@ -34,7 +34,7 @@ return array(
     | ELFINDER UPLOAD DIR
     |--------------------------------------------------------------------------
     */
-    'elfinder_dir' => 'xpto',
+    'elfinder_dir' => 'uploads',
 
     /*
     |--------------------------------------------------------------------------
@@ -44,8 +44,8 @@ return array(
     'elfinder_roots' => array(
          array(
             'driver' => 'LocalFileSystem',
-            'path'   => 'xpto/',
-            'URL'    => Config::get('app.url').'/xpto/',
+            'path'   => 'uploads/',
+            'URL'    => Config::get('app.url').'/uploads/',
             'alias'  => 'Raiz',
             'attributes' => array(
                 array(
