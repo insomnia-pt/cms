@@ -10,7 +10,7 @@
 		{{ @$relation?$item->{$relation->config()->fields[0]}:$item->{$datasource->config()[0]->name} }} 
         <ul>
         @foreach ($subItems as $subitem)
-            @include('ocms::ds._treeview-combolist', array('item' => $subitem, 'relation'=>@$relation, 'selected'=>@$selected))
+            @include('cms::ds._treeview-combolist', array('item' => $subitem, 'relation'=>@$relation, 'selected'=>@$selected))
         @endforeach
     	</ul>
     @else

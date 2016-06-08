@@ -32,7 +32,7 @@
         <i class="fa fa-chevron-right arrow"></i><label class="has-children" for="sub-group-{{ $item->id }}">{{ $item->{$datasource->config()[0]->name} }}</label>
         <ul class="list-group">
         @foreach ($subItems as $subitem)
-            @include('ocms::ds._treeview-menuitem', array('item' => $subitem))
+            @include('cms::ds._treeview-menuitem', array('item' => $subitem))
         @endforeach
         </ul>
     @else
