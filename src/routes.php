@@ -35,14 +35,14 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 
 
 	# File Management
-	Route::group(array('before' => 'auth'), function()
-	{
+	// Route::group(array('before' => 'auth'), function()
+	// {
         Route::any('filebrowser', 'Insomnia\Cms\Controllers\FileBrowserController@getIndex');
-		Route::get('elfinder', function() { return View::make('cms::elfinder.elfinder'); });
-        Route::any('elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
+		Route::get('elfinder', array('as' => 'cms/elfinder', function() { return View::make('cms::elfinder.elfinder'); }));
+        Route::any('elfinder/connector', 'Insomnia\Cms\Controllers\FileBrowserController@showConnector');
         Route::get('elfinder/ckeditor', function() { return View::make('cms::elfinder.elfinder-cke'); });
         Route::get('elfinder/select', function() { return View::make('cms::elfinder.elfinder-select'); });
-	});
+	// });
 
 	# Pages Management
 	Route::group(array('prefix' => 'pages'), function()

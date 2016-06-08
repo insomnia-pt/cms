@@ -11,12 +11,12 @@
 	    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 
 		<!-- elFinder CSS (REQUIRED) -->
-		<link rel="stylesheet" type="text/css" media="screen" href="/packages/tsf/elfinder-laravel/css/elfinder.min.css">
-		<link rel="stylesheet" type="text/css" media="screen" href="/packages/tsf/elfinder-laravel/themes/moono/css/theme.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="{{ asset(Config::get('cms::config.packages_path').'/tsf/elfinder-laravel/css/elfinder.min.css') }}">
+		<link rel="stylesheet" type="text/css" media="screen" href="{{ asset(Config::get('cms::config.packages_path').'/tsf/elfinder-laravel/themes/moono/css/theme.css') }}">
 
 		<!-- elFinder JS (REQUIRED) -->
-		<script type="text/javascript" src="/packages/tsf/elfinder-laravel/js/elfinder.min.js"></script>
-		<script src="/packages/tsf/elfinder-laravel/js/i18n/elfinder.pt_BR.js"></script>
+		<script type="text/javascript" src="{{ asset(Config::get('cms::config.packages_path').'/tsf/elfinder-laravel/js/elfinder.min.js') }}"></script>
+		<script src="{{ asset(Config::get('cms::config.packages_path').'/tsf/elfinder-laravel/js/i18n/elfinder.pt_BR.js') }}"></script>
 
 		<!-- elFinder initialization (REQUIRED) -->
 		<script type="text/javascript" charset="utf-8">	
@@ -34,7 +34,7 @@
                 lang: 'pt_BR',
                 resizable: true,
                 height: $(window).height()-20,
-                url: '<?= URL::action('Barryvdh\Elfinder\ElfinderController@showConnector') ?>', 
+                url: '<?= URL::action('Insomnia\Cms\Controllers\FileBrowserController@showConnector') ?>', 
                 defaultView : 'list',
                 uiOptions : {
                     // toolbar configuration

@@ -11,12 +11,12 @@
 	    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 
 		<!-- elFinder CSS (REQUIRED) -->
-		<link rel="stylesheet" type="text/css" media="screen" href="/packages/tsf/elfinder-laravel/css/elfinder.min.css">
-		<link rel="stylesheet" type="text/css" media="screen" href="/packages/tsf/elfinder-laravel/themes/moono/css/theme.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="{{ asset(Config::get('cms::config.packages_path').'/tsf/elfinder-laravel/css/elfinder.min.css') }}">
+		<link rel="stylesheet" type="text/css" media="screen" href="{{ asset(Config::get('cms::config.packages_path').'/tsf/elfinder-laravel/themes/moono/css/theme.css') }}">
 
 		<!-- elFinder JS (REQUIRED) -->
-		<script type="text/javascript" src="/packages/tsf/elfinder-laravel/js/elfinder.min.js"></script>
-		<script src="/packages/tsf/elfinder-laravel/js/i18n/elfinder.pt_BR.js"></script>
+		<script type="text/javascript" src="{{ asset(Config::get('cms::config.packages_path').'/tsf/elfinder-laravel/js/elfinder.min.js') }}"></script>
+		<script src="{{ asset(Config::get('cms::config.packages_path').'/tsf/elfinder-laravel/js/i18n/elfinder.pt_BR.js') }}"></script>
 
 		<!-- elFinder initialization (REQUIRED) -->
 		<script type="text/javascript" charset="utf-8">	
@@ -27,17 +27,17 @@
 				var multiple = getUrlParam('multiple') == 'true';
 
 				var $elfinder = $('#elfinder').elfinder({
-					url : '<?= URL::action('Barryvdh\Elfinder\ElfinderController@showConnector') ?>', 
+					url : '<?= URL::action('Insomnia\Cms\Controllers\FileBrowserController@showConnector') ?>', 
 					getFileCallback : function(files) {
 
 						if(mode=="selectImages"){
 							if(multiple){
 								$.each(files, function(index, file){
-									var filepath = (file.url).split('{{ URL::to("/files/") }}/');
+									var filepath = (file.url).split('{{ URL::to(Config::get('cms::config.dir')) }}/');
 									opener.addImage(file.url,filepath[1],file.name, "#"+element);
 								});
 							} else {
-								var filepath = (files.url).split('{{ URL::to("/files/") }}/');
+								var filepath = (files.url).split('{{ URL::to(Config::get('cms::config.dir')) }}/');
 								opener.addImage(files.url,filepath[1],files.name, "#"+element);
 							}
 							
@@ -45,7 +45,7 @@
 
 						} else if(mode=="selectDocuments"){
 
-							var filepath = (files.url).split('{{ URL::to("/files/") }}/');
+							var filepath = (files.url).split('{{ URL::to(Config::get('cms::config.dir')) }}/');
 
 							opener.addDocument(files.url,filepath[1],files.name, "#"+element);
 							window.close();

@@ -3,6 +3,7 @@ namespace Insomnia\Cms\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use File;
 
 class InstallCommand extends Command
 {
@@ -37,15 +38,19 @@ class InstallCommand extends Command
         $this->info('## INSOMNIA CMS Install ##');
 
         $this->call('asset:publish', array('package' => 'insomnia/cms' ) );
-        // $this->call('asset:publish', array('--bench' => 'insomnia/cms' ) );
+        // // $this->call('asset:publish', array('--bench' => 'insomnia/cms' ) );
 
         $this->call('migrate', array('--env' => $this->option('env'), '--package' => 'cartalyst/sentry' ) );
 
         $this->call('migrate', array('--env' => $this->option('env'), '--package' => 'insomnia/cms' ) );
-        // $this->call('migrate', array('--env' => $this->option('env'), '--bench' => 'insomnia/cms' ));
+        // // $this->call('migrate', array('--env' => $this->option('env'), '--bench' => 'insomnia/cms' ));
 
         $this->call('db:seed', array('--class' => 'Insomnia\Cms\DatabaseSeeder' ));
         
         $this->call('config:publish', array('package' => 'cartalyst/sentry' ) );
+        $this->call('config:publish', array('package' => 'insomnia/cms' ) );
+
+        $path = public_path().'/upload';
+        File::makeDirectory($path, $mode = 0777, true, true);
     }
 }
