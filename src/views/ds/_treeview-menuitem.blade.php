@@ -8,7 +8,7 @@
         <div class="actions pull-right">
             @foreach($datasource->relations as $relation)
             <?php 
-                $relationTable = Datasource::find($relation->relation_datasource_id)->table;
+                $relationTable = Insomnia\Cms\Models\Datasource::find($relation->relation_datasource_id)->table;
               ?>
                 @if($relation->relation_type=="hasOne")
                     @if($relationTable == 'pages' && $item->{'pages_id'}) <!--datasource 1 = pages table -->
