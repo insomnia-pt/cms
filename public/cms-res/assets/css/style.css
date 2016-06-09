@@ -764,6 +764,7 @@ a.logo:hover, a.logo:focus {
 
 a.logo span {
     color: #da9f3b;
+    display: inline-block;
 }
 
 
