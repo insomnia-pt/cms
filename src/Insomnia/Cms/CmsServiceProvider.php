@@ -54,7 +54,12 @@ class CmsServiceProvider extends ServiceProvider {
             return new Commands\InstallCommand($app);
         });
 
+        $this->app['cms:update'] = $this->app->share(function ($app) {
+            return new Commands\UpdateCommand($app);
+        });
+
 		$this->commands('cms:install');
+		$this->commands('cms:update');
 
 	}
 
