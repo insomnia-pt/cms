@@ -37,8 +37,8 @@ class UpdateCommand extends Command
     {
         $this->info('## INSOMNIA CMS Update ##');
 
-        // $this->call('asset:publish', array('package' => 'insomnia/cms' ) );
-        $this->call('asset:publish', array('--bench' => 'insomnia/cms' ) );
+        $this->call('asset:publish', array('package' => 'insomnia/cms' ) );
+        // $this->call('asset:publish', array('--bench' => 'insomnia/cms' ) );
 
  
     }
