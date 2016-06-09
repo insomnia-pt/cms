@@ -124,7 +124,7 @@ Adicionar Utilizador ::
             <div class="form-group {{ $errors->has('photo') ? 'has-error' : '' }}">
                 <div class="col-lg-2">
                   <span class="task-thumb">
-                    <img alt="" width="120" height="120" src="{{ asset(Config::get('cms::config.assets_path').'/assets/img/default_avatar.jpg') }}">
+                    <img alt="" width="120" height="120" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/img/default_avatar.jpg') }}">
                   </span>
                 </div>
                 <div class="col-lg-3">

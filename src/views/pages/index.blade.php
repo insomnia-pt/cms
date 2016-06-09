@@ -37,9 +37,9 @@ Gestão de Páginas ::
 
 
 @section('scripts')
-	<script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
-    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/dynamic-table.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/dynamic-table.js') }}"></script>
 
     @yield('subscripts')
 @stop

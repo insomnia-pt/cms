@@ -145,12 +145,12 @@ Gestão de Menus ::
 @stop
 
 @section('styles')
-	<link href="{{ asset(Config::get('cms::config.assets_path').'/assets/css/jquery.nestable.css') }}" rel="stylesheet">
+	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/jquery.nestable.css') }}" rel="stylesheet">
 
 @stop
 
 @section('scripts')
-	<script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/jquery.nestable.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.nestable.js') }}"></script>
 
     <script type="text/javascript">
 

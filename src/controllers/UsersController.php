@@ -93,7 +93,7 @@ class UsersController extends AdminController {
 			{
 				if(Input::file('photo')){
 					$imageName = md5($user->username.date('YmdHis')).'.jpg';
-					Image::make(Input::file('photo')->getRealPath())->fit(150, 150)->save('cms-res/users-photo/'.$imageName);
+					Image::make(Input::file('photo')->getRealPath())->fit(150, 150)->save(Config::get('cms::config.assets_path').'/users-photo/'.$imageName);
 					$user->photo = $imageName;
 				}
 
@@ -245,8 +245,8 @@ class UsersController extends AdminController {
 		{
 			if(Input::file('photo')){
 				$imageName = md5($user->username.date('YmdHis')).'.jpg';
-				Image::make(Input::file('photo')->getRealPath())->fit(150, 150)->save('cms-res/users-photo/'.$imageName);
-				if($user->photo){ File::delete('cms-res/users-photo/'.$user->photo); }
+				Image::make(Input::file('photo')->getRealPath())->fit(150, 150)->save(Config::get('cms::config.assets_path').'/users-photo/'.$imageName);
+				if($user->photo){ File::delete(Config::get('cms::config.assets_path').'/users-photo/'.$user->photo); }
 				$user->photo = $imageName;
 			}
 

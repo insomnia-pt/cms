@@ -20,19 +20,18 @@
 		<!-- CSS
 		================================================== -->
 		<!-- Bootstrap core CSS -->
-	    <link href="{{ asset(Config::get('cms::config.assets_path').'/assets/css/bootstrap.min.css') }}" rel="stylesheet">
-	    <link href="{{ asset(Config::get('cms::config.assets_path').'/assets/css/bootstrap-reset.css') }}" rel="stylesheet">
+	    <link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	    <link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/bootstrap-reset.css') }}" rel="stylesheet">
 	    <!--external css-->
-	    <link href="{{ asset(Config::get('cms::config.assets_path').'/assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
+	    <link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
 	    <!-- Custom styles for this template -->
-	    <link href="{{ asset(Config::get('cms::config.assets_path').'/assets/css/style.css') }}" rel="stylesheet">
-	    <link href="{{ asset(Config::get('cms::config.assets_path').'/assets/css/style-responsive.css') }}" rel="stylesheet" />
-	    <link href="{{ asset(Config::get('cms::config.assets_path').'/assets/css/_ext/theme.css') }}" rel="stylesheet" />
+	    <link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/style.css') }}" rel="stylesheet">
+	    <link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/style-responsive.css') }}" rel="stylesheet" />
 
 	    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
 	    <!--[if lt IE 9]>
-	      <script src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/html5shiv.js') }}"></script>
-	      <script src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/respond.min.js') }}"></script>
+	      <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/html5shiv.js') }}"></script>
+	      <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/respond.min.js') }}"></script>
 	    <![endif]-->
 
 
@@ -40,7 +39,7 @@
 		@show
 
 		<!-- start: Favicon -->
-		<link rel="shortcut icon" href="{{ asset(Config::get('cms::config.assets_path').'/assets/img/favicon.png') }}">
+		<link rel="shortcut icon" href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/img/favicon.png') }}">
 		<!-- end: Favicon -->
 	</head>
 
@@ -54,13 +53,13 @@
 		
 		<!-- Javascripts
 		================================================== -->
-		<script src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/jquery.js') }}"></script>
-	    <script src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/bootstrap.min.js') }}"></script>
-	    <script src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/jquery.scrollTo.min.js') }}"></script>
-	    <script src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/jquery.nicescroll.js') }}" type="text/javascript"></script>
+		<script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.js') }}"></script>
+	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/bootstrap.min.js') }}"></script>
+	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.scrollTo.min.js') }}"></script>
+	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.nicescroll.js') }}" type="text/javascript"></script>
 
 	    <!--common script for all pages-->
-	    <script src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/common-scripts.js') }}"></script>
+	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/common-scripts.js') }}"></script>
 
 		@section('scripts')
 		@show

@@ -37,4 +37,14 @@ class Helpers {
      
         return $fieldType;
     }
+
+    public static function asset($path)
+    {
+        $path_override = str_replace(Config::get('cms::assets_path').'/assets', Config::get('cms::assets_path').'/assets_override', $path);
+        if (File::exists($path_override)){
+            return asset($path_override);
+        } else {
+            return asset($path);
+        }
+    }
 }

@@ -113,7 +113,7 @@ Adicionar Data Source ::
 @stop
 
 @section('scripts')
-	<script type="text/javascript" src="{{ asset(Config::get('cms::config.assets_path').'/assets/js/bootstrap-switch.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/bootstrap-switch.js') }}"></script>
 
 	<script type="text/javascript" charset="utf-8">	
 

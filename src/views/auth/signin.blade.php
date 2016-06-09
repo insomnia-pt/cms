@@ -7,7 +7,7 @@
 
 @section('content')
 
-	<div style="text-align: center;margin: 80px 0 0 10px "><img src="{{ asset('packages/insomnia/cms/cms-res/assets/img/logo.png') }}" ></div>
+	<div style="text-align: center;margin: 80px 0 0 10px "><img src="{{ Helpers::asset('packages/insomnia/cms/cms-res/assets/img/logo.png') }}" ></div>
 
 	<form class="form-signin" action="{{ URL::to('cms/auth/signin') }}" method="POST">
 
