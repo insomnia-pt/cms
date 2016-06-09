@@ -78,7 +78,7 @@ Adicionar Página ::
 
 								<div class='easy-tree'>
 									<?php
-								    	$dsItems = ModelBuilder::fromTable($datasource->table)->get();
+								    	$dsItems = CMS_ModelBuilder::fromTable($datasource->table)->get();
 										$parentItems = $dsItems->filter(function($item) {
 										    return $item->id_parent == 0;
 										})->values();

@@ -5,7 +5,7 @@ use Insomnia\Cms\Models\Datasource as Datasource;
 use Insomnia\Cms\Models\DatasourceRelation as DatasourceRelation;
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
 use Insomnia\Cms\Models\Menu as Menu;
-use Insomnia\Cms\Models\ModelBuilder as ModelBuilder;
+use Insomnia\Cms\Models\ModelBuilder as CMS_ModelBuilder;
 use Input;
 use Lang;
 use Redirect;
@@ -119,7 +119,7 @@ class DatasourcesController extends AdminController {
 		}
 
 		$datasources = Datasource::get();
-		$table = ModelBuilder::fromTable($datasource->table)->get();
+		$table = CMS_ModelBuilder::fromTable($datasource->table)->get();
 		$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
 
 		return View::make('cms::datasources/edit', compact('datasource','datasources','table','datasourceFieldtypes'));

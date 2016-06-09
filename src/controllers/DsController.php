@@ -3,7 +3,7 @@
 use Insomnia\Cms\Controllers\AdminController;
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
 use Insomnia\Cms\Models\Datasource as Datasource;
-use Insomnia\Cms\Models\ModelBuilder as ModelBuilder;
+use Insomnia\Cms\Models\ModelBuilder as CMS_ModelBuilder;
 
 use Input;
 use Lang;
@@ -41,11 +41,11 @@ class DsController extends AdminController {
 			if (is_null($parentDatasource = Datasource::find(Input::get('pds')))) {
 				return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 			}
-			$parentDatasourceItem = ModelBuilder::fromTable($parentDatasource->table)->find(Input::get('item'));
-			$dsItems = ModelBuilder::fromTable($datasource->table)->where($parentDatasource->table.'_id', Input::get('item'))->orderBy($orderBy)->get();
+			$parentDatasourceItem = CMS_ModelBuilder::fromTable($parentDatasource->table)->find(Input::get('item'));
+			$dsItems = CMS_ModelBuilder::fromTable($datasource->table)->where($parentDatasource->table.'_id', Input::get('item'))->orderBy($orderBy)->get();
 
 		} else {
-			$dsItems = ModelBuilder::fromTable($datasource->table)->orderBy($orderBy)->get();
+			$dsItems = CMS_ModelBuilder::fromTable($datasource->table)->orderBy($orderBy)->get();
 		}
 
 		$parameters = $this::parameters();
@@ -87,7 +87,7 @@ class DsController extends AdminController {
 			$inputs[$parentDatasource->table.'_id'] = Input::get('item');
 		}
 		
-		$ds = ModelBuilder::fromTable($datasource->table);
+		$ds = CMS_ModelBuilder::fromTable($datasource->table);
 		$ds->fill($inputs);
 		
 		if($ds->save()) {
@@ -107,7 +107,7 @@ class DsController extends AdminController {
 		AdminController::checkPermission($datasource->table.'.'.'view');
 
 		$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
-		$dsItem = ModelBuilder::fromTable($datasource->table)->find($itemId);
+		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
 		$parameters = $this::parameters();
 
 		return View::make('cms::ds/edit', compact('datasource','dsItem','parameters','datasourceFieldtypes'));
@@ -125,7 +125,7 @@ class DsController extends AdminController {
 		$inputs = Input::except('_token','pds','item');
 		if(isset($inputs['id_parent'])) if($inputs['id_parent']==''){ $inputs['id_parent'] = null; }
 
-		$dsItem = ModelBuilder::fromTable($datasource->table)->find($itemId);
+		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
 
 		if($dsItem->update($inputs))
 		{
@@ -144,9 +144,9 @@ class DsController extends AdminController {
 
 		AdminController::checkPermission($datasource->table.'.'.'delete');
 
-		$dsItem = ModelBuilder::fromTable($datasource->table)->find($itemId);
+		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
 		if(@$datasource->options()->subitems){
-			ModelBuilder::fromTable($datasource->table)->where('id_parent', $dsItem->id)->update(array('id_parent' => null));
+			CMS_ModelBuilder::fromTable($datasource->table)->where('id_parent', $dsItem->id)->update(array('id_parent' => null));
 		}
 		$dsItem->delete();
 
@@ -165,7 +165,7 @@ class DsController extends AdminController {
 			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
-		$dsItems = ModelBuilder::fromTable($subDatasource->table)->where($datasource->table.'_id', $itemId)->get();
+		$dsItems = CMS_ModelBuilder::fromTable($subDatasource->table)->where($datasource->table.'_id', $itemId)->get();
 
 		return View::make('cms::ds/index', compact('datasource','subDatasource','dsItems'));
 	}

@@ -41,7 +41,7 @@ Editar Registo ::
 							<div class="col-lg-6">
 								<div class='easy-tree'>
 									<?php
-								    	$dsItems = ModelBuilder::fromTable($datasource->table)->get();
+								    	$dsItems = CMS_ModelBuilder::fromTable($datasource->table)->get();
 										$parentItems = $dsItems->filter(function($item) {
 										    return $item->id_parent == 0;
 										})->values();
@@ -77,7 +77,7 @@ Editar Registo ::
 
 									<div class='easy-tree'>
 										<?php
-									    	$dsItems = ModelBuilder::fromTable($relationTable)->get();
+									    	$dsItems = CMS_ModelBuilder::fromTable($relationTable)->get();
 											$parentItems = $dsItems->filter(function($item) { return $item->id_parent == 0; })->values();
 										?>
 										<input type="hidden" name="{{ $relationTable }}_id" id="{{ $relationTable }}_id" value="{{ $dsItem->{$relationTable.'_id'} }}" class="form-control easy-tree-selected"  />

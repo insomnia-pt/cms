@@ -29,7 +29,8 @@ class CmsServiceProvider extends ServiceProvider {
 		\Config::set('cartalyst/sentry::users.model', 'Insomnia\Cms\Models\User');
 		\Config::set('cartalyst/sentry::users.login_attribute', 'username');
 
-		class_alias('Insomnia\Cms\Models\ModelBuilder', 'ModelBuilder');
+		class_alias('Insomnia\Cms\Models\ModelBuilder', 'CMS_ModelBuilder');
+		class_alias('Insomnia\Cms\Models\Page', 'CMS_Page');
 	}
 
 	/**
