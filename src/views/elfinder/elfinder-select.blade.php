@@ -33,11 +33,11 @@
 						if(mode=="selectImages"){
 							if(multiple){
 								$.each(files, function(index, file){
-									var filepath = (file.url).split('{{ URL::to(Config::get('cms::config.dir')) }}/');
+									var filepath = (file.url).split('{{ URL::to(Config::get('cms::config.elfinder_dir')) }}/');
 									opener.addImage(file.url,filepath[1],file.name, "#"+element);
 								});
 							} else {
-								var filepath = (files.url).split('{{ URL::to(Config::get('cms::config.dir')) }}/');
+								var filepath = (files.url).split('{{ URL::to(Config::get('cms::config.elfinder_dir')) }}/');
 								opener.addImage(files.url,filepath[1],files.name, "#"+element);
 							}
 							
@@ -45,7 +45,7 @@
 
 						} else if(mode=="selectDocuments"){
 
-							var filepath = (files.url).split('{{ URL::to(Config::get('cms::config.dir')) }}/');
+							var filepath = (files.url).split('{{ URL::to(Config::get('cms::config.elfinder_dir')) }}/');
 
 							opener.addDocument(files.url,filepath[1],files.name, "#"+element);
 							window.close();

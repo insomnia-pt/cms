@@ -232,7 +232,7 @@
 				    $(this).attr('data-html', 'true');
 				    $(this).attr('data-trigger', 'hover');
 				    $(this).attr('data-placement', 'top');
-				    $(this).attr('data-content', '<img width="150" src="/'+$(this).text().trim()+'" alt="" />');
+				    $(this).attr('data-content', '<img width="150" src="{{ URL::to(Config::get('cms::config.elfinder_dir')) }}/'+$(this).text().trim()+'" alt="" />');
 				    $(this).attr('data-original-title', 'Preview');
 				});
 				$('.popover').remove();
