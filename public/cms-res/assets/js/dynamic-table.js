@@ -13,20 +13,19 @@ var Script = function () {
                     "sNext": "Seguinte"
                 }
             },
-            "aoColumnDefs": [{
-                'bSortable': false,
-                'aTargets': [0]
-            }],
+            columnDefs: [
+                { targets: 'nosort', orderable: false }
+            ]
         });
 
 
         $("#dataTable1filter").keyup(function() {
            dataTable.fnFilter(this.value);
-        }); 
-       
+        });
+
 
         jQuery('#main_table_wrapper .dataTables_filter input').addClass("form-control"); // modify table search input
         jQuery('#main_table_wrapper .dataTables_length select').addClass("form-control"); // modify table per page dropdown
 
-       
+
 }();

@@ -8,7 +8,7 @@ Gestão de Grupos ::
 
 {{-- Page content --}}
 @section('content')
-	
+
 	<div class="row">
       <div class="col-lg-12">
           <ul class="breadcrumb pull-left">
@@ -34,7 +34,7 @@ Gestão de Grupos ::
                   <th>Nome</th>
                   <th class="hidden-phone"># utilizadores</th>
                   <th class="hidden-phone">Criado em</th>
-                  <th></th>
+                  <th class="nosort"></th>
               </tr>
               </thead>
               <tbody>
@@ -43,7 +43,7 @@ Gestão de Grupos ::
 				@foreach ($groups as $group)
           @if(Session::get('settings_super_user') && $group->id == 1)
 
-          @else 
+          @else
             <tr class="odd gradeX">
               <td class="hidden-phone">{{ $group->name }}</td>
               <td class="hidden-phone">{{ $group->users()->count() }}</td>
@@ -69,14 +69,12 @@ Gestão de Grupos ::
 
 @stop
 
+@section('styles')
+	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.css') }}" rel="stylesheet">
+@stop
+
 @section('scripts')
 	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
-    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/dynamic-table.js') }}"></script>
-    <script type="text/javascript">
-
-      var oTable = $('#main_table').dataTable();
-      oTable.fnSort( [[2,'desc'] ] );
-
-    </script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/dynamic-table.js') }}"></script>
 @stop

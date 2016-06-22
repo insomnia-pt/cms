@@ -12,7 +12,7 @@ Gestão de {{ $datasource->name }} ::
       	<div class="col-lg-12">
 	          <ul class="breadcrumb pull-left">
 	              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
-	              @if($parameters['pds']) 
+	              @if($parameters['pds'])
 			      <li><a href="{{ route('cms/ds', $parameters['pds']) }}">{{ $parentDatasource->name }}</a></li>
 			      @endif
 	              <li><span class="active">{{ $datasource->name }}</span></li>
@@ -22,7 +22,7 @@ Gestão de {{ $datasource->name }} ::
 				<a href="{{ route('cms/ds/create', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}} @endif" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
 			@endif
 
-	          	@if($parameters['pds']) 
+	          	@if($parameters['pds'])
 		      		<a href="{{ route('cms/ds', $parameters['pds']) }}" class="btn btn-small btn-info pull-right" style="margin-right:5px"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
 		      	@endif
 	      </div>
@@ -43,11 +43,17 @@ Gestão de {{ $datasource->name }} ::
 
 @stop
 
-@section('scripts')
-	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
-    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/dynamic-table.js') }}"></script>
+@section('styles')
+	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.css') }}" rel="stylesheet">
+	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/jquery.nestable.css') }}" rel="stylesheet">
+@stop
 
+@section('scripts')
+		<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
+		<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/dataTables.rowReorder.min.js') }}"></script>
+    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/ds-table.js') }}"></script>
+		<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.nestable.js') }}"></script>
 
     @yield('subscripts')
 @stop

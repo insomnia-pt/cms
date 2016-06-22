@@ -68,6 +68,28 @@ class DsController extends AdminController {
 		return View::make('cms::ds/create', compact('datasource','parameters','datasourceFieldtypes'));
 	}
 
+	public function postOrder($id)
+	{
+		if (is_null($datasource = Datasource::find($id))) {
+			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
+		}
+
+		if(Input::get('ds-orderlist')){
+
+			$orderIds = explode(',', Input::get('ds-orderlist'));
+
+			foreach ($orderIds as $index => $id) {
+				CMS_ModelBuilder::fromTable($datasource->table)->where('id', $id)->update(array('order' => $index));
+			}
+
+			// dd($orderIds);
+
+			return Redirect::to('cms/ds/'.$datasource->id)->with('success', Lang::get('cms::ds/message.success.order'));
+		}
+
+		return Redirect::to('cms/ds/'.$datasource->id)->with('error', Lang::get('cms::ds/message.error.order'));
+	}
+
 	public function postCreate($id)
 	{
 		if (is_null($datasource = Datasource::find($id))) {
@@ -86,10 +108,10 @@ class DsController extends AdminController {
 
 			$inputs[$parentDatasource->table.'_id'] = Input::get('item');
 		}
-		
+
 		$ds = CMS_ModelBuilder::fromTable($datasource->table);
 		$ds->fill($inputs);
-		
+
 		if($ds->save()) {
 			return Redirect::to('cms/ds/'.$datasource->id.'/edit/'.$ds->id)->with('success', Lang::get('cms::ds/message.success.create'));
 		}
@@ -135,6 +157,7 @@ class DsController extends AdminController {
 		return Redirect::to("cms/ds/$id")->with('error', Lang::get('cms::ds/message.error.update'));
 	}
 
+
 	public function getDelete($id, $itemId)
 	{
 		if (is_null($datasource = Datasource::find($id)))
@@ -152,6 +175,7 @@ class DsController extends AdminController {
 
 		return Redirect::to('cms/ds/'.$id)->with('success', Lang::get('cms::ds/message.success.delete'));
 	}
+
 
 	public function getSubIndex($dsId, $itemId, $subDsId)
 	{
@@ -171,4 +195,3 @@ class DsController extends AdminController {
 	}
 
 }
-

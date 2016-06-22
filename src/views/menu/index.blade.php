@@ -21,12 +21,12 @@ Gestão de Menus ::
   	</div>
 
   	<hr class="top-line" />
-  	
+
   	<div class="panel">
 
 	  	<div class="row panel-body">
 	  		<div class="col-md-3">
-	  			
+
 	  			<label>Menu Grupo</label>&nbsp;&nbsp;
 	  			<div class="btn-group">
 	              <button class="btn btn-white" type="button">
@@ -41,16 +41,16 @@ Gestão de Menus ::
 					@endforeach
 	              </ul>
           		</div>
-	          	
+
 	  		</div>
 	  	</div>
 	 </div>
-  
+
 
   	<div class="row">
 	    <div class="col-lg-7">
 
-	    	
+
 
 	    	<section class="panel panel-primary">
         		<header class="panel-heading">
@@ -66,7 +66,7 @@ Gestão de Menus ::
 	         				<div class="dd-content">
 	         					@if(!$menuitem->system&&!$menuitem->datasource_id)<button class="menu-remove btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button>@endif
 	         					<button class="menu-edit btn btn-xs btn-info" type="button"><i class="fa fa-pencil"></i></button>
-	         					<span class="menu-label-text">{{ $menuitem->name?$menuitem->name:$menuitem->datasource->name }}</span> 
+	         					<span class="menu-label-text">{{ $menuitem->name?$menuitem->name:$menuitem->datasource->name }}</span>
 	         					<span class="menu-label-info"> {{ $menuitem->datasource_id?'<small class="text-muted">(DATASOURCE)</small>':'' }}</span>
 	         					<input type="text" class="menu-input-text form-control" />
 	         				</div>
@@ -78,7 +78,7 @@ Gestão de Menus ::
 			         				<div class="dd-content">
 			         					@if(!$submenuitem->system&&!$submenuitem->datasource_id)<button class="menu-remove btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button>@endif
 			         					<button class="menu-edit btn btn-xs btn-info" type="button"><i class="fa fa-pencil"></i></button>
-			         					<span class="menu-label-text">{{ $submenuitem->name?$submenuitem->name:$submenuitem->datasource->name }}</span> 
+			         					<span class="menu-label-text">{{ $submenuitem->name?$submenuitem->name:$submenuitem->datasource->name }}</span>
 			         					<span class="menu-label-info"> {{ $submenuitem->datasource_id?'<small class="text-muted">(DATASOURCE)</small>':'' }}</span>
 			         					<input type="text" class="menu-input-text form-control" />
 			         				</div>
@@ -100,7 +100,7 @@ Gestão de Menus ::
             		<button class="btn btn-info btn-xs pull-right bt-add-group" type="button">Novo Grupo</button>
          		</header>
          		<input type="hidden" name="menuoutconfig" id="menuoutconfig" />
-         		<div id="menuoutlist" class="dd"> 
+         		<div id="menuoutlist" class="dd">
          			@if(count($allmenuoutlist))
 		   			<ol class="list-group dd-list menulists">
 	         			@foreach($allmenuoutlist as $menuoutitem)
@@ -109,7 +109,7 @@ Gestão de Menus ::
 	         				<div class="dd-content">
 	         					@if(!$menuoutitem->system&&!$menuoutitem->table)<button class="menu-remove btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button>@endif
 	         					<button class="menu-edit btn btn-xs btn-info" type="button"><i class="fa fa-pencil"></i></button>
-	         					<span class="menu-label-text">{{ $menuoutitem->name?$menuoutitem->name:$menuoutitem->datasource->name }}</span> 
+	         					<span class="menu-label-text">{{ $menuoutitem->name?$menuoutitem->name:$menuoutitem->datasource->name }}</span>
 	         					<span class="menu-label-info"> {{ $menuoutitem->datasource_id?'<small class="text-muted">(DATASOURCE)</small>':'' }}</span>
 	         					<input type="text" class="menu-input-text form-control" />
 	         				</div>
@@ -121,7 +121,7 @@ Gestão de Menus ::
 			         				<div class="dd-content">
 			         					@if(!$submenuitem->system&&!$submenuitem->table)<button class="menu-remove btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button>@endif
 			         					<button class="menu-edit btn btn-xs btn-info" type="button"><i class="fa fa-pencil"></i></button>
-			         					<span class="menu-label-text">{{ $submenuitem->name?$submenuitem->name:$submenuitem->datasource->name }}</span> 
+			         					<span class="menu-label-text">{{ $submenuitem->name?$submenuitem->name:$submenuitem->datasource->name }}</span>
 			         					<span class="menu-label-info"> {{ $submenuitem->datasource_id?'<small class="text-muted">(DATASOURCE)</small>':'' }}</span>
 			         					<input type="text" class="menu-input-text form-control" />
 			         				</div>
@@ -138,7 +138,7 @@ Gestão de Menus ::
 		   		</div>
 		    </section>
 	    </div>
-	    
+
 	</div>
 </form>
 
@@ -146,7 +146,6 @@ Gestão de Menus ::
 
 @section('styles')
 	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/jquery.nestable.css') }}" rel="stylesheet">
-
 @stop
 
 @section('scripts')
@@ -156,7 +155,7 @@ Gestão de Menus ::
 
     	$('#form-saveMenu').on('keyup keypress', function(e) {
 		  var keyCode = e.keyCode || e.which;
-		  if (keyCode === 13) { 
+		  if (keyCode === 13) {
 		    e.preventDefault();
 		    return false;
 		  }
@@ -191,26 +190,26 @@ Gestão de Menus ::
 			var isMenuOutList = element.closest('.dd').is('#menuoutlist');
 			if(element.find('li').length){
 				element.parent().append(element.find('ol').html());
-			} 
+			}
     		element.remove();
     		if(!$('#menuoutlist ol li').length && isMenuOutList) { $("#menuoutlist ol").remove('.dd-list'); $("#menuoutlist").append('<div class="dd-empty"></div>'); }
 		    updateLists();
 		});
-    	
-    	$('#menulist').nestable({ 
+
+    	$('#menulist').nestable({
     		maxDepth: 2,
     		callback: function(l,e){
 		        updateLists();
 		    }
     	});
 
-    	$('#menuoutlist').nestable({ 
+    	$('#menuoutlist').nestable({
     		maxDepth: 2,
     		callback: function(l,e){
 		        updateLists();
 		    }
     	});
-    	
+
     	//init
     	updateLists();
 

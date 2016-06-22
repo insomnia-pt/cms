@@ -40,7 +40,7 @@
 	</head>
 
 	<body>
-		
+
 		<section id="container" class="">
 		      <!--header start-->
 		      <header class="header white-bg">
@@ -94,9 +94,9 @@
 		          <div id="sidebar"  class="nav-collapse ">
 		              <!-- sidebar menu start-->
 		              <ul class="sidebar-menu">
-		                  
+
 						@include('cms::layouts/menu')
-		              
+
 		              </ul>
 		              <!-- sidebar menu end-->
 		          </div>
@@ -107,7 +107,7 @@
 		          <section class="wrapper">
 
 		            @yield('content')
-		             
+
 		          </section>
 		      </section>
 		      <!--main content end-->
@@ -131,12 +131,12 @@
 		      </div>
 		  </div>
 		</div>
-			
+
 
 		<!-- Javascripts
 		================================================== -->
 		<script type="text/javascript">
-				
+
 			var $cms_url = "{{ Config::get('app.url') }}/{{ Config::get('cms::config.uri') }}";
 			var $cms_ckeditor_toolbar = @if(array_key_exists('component.ckeditor.adv', $_groupPermissions))"Full"@else"Mini"@endif;
 
@@ -147,7 +147,7 @@
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.scrollTo.min.js') }}"></script>
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.nicescroll.js') }}" type="text/javascript"></script>
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/noty/jquery.noty.packaged.min.js') }}" type="text/javascript"></script>
-	    
+
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.multi-select.js') }}" type="text/javascript"></script>
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.quicksearch.js') }}" type="text/javascript"></script>
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/js.cookie.js') }}" type="text/javascript"></script>
@@ -158,7 +158,7 @@
 		@section('scripts')
 		@show
 
-		<script type="text/javascript" charset="utf-8">	
+		<script type="text/javascript" charset="utf-8">
 
 		@include('cms::notifications')
 
@@ -171,9 +171,9 @@
 
 		if($('.date').length) $('.date').datepicker();
 
-		if($('.component-tags').length){ 
-			$(".component-tags").tagsInput({ 
-		    	interactive:true, 
+		if($('.component-tags').length){
+			$(".component-tags").tagsInput({
+		    	interactive:true,
 		    	onChange:function(){ maxTags('#'+$(this).attr('id'), $(this).data('limit')); },
 		    	onAddTag:function(){ maxTags('#'+$(this).attr('id'), $(this).data('limit')); },
 		    	onRemoveTag:function(){ maxTags('#'+$(this).attr('id'), $(this).data('limit')); }
@@ -182,8 +182,8 @@
 
 		if($('.document').length){
 
-		    $(".document").tagsInput({ 
-		    	interactive:false, 
+		    $(".document").tagsInput({
+		    	interactive:false,
 		    	onChange:function(){ maxTags('#'+$(this).attr('id'), $(this).data('limit')); },
 		    	onAddTag:function(){ maxTags('#'+$(this).attr('id'), $(this).data('limit')); },
 		    	onRemoveTag:function(){ maxTags('#'+$(this).attr('id'), $(this).data('limit')); }
@@ -193,10 +193,10 @@
 			    var tagsinputElementSel = $(this).closest('.document').prev();
 			    var multiple = tagsinputElementSel.data('limit')>1?true:false;
 
-			    $(this).popupWindow({ 
+			    $(this).popupWindow({
 					windowURL:'{{ URL::to("cms/elfinder/select?mode=selectDocuments") }}&multiple='+multiple+'&elementId='+tagsinputElementSel.attr('id'),
 					windowName:'Gestão de Ficheiros',
-					height:490, 
+					height:490,
 					width:950,
 					centerScreen:1
 				});
@@ -205,8 +205,8 @@
 
 		if($('.image').length){
 
-		    $(".image").tagsInput({ 
-		    	interactive:false, 
+		    $(".image").tagsInput({
+		    	interactive:false,
 		    	onChange:function(){ addImagePreview('#'+$(this).attr('id')); maxTags('#'+$(this).attr('id'), $(this).data('limit')); },
 		    	onAddTag:function(){ maxTags('#'+$(this).attr('id'), $(this).data('limit')); },
 		    	onRemoveTag:function(){ addImagePreview('#'+$(this).attr('id')); maxTags('#'+$(this).attr('id'), $(this).data('limit')); }
@@ -216,17 +216,17 @@
 			    var tagsinputElementSel = $(this).closest('.image').prev();
 			    var multiple = tagsinputElementSel.data('limit')>1?true:false;
 
-			    $(this).popupWindow({ 
+			    $(this).popupWindow({
 					windowURL:'{{ URL::to("cms/elfinder/select?mode=selectImages") }}&multiple='+multiple+'&elementId='+tagsinputElementSel.attr('id'),
 					windowName:'Gestão de Ficheiros',
-					height:490, 
+					height:490,
 					width:980,
 					centerScreen:1
 				});
 		    });
 		}
 
-			function addImagePreview(element){ 
+			function addImagePreview(element){
 				$(element+'_tagsinput .tag').each(function(){
 				    $(this).addClass('popovers');
 				    $(this).attr('data-html', 'true');
@@ -254,7 +254,7 @@
 
 		 	function maxTags(element, limit){
 		    	tagcount = $(element+'_tagsinput span.tag').length;
-		 		if(tagcount>=limit){ $(element+"_tagsinput .tagsinput-add").hide(); $(element+'_addTag').hide(); } 
+		 		if(tagcount>=limit){ $(element+"_tagsinput .tagsinput-add").hide(); $(element+'_addTag').hide(); }
 		 		else { $(element+"_tagsinput .tagsinput-add").show();  $(element+'_addTag').show();}
 		    }
 

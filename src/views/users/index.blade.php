@@ -8,7 +8,7 @@ Gestão de Utilizadores ::
 
 {{-- Page content --}}
 @section('content')
-	
+
 	<div class="row">
       <div class="col-lg-12">
           <ul class="breadcrumb pull-left">
@@ -35,7 +35,7 @@ Gestão de Utilizadores ::
                   <th class="hidden-phone">Email</th>
                   <th class="hidden-phone">Criado em</th>
                   <th class="hidden-phone">Estado</th>
-                  <th class="hidden-phone"></th>
+                  <th class="hidden-phone nosort"></th>
               </tr>
               </thead>
               <tbody>
@@ -74,14 +74,12 @@ Gestão de Utilizadores ::
 
 @stop
 
+@section('styles')
+	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.css') }}" rel="stylesheet">
+@stop
+
 @section('scripts')
 	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
-    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/dynamic-table.js') }}"></script>
-    <script type="text/javascript">
-
-      var oTable = $('#main_table').dataTable();
-      oTable.fnSort( [[3,'desc'] ] );
-
-    </script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/dynamic-table.js') }}"></script>
 @stop

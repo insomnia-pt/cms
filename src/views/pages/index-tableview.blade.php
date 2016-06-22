@@ -4,7 +4,7 @@
 	  		<div class="col-md-3">
 
 	  			<?php
-				
+
 
 				if(!Input::get('group')) {  }
 
@@ -14,7 +14,7 @@
 				    return $page->id_parent == $parentPageId;
 				})->values();
 				?>
-	  			
+
 	  			<label>Grupo de Páginas</label>&nbsp;&nbsp;
 	  			<div class="btn-group">
 	              <button class="btn btn-white" type="button">
@@ -29,7 +29,7 @@
 					@endforeach
 	              </ul>
           		</div>
-	          	
+
 	  		</div>
 	  	</div>
 	 </div>
@@ -37,7 +37,7 @@
 
 	<section class="panel panel-primary">
       <header class="panel-heading">
-        Lista de Páginas 
+        Lista de Páginas
         <input class="form-control pull-right input-smmm" type="text" id="dataTable1filter" placeholder="Procurar.." style="width: 200px">
       </header>
 
@@ -48,24 +48,24 @@
         		@if($config->show_in_table)<th>{{ $config->description }}</th>@endif
         	@endforeach
         		<th>Tipo</th>
-        		<th></th>
+        		<th class="nosort"></th>
           </tr>
       </thead>
       <tbody>
       	@foreach ($pages as $page)
 		<tr class="odd gradeX">
-			
+
 			@foreach ($datasource->config() as $config)
         		@if($config->show_in_table)<td>{{ $page[$config->name] }}</td>@endif
         	@endforeach
         	<td>{{ $page->pagetype->name }}</td>
 			<td class="text-right">
-				<a href="{{ URL::to($page->slug) }}" target="_blank" class="btn btn-xs" title="Abrir Página"><i class="fa fa-external-link"></i> Abrir</a>| 
+				<a href="{{ URL::to($page->slug) }}" target="_blank" class="btn btn-xs" title="Abrir Página"><i class="fa fa-external-link"></i> Abrir</a>|
 				<a href="{{ route('pages/edit', $page->id) }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" class="btn btn-xs btn-default">
-	          @if(array_key_exists($datasource->table.'.update', $_groupPermissions)) 
-	            @lang('cms::button.edit') 
-	          @else 
-	            @lang('cms::button.view') 
+	          @if(array_key_exists($datasource->table.'.update', $_groupPermissions))
+	            @lang('cms::button.edit')
+	          @else
+	            @lang('cms::button.view')
 	          @endif
         	</a>
 	        @if(array_key_exists($datasource->table.'.delete', $_groupPermissions))

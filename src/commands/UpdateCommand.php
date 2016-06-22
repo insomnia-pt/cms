@@ -40,6 +40,6 @@ class UpdateCommand extends Command
         $this->call('asset:publish', array('package' => 'insomnia/cms' ) );
         // $this->call('asset:publish', array('--bench' => 'insomnia/cms' ) );
 
- 
+
     }
 }
