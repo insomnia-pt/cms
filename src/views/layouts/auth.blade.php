@@ -48,9 +48,9 @@
     	<div class="container">
 
 		    @yield('content')
-		
+
 		</div>
-		
+
 		<!-- Javascripts
 		================================================== -->
 		<script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.js') }}"></script>

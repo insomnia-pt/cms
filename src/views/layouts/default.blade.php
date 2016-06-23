@@ -4,7 +4,7 @@
 		<meta charset="utf-8" />
 		<title>
 			@section('title')
-			INSOMNIA CMS
+			{{ $settings->title }}
 			@show
 		</title>
 		<meta name="keywords" content="" />
