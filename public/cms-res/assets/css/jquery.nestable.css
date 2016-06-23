@@ -41,6 +41,9 @@
   display: inline-block;
 }
 
+.dd-nodrag .dd-handle {
+  visibility: hidden;
+}
 
 .dd-handle {
   vertical-align: middle;

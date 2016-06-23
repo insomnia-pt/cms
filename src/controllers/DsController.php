@@ -82,7 +82,12 @@ class DsController extends AdminController {
 				CMS_ModelBuilder::fromTable($datasource->table)->where('id', $id)->update(array('order' => $index));
 			}
 
-			// dd($orderIds);
+			return Redirect::to('cms/ds/'.$datasource->id)->with('success', Lang::get('cms::ds/message.success.order'));
+		}
+		else if(Input::get('ds-orderlist-listview')) {
+			$orderIds = json_decode(Input::get('ds-orderlist-listview'));
+
+			$this->recursiveUpdate($datasource, $orderIds);
 
 			return Redirect::to('cms/ds/'.$datasource->id)->with('success', Lang::get('cms::ds/message.success.order'));
 		}
@@ -192,6 +197,14 @@ class DsController extends AdminController {
 		$dsItems = CMS_ModelBuilder::fromTable($subDatasource->table)->where($datasource->table.'_id', $itemId)->get();
 
 		return View::make('cms::ds/index', compact('datasource','subDatasource','dsItems'));
+	}
+
+	private function recursiveUpdate($datasource, $itemBranch, $parentBranch = null)
+	{
+		foreach ($itemBranch as $index => $item) {
+			CMS_ModelBuilder::fromTable($datasource->table)->where('id', $item->id)->update(array('id_parent' => $parentBranch?$parentBranch:null, 'order' => $index));
+			if(@$item->children){ self::recursiveUpdate($datasource, $item->children, $item->id); }
+		}
 	}
 
 }

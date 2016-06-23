@@ -44,16 +44,11 @@ Gestão de {{ $datasource->name }} ::
 @stop
 
 @section('styles')
-	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.css') }}" rel="stylesheet">
 	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/jquery.nestable.css') }}" rel="stylesheet">
+	@yield('substyles')
 @stop
 
 @section('scripts')
-		<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
-		<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/dataTables.rowReorder.min.js') }}"></script>
-    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/ds-table.js') }}"></script>
 		<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.nestable.js') }}"></script>
-
     @yield('subscripts')
 @stop

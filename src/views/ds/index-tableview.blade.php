@@ -68,11 +68,13 @@
   	</section>
 
 
+@section('substyles')
+	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.css') }}" rel="stylesheet">
+@stop
+
 @section('subscripts')
-	<script type="text/javascript">
-
-    	// var oTable = $('#main_table').dataTable();
-    	// oTable.fnSort( [[1,'desc'] ] );
-
-    </script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/dataTables.rowReorder.min.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/ds-table.js') }}"></script>
 @stop

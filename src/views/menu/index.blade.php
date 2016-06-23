@@ -63,7 +63,7 @@ Gestão de Menus ::
 	         			@foreach($menulist as $menuitem)
 	         			<li class="dd-item" data-id="{{ $menuitem->id }}" data-name="{{ $menuitem->name }}" data-icon="{{ $menuitem->icon }}" data-url="{{ $menuitem->url }}" data-datasource_id="{{ $menuitem->datasource_id }}" data-system="{{ $menuitem->system }}">
 	         				<div class="dd-handle"></div>
-	         				<div class="dd-content">
+	         				<div class="dd-content ">
 	         					@if(!$menuitem->system&&!$menuitem->datasource_id)<button class="menu-remove btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button>@endif
 	         					<button class="menu-edit btn btn-xs btn-info" type="button"><i class="fa fa-pencil"></i></button>
 	         					<span class="menu-label-text">{{ $menuitem->name?$menuitem->name:$menuitem->datasource->name }}</span>
