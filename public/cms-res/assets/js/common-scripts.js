@@ -44,7 +44,7 @@ var Script = function () {
                 easing: 'swing',
                 speed: 500 // opening & closing animation speed
             },
-            timeout: 4000, 
+            timeout: 4000,
             force: false, // adds notification to the beginning of queue when set to true
             modal: false,
             maxVisible: 5, // you can set max visible notification for dismissQueue true option,
@@ -101,9 +101,8 @@ var Script = function () {
     });
 
 // custom scrollbar
-    $("#sidebar").niceScroll({styler:"fb",cursorcolor:"#da9f3b", cursorwidth: '3', cursorborderradius: '10px', background: '#404040', cursorborder: ''});
-
-    $("html").niceScroll({styler:"fb",cursorcolor:"#da9f3b", cursorwidth: '6', cursorborderradius: '10px', background: '#404040', cursorborder: '', zindex: '1000'});
+$("#sidebar").niceScroll({styler:"fb",cursorcolor:"#da9f3b", cursorwidth: '3', cursorborderradius: '10px', background: '#404040', cursorborder: ''});
+$("html").niceScroll({styler:"fb",cursorcolor:"#da9f3b", cursorwidth: '6', cursorborderradius: '10px', background: '#404040', cursorborder: '', zindex: '1000'});
 
 // widget tools
 
@@ -140,8 +139,8 @@ var Script = function () {
             $(this).find(".value").html("");
             $(this).find(".value").animate({
                 height: i
-            }, 2000)
-        })
+            }, 2000);
+        });
     }
 
 
@@ -154,5 +153,22 @@ var Script = function () {
 //    });
 
 
-
 }();
+
+function convertToSlug(str) {
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
+  var to   = "aaaaaeeeeeiiiiooooouuuunc------";
+  for (var i=0, l=from.length ; i<l ; i++) {
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+  }
+
+  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  return str;
+}

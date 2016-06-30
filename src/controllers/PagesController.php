@@ -3,6 +3,7 @@
 use Insomnia\Cms\Controllers\AdminController;
 use Insomnia\Cms\Models\Page as Page;
 use Insomnia\Cms\Models\PageType as PageType;
+use Insomnia\Cms\Models\PageHistory as PageHistory;
 use Insomnia\Cms\Models\Datasource as Datasource;
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
 use Input;
@@ -20,7 +21,7 @@ class PagesController extends AdminController {
 
 
 	public function getIndex()
-	{	
+	{
 		AdminController::checkPermission('pages.view');
 
 		$pages = Page::where('language', Session::get('language'))->where('visible', 1)->orderBy('order')->get();
@@ -31,7 +32,7 @@ class PagesController extends AdminController {
 
 		if(@!$datasource->options()->subitems && @$datasource->options()->group && !Input::get('group')){
 			return Redirect::to('cms/pages?group='.$parentPages->first()->id);
-		} 
+		}
 
 		return View::make('cms::pages/index', compact('pages','datasource','parentPages'));
 	}
@@ -44,7 +45,7 @@ class PagesController extends AdminController {
 		$pageTypeSel = null;
 		$datasourceFieldtypes = null;
 
-		if(Input::get('pageType')) { 
+		if(Input::get('pageType')) {
 			$datasource = Datasource::where('table', 'pages')->first();
 			$pageTypeSel = PageType::find(Input::get('pageType'));
 			$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
@@ -59,31 +60,43 @@ class PagesController extends AdminController {
 		$rules = array(
 			'pageType'   => 'required',
 			'title'   => 'required|min:3',
+			'slug'		=> 'required|unique:pages,slug',
 		);
 
-		$inputs = Input::except('_token');
+		$slugOrigin = Input::get('slug');
+		$slug = Input::get('slug')?('/'.Input::get('slug')):('/'.Helpers::slugify(Input::get('title')));
+		Input::merge(array('slug' => $slug));
 
+		$inputs = Input::except('_token');
 		$validator = Validator::make($inputs, $rules);
 
-		if ($validator->fails())
-		{	
+		if ($validator->fails()) {
+			Input::merge(array('slug' => $slugOrigin));
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 
 		$page = new Page;
 		$page->pagetype_id    = Input::get('pageType');
 		$page->language       = Session::get('language');
-		$page->slug           = '/'.Helpers::getSlug(Input::get('title'), new Page);
+		$page->slug           = $slug;
 		$page->title          = Input::get('title');
-		$page->content        = json_encode(Input::except('_token','title','pageType','group'));
+		$page->content        = json_encode(Input::except('_token','title','pageType','group','slug'));
 		if(isset($inputs['id_parent'])) { $page->id_parent = Input::get('id_parent'); }
-		
 
-		if($page->save())
-		{
+		if($page->save()) {
+
+			$pageVersion = new PageHistory();
+			$pageVersion->page_id = $page->id;
+			$pageVersion->page_type = $page->pagetype_id;
+			$pageVersion->user_id = \Sentry::getUser()->id;
+			$pageVersion->title = $page->title;
+			$pageVersion->slug = $page->slug;
+			$pageVersion->content = $page->content;
+			$pageVersion->save();
+
 			return Redirect::route('pages/edit', $page->id)->with('success',Lang::get('cms::pages/message.success.create'));
 		}
-		
+
 		return Redirect::route('pages/create')->with('error',Lang::get('cms::pages/message.error.create'));
 	}
 
@@ -120,7 +133,7 @@ class PagesController extends AdminController {
 		$validator = Validator::make($inputs, $rules);
 
 		if ($validator->fails())
-		{	
+		{
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 
@@ -128,8 +141,17 @@ class PagesController extends AdminController {
 		$page->content        = json_encode(Input::except('_token','title','pageType','group'));
 		if(isset($inputs['id_parent'])) { $page->id_parent = Input::get('id_parent'); }
 
-		if($page->save())
-		{
+		if($page->save()) {
+
+			$pageVersion = new PageHistory();
+			$pageVersion->page_id = $page->id;
+			$pageVersion->page_type = $page->pagetype_id;
+			$pageVersion->user_id = \Sentry::getUser()->id;
+			$pageVersion->title = $page->title;
+			$pageVersion->slug = $page->slug;
+			$pageVersion->content = $page->content;
+			$pageVersion->save();
+			
 			return Redirect::to("cms/pages/$id/edit".(Input::get('group')?'?group='.Input::get('group'):null))->with('success',Lang::get('cms::pages/message.success.update'));
 		}
 

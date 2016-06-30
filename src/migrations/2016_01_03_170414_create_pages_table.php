@@ -15,7 +15,7 @@ class CreatePagesTable extends Migration {
 		Schema::create('pages', function($table)
 		{
 			$table->engine = 'InnoDB';
-			
+
 			$table->increments('id')->unsigned();
 			$table->string('title');
 			$table->string('slug');

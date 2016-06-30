@@ -40,6 +40,13 @@ Editar Página ::
 					</div>
 				</div>
 
+				<div class="form-group">
+					<label for="pageType" class="col-lg-2 control-label">URL</label>
+					<div class="col-lg-6">
+						<h5>{{ Config::get('app.url') }}<strong>{{ $page->slug }}</strong></h5>
+					</div>
+				</div>
+
 				@if(@$datasource->options()->subitems)
 					<div class="form-group">
 						<label for="id_parent" class="col-lg-2 control-label">Ascendente</label>
@@ -70,8 +77,8 @@ Editar Página ::
 				@else
 					<input type="hidden" name="id_parent" id="id_parent" value="{{ Input::get('group') }}" />
 				@endif
-              		
-                <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+
+        <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
 					<label for="title" class="col-lg-2 control-label">Título da Página</label>
 					<div class="col-lg-7">
 						<input type="text" class="form-control" name="title" id="title" value="{{ Input::old('title', $page->title) }}" />
@@ -81,7 +88,7 @@ Editar Página ::
 
 				@if(@$page->pagetype->config()->areas)
 				@foreach($page->pagetype->config()->areas as $area)
-					
+
 					<div class="form-group {{ $errors->has($area->name) ? 'has-error' : '' }}" @if(isset($area->field->admin)&&!Sentry::getUser()->hasAccess('admin'))) style="display: none;" @endif>
 						<label for="{{ $area->name }}" class="col-lg-2 control-label">{{ $area->field->name }}</label>
 						<div class="col-lg-{{ $area->field->size }}">
@@ -97,8 +104,8 @@ Editar Página ::
 	                     	{{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
 						</div>
 					</div>
-					
-				@endforeach 
+
+				@endforeach
 				@endif
 
 
@@ -121,7 +128,7 @@ Editar Página ::
 	  		<section class="panel">
 				<header class="panel-heading">Definições </header>
 				<div class="panel-body form-horizontal tasi-form">
-					
+
 					@foreach($page->pagetype->config()->settings as $setting)
 						<div class="form-group {{ $errors->has($setting->name) ? 'has-error' : '' }}">
 							<label for="{{ $setting->name }}" class="col-lg-2 control-label">{{ $setting->field->name }}</label>
@@ -142,8 +149,8 @@ Editar Página ::
 		                     	{{ $errors->first($setting->name, '<p class="help-block">:message</p>') }}
 							</div>
 						</div>
-					@endforeach 
-					
+					@endforeach
+
 				</div>
 			</section>
 			@endif
@@ -160,7 +167,7 @@ Editar Página ::
                           <p class="text-muted list-group-item-text">{{ $component->description }}</p>
                       </a>
                   	</div>
-					@endforeach					
+					@endforeach
 
 			</section>
 			@endif

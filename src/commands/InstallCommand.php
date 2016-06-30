@@ -46,7 +46,7 @@ class InstallCommand extends Command
         // // $this->call('migrate', array('--env' => $this->option('env'), '--bench' => 'insomnia/cms' ));
 
         $this->call('db:seed', array('--class' => 'Insomnia\Cms\DatabaseSeeder' ));
-        
+
         $this->call('config:publish', array('package' => 'cartalyst/sentry' ) );
         $this->call('config:publish', array('package' => 'insomnia/cms' ) );
 

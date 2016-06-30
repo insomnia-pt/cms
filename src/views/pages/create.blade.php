@@ -30,8 +30,8 @@ Adicionar Página ::
 			<section class="panel">
 				<header class="panel-heading form-group">Nova Página</header>
 				<div class="panel-body">
-              	
-	              	<form class="form-horizontal tasi-form" method="get" action="" autocomplete="off">
+
+	        <form class="form-horizontal tasi-form" method="get" action="" autocomplete="off">
 						<div class="form-group">
 							<label for="pageType" class="col-lg-2 control-label">Tipo de Página</label>
 							<div class="col-lg-6">
@@ -60,7 +60,7 @@ Adicionar Página ::
 		<div class="col-lg-{{ @count($pageTypeSel->config()->settings)?'9':'12' }}">
 			<section class="panel">
 				<header class="panel-heading form-group">Nova Página</header>
-				<div class="panel-body form-horizontal tasi-form">		
+				<div class="panel-body form-horizontal tasi-form">
 
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
@@ -108,7 +108,18 @@ Adicionar Página ::
 						<label for="title" class="col-lg-2 control-label">Título</label>
 						<div class="col-lg-7">
 							<input type="text" class="form-control" name="title" id="title" value="{{ Input::old('title') }}" />
-	                     	{{ $errors->first('title', '<p class="help-block">:message</p>') }}
+							{{ $errors->first('title', '<p class="help-block">:message</p>') }}
+						</div>
+					</div>
+
+					<div class="form-group {{ $errors->has('slug') ? 'has-error' : '' }}">
+						<label for="slug" class="col-lg-2 control-label">URL</label>
+						<div class="col-lg-6">
+							<div class="input-group">
+							  <span class="input-group-addon">{{ Config::get('app.url') }}/</span>
+							  <input type="text" class="form-control" name="slug" id="slug" value="{{ Input::old('slug') }}">
+							</div>
+							{{ $errors->first('slug', '<p class="help-block">:message</p>') }}
 						</div>
 					</div>
 
@@ -128,18 +139,18 @@ Adicionar Página ::
 		                     	{{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
 							</div>
 						</div>
-					@endforeach 
-					
+					@endforeach
+
 					<div class="form-group">
 						<div class="col-lg-offset-2 col-lg-10">
 							<button class="btn btn-danger" type="submit">Adicionar</button>
 							<a class="btn btn-default" href="{{ route('pages') }}{{ Input::get('group')?'?group='.Input::get('group'):null }}">Cancelar</a>
 						</div>
 					</div>
-					
+
 
 				@endif
-	
+
 			</div>
 		</section>
 	  </div>
@@ -173,10 +184,10 @@ Adicionar Página ::
 									@endforeach
 								</select>
 							@endif
-		                     	{{ $errors->first($setting->name, '<p class="help-block">:message</p>') }}
+		            {{ $errors->first($setting->name, '<p class="help-block">:message</p>') }}
 							</div>
 						</div>
-					@endforeach 
+					@endforeach
 				</div>
 			</section>
 		</div>
@@ -199,10 +210,21 @@ Adicionar Página ::
     <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.tagsinput.js') }}"></script>
     <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/easyTree.js') }}"></script>
     <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/ckeditor/ckeditor.js') }}"></script>
-	<script src="http://swip.codylindley.com/jquery.popupWindow.js"></script>
+		<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.popupWindow.js') }}"></script>
 
 	<script type="text/javascript">
-    	$('.easy-tree').EasyTree();
+    $('.easy-tree').EasyTree();
+
+		$('#title').on('keyup change', function(){
+			var title = $(this).val();
+			$('#slug').attr('placeholder',convertToSlug(title));
+		});
+
+		$('#slug').on('keyup change', function(){
+			var slug = $(this).val();
+			$('#slug').val(convertToSlug(slug));
+		});
+
     </script>
 
 @stop
