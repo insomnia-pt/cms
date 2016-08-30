@@ -23,7 +23,7 @@
 	            <span class="pull-right"> <a href="/ocms/auth/forgot-password"> Esqueceu-se da password?</a></span>
 	        </label>
 	        <button class="btn btn-lg btn-login btn-block" type="submit">Entrar</button>
-	        
+
 	    </div>
 	    {{ Form::token() }}
 	  </form>

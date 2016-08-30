@@ -24,13 +24,14 @@ class CmsServiceProvider extends ServiceProvider {
 		$this->app->register('Cartalyst\Sentry\SentryServiceProvider');
 		$this->app->register('Barryvdh\Elfinder\ElfinderServiceProvider');
 		$this->app->register('Intervention\Image\ImageServiceProvider');
-		$this->app->register('Thujohn\Analytics\AnalyticsServiceProvider');	
+		$this->app->register('Thujohn\Analytics\AnalyticsServiceProvider');
 
 		\Config::set('cartalyst/sentry::users.model', 'Insomnia\Cms\Models\User');
 		\Config::set('cartalyst/sentry::users.login_attribute', 'username');
 
 		class_alias('Insomnia\Cms\Models\ModelBuilder', 'CMS_ModelBuilder');
 		class_alias('Insomnia\Cms\Models\Page', 'CMS_Page');
+		class_alias('Helpers', 'CMS_Helper');
 	}
 
 	/**
@@ -48,7 +49,7 @@ class CmsServiceProvider extends ServiceProvider {
 		    $loader->alias('Sentry', 'Cartalyst\Sentry\Facades\Laravel\Sentry');
 		    $loader->alias('Image', 'Intervention\Image\Facades\Image');
 		    $loader->alias('Analytics', 'Thujohn\Analytics\AnalyticsFacade');
-		    
+
 		});
 
 		$this->app['cms:install'] = $this->app->share(function ($app) {
