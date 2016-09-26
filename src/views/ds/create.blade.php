@@ -64,7 +64,7 @@ Adicionar Registo ::
 
 					@foreach($datasource->relations as $relation)
 						@if($relation->relation_type=="hasOne")
-							<?php 
+							<?php
 								$relationTable = Insomnia\Cms\Models\Datasource::find($relation->relation_datasource_id)->table;
 							?>
 							<div class="form-group">
@@ -99,36 +99,10 @@ Adicionar Registo ::
 						<div class="form-group {{ $errors->has($config->name) ? 'has-error' : '' }}">
 							<label for="{{ $config->name }}" class="col-lg-2 control-label">{{ $config->description }}</label>
 							<div class="col-lg-7">
-							@if($datasourceFieldtypes->find($config->datatype)->config()->field == 'textarea')
-								<textarea class="form-control ckeditor" name="{{ $config->name }}" id="{{ $config->name }}" value="content" rows="10">{{ Input::old($config->name) }}</textarea>
-							@elseif($datasourceFieldtypes->find($config->datatype)->config()->field == 'text')
-								<input type="text" class="form-control" name="{{ $config->name }}" id="{{ $config->name }}" value="{{ Input::old($config->name) }}" />
-							@elseif($datasourceFieldtypes->find($config->datatype)->config()->field == 'number')
-								<input type="number" class="form-control" name="{{ $config->name }}" id="{{ $config->name }}" value="{{ Input::old($config->name) }}" />
-							@elseif($datasourceFieldtypes->find($config->datatype)->config()->field == 'image')
-								<input class="form-control inline image" type="text" name="{{ $config->name }}" id="{{ $config->name }}" data-limit="{{ @$config->parameters->limit }}" value="{{ Input::old($config->name) }}" readonly />
-							@elseif($datasourceFieldtypes->find($config->datatype)->config()->field == 'document')
-								<input class="form-control inline document" type="text" name="{{ $config->name }}" id="{{ $config->name }}" data-limit="{{ @$config->parameters->limit }}" value="{{ Input::old($config->name) }}" readonly />
-							@elseif($datasourceFieldtypes->find($config->datatype)->config()->field == 'date')
-								<div class="input-append date col-lg-4" style="padding: 0" data-date-format="yyyy-mm-dd" data-date="{{ date('Y-m-d') }}">
-									<input type="text" class="form-control" name="{{ $config->name }}" id="{{ $config->name }}" value="{{ Input::old($config->name) }}" readonly />
-									<span class="add-on"><i class="fa fa-calendar"></i></span>
-								</div>
-							@elseif($datasourceFieldtypes->find($config->datatype)->config()->field == 'datetime')
-								<div class="input-append date col-lg-4" style="padding: 0" data-date-format="yyyy-mm-dd" data-date="{{ date('Y-m-d') }}">
-									<input type="text" class="form-control" name="{{ $config->name }}" id="{{ $config->name }}" value="{{ Input::old($config->name) }}" readonly />
-									<span class="add-on"><i class="fa fa-calendar"></i></span>
-								</div>
-							@elseif($datasourceFieldtypes->find($config->datatype)->config()->field == 'combobox')
-								<select class="form-control" name="{{ $config->name }}" id="{{ $config->name }}">
-									@foreach(explode(';', @$config->parameters->values) as $fieldOption)
-										<option value="{{ @explode(',', $fieldOption)[0] }}" {{ Input::old($config->name)==@explode(',', $fieldOption)[0]?'selected':'' }}>{{ @explode(',', $fieldOption)[1] }}</option>
-									@endforeach
-								</select>
-							@elseif($datasourceFieldtypes->find($config->datatype)->config()->field == 'tags')
-								<input class="form-control inline component-tags" type="text" name="{{ $config->name }}" id="{{ $config->name }}" data-limit="{{ @$config->parameters->limit }}" value="{{ Input::old($config->name) }}" readonly />
-							@endif
-		                     	{{ $errors->first($config->name, '<p class="help-block">:message</p>') }}
+
+								@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name, 'data' => Input::old($config->name), 'limit' => @$config->parameters->limit, 'items' => @$config->parameters->values]])
+
+		            {{ $errors->first($config->name, '<p class="help-block">:message</p>') }}
 							</div>
 						</div>
 					@endforeach
@@ -139,7 +113,7 @@ Adicionar Registo ::
 							<a class="btn btn-default" href="{{ route('cms/ds', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}} @endif">Cancelar</a>
 						</div>
 					</div>
-	
+
 				</form>
 			</div>
 		</section>
@@ -156,7 +130,7 @@ Adicionar Registo ::
 
 @section('scripts')
     <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.tagsinput.js') }}"></script>
-    <script src="http://swip.codylindley.com/jquery.popupWindow.js"></script>
+    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.popupWindow.js') }}"></script>
     <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/bootstrap-switch.js') }}"></script>
     <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/ckeditor/ckeditor.js') }}"></script>
 	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>

@@ -127,16 +127,10 @@ Adicionar Página ::
 						<div class="form-group {{ $errors->has($area->name) ? 'has-error' : '' }}" @if(isset($area->field->admin)&&!Sentry::getUser()->hasAccess('admin'))) style="display: none;" @endif>
 							<label for="{{ $area->name }}" class="col-lg-2 control-label">{{ $area->field->name }}</label>
 							<div class="col-lg-{{ $area->field->size }}">
-							@if($datasourceFieldtypes->find($area->field->datatype)->config()->field == 'textarea')
-								<textarea class="form-control ckeditor" name="{{ $area->name }}" id="{{ $area->name }}" value="content" rows="10">{{ Input::old($area->name) }}</textarea>
-							@elseif($datasourceFieldtypes->find($area->field->datatype)->config()->field == 'text')
-								<input type="text" class="form-control" name="{{ $area->name }}" id="{{ $area->name }}" value="{{ Input::old($area->name) }}" />
-							@elseif($datasourceFieldtypes->find($area->field->datatype)->config()->field == 'image')
-								<input class="form-control inline image" type="text" name="{{ $area->name }}" id="{{ $area->name }}" data-limit="{{ @$area->field->parameters->limit }}" value="{{ Input::old($area->name) }}" readonly />
-							@elseif($datasourceFieldtypes->find($area->field->datatype)->config()->field == 'document')
-								<input class="form-control inline document" type="text" name="{{ $area->name }}" id="{{ $area->name }}" data-limit="{{ @$area->field->parameters->limit }}" value="{{ Input::old($area->name) }}" readonly />
-							@endif
-		                     	{{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
+
+								@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name, 'data' => Input::old($area->name), 'limit' => @$area->field->parameters->limit, 'items' => @$area->field->parameters->values]])
+
+               	{{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
 							</div>
 						</div>
 					@endforeach

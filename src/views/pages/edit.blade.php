@@ -92,16 +92,10 @@ Editar Página ::
 					<div class="form-group {{ $errors->has($area->name) ? 'has-error' : '' }}" @if(isset($area->field->admin)&&!Sentry::getUser()->hasAccess('admin'))) style="display: none;" @endif>
 						<label for="{{ $area->name }}" class="col-lg-2 control-label">{{ $area->field->name }}</label>
 						<div class="col-lg-{{ $area->field->size }}">
-						@if($datasourceFieldtypes->find($area->field->datatype)->config()->field == 'textarea')
-							<textarea class="form-control ckeditor" name="{{ $area->name }}" id="{{ $area->name }}" value="content" rows="10">{{ Input::old($area->name, @$page->areas()->{$area->name}) }}</textarea>
-						@elseif($datasourceFieldtypes->find($area->field->datatype)->config()->field == 'text')
-							<input type="text" class="form-control" name="{{ $area->name }}" id="{{ $area->name }}" value="{{ Input::old($area->name, @$page->areas()->{$area->name}) }}" />
-						@elseif($datasourceFieldtypes->find($area->field->datatype)->config()->field == 'image')
-							<input class="form-control inline image" type="text" name="{{ $area->name }}" id="{{ $area->name }}" data-limit="{{ @$area->field->parameters->limit }}" value="{{ Input::old($area->name, @$page->areas()->{$area->name}) }}" readonly />
-						@elseif($datasourceFieldtypes->find($area->field->datatype)->config()->field == 'document')
-								<input class="form-control inline document" type="text" name="{{ $area->name }}" id="{{ $area->name }}" data-limit="{{ @$area->field->parameters->limit }}" value="{{ Input::old($area->name, @$page->areas()->{$area->name}) }}" readonly />
-						@endif
-	                     	{{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
+
+							@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name, 'data' => Input::old($area->name, @$page->areas()->{$area->name}), 'limit' => @$area->field->parameters->limit, 'items' => @$area->field->parameters->values]])
+
+	            {{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
 						</div>
 					</div>
 
@@ -192,7 +186,7 @@ Editar Página ::
     <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.tagsinput.js') }}"></script>
 	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/easyTree.js') }}"></script>
     <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/ckeditor/ckeditor.js') }}"></script>
-	<script src="http://swip.codylindley.com/jquery.popupWindow.js"></script>
+	<script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.popupWindow.js') }}"></script>
 
     <script type="text/javascript">
     	$('.easy-tree').EasyTree();

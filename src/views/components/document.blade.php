@@ -1,0 +1,1 @@
+<input class="form-control inline document" type="text" name="{{ $component['name'] }}" id="{{ $component['name'] }}" data-limit="{{ $component['limit'] }}" value="{{ $component['data'] }}" readonly />
