@@ -1,7 +1,7 @@
 	@if(@!$datasource->options()->subitems && @$datasource->options()->group)
 	<div class="panel">
 	  	<div class="row panel-body">
-	  		<div class="col-md-3">
+	  		<div class="col-md-5">
 
 	  			<?php
 
@@ -61,7 +61,7 @@
         	<td>{{ $page->pagetype->name }}</td>
 			<td class="text-right">
 				<a href="{{ URL::to($page->slug) }}" target="_blank" class="btn btn-xs" title="Abrir Página"><i class="fa fa-external-link"></i> Abrir</a>|
-				<a href="{{ route('pages/edit', $page->id) }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" class="btn btn-xs btn-default">
+				<a href="{{ route('pages/edit', $page->id) }}" class="btn btn-xs btn-default">
 	          @if(array_key_exists($datasource->table.'.update', $_groupPermissions))
 	            @lang('cms::button.edit')
 	          @else

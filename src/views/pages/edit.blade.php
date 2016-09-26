@@ -17,7 +17,7 @@ Editar Página ::
               <li><span class="active">Editar</span></li>
           </ul>
 
-          <a href="{{ route('pages') }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" class="btn btn-small btn-info pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
+          <a href="{{ route('pages') }}{{ @$datasource->options()->group?'?group='.$page->id_parent:null }}" class="btn btn-small btn-info pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
       </div>
   </div>
 
@@ -75,7 +75,7 @@ Editar Página ::
 						</div>
 					</div>
 				@else
-					<input type="hidden" name="id_parent" id="id_parent" value="{{ Input::get('group') }}" />
+					<input type="hidden" name="id_parent" id="id_parent" value="{{ $page->id_parent }}" />
 				@endif
 
         <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
@@ -114,7 +114,7 @@ Editar Página ::
 						@if($page->editable)
 							@if(array_key_exists('pages.update', $_groupPermissions))<button class="btn btn-danger" type="submit">Guardar</button>@endif
 						@endif
-						<a class="btn btn-default" href="{{ route('pages') }}{{ Input::get('group')?'?group='.Input::get('group'):null }}">Cancelar</a>
+						<a class="btn btn-default" href="{{ route('pages') }}{{ @$datasource->options()->group?'?group='.$page->id_parent:null }}">Cancelar</a>
 					</div>
 				</div>
 
