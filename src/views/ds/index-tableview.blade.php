@@ -7,7 +7,7 @@
         <input class="form-control pull-right input-smmm" type="text" id="dataTable1filter" placeholder="Procurar.." style="width: 200px; margin-left: 10px;">
 				@if(@!$datasource->options()->orderby)
 				<button type="button" class="btn btn-xs btn-default pull-right" data-status-on="Cancelar" data-status-off="Reordenar" id="bt-tableorder" style="margin-top:-2px"><span>Reordenar</span> <i class="fa fa-sort-amount-asc"></i></button>
-				<form class="pull-right" action="{{ route('cms/ds/order', $datasource->id) }}" id="form-savetableorder" method="post" style="margin-top:-2px;margin-right:5px;display:none;">
+				<form class="pull-right" action="{{ route('cms/ds/order', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}} @endif" id="form-savetableorder" method="post" style="margin-top:-2px;margin-right:5px;display:none;">
 					<input type="hidden" name="ds-orderlist" id="ds-orderlist" value="">
 					<button type="submit" class="btn btn-xs btn-danger">Guardar Alterações</button>
 				</form>

@@ -33,7 +33,7 @@ Editar Data Source ::
 				</ul>
 			</header>
 
-			
+
 			<div class="panel-body">
 				<header class="panel-heading form-group">Detalhes do Data Source - <b>{{ $datasource->name }}</b></header>
 				<div class="tab-content">
@@ -92,7 +92,7 @@ Editar Data Source ::
 		                        </td>
 				        		<td class="text-center"><i class="fa {{ $configs->show_in_table?'fa-check':'fa-close' }}"></i></td>
 								<td class="text-right">
-									<button class="btn btn-xs btn-default bt-edit_field" data-toggle="modal" data-target="#modal-edit_field" 
+									<button class="btn btn-xs btn-default bt-edit_field" data-toggle="modal" data-target="#modal-edit_field"
 										data-description="{{ $configs->description }}"
 										data-name="{{ $configs->name }}"
 										data-datatype="{{ $configs->datatype }}"
@@ -110,7 +110,7 @@ Editar Data Source ::
 
 			        	</table>
 
-			        	
+
 
 			        	<div class="form-group"></div>
 			        </div>
@@ -126,11 +126,11 @@ Editar Data Source ::
 			        			<th>Data Source</th>
 			        			<th></th>
 			        		</tr>
-			        		
+
 		        			@foreach($datasource->relations as $relation)
 		        			<tr>
 								<td>{{ $relation->relation_description }}</td>
-								<td>@if($relation->relation_type=='hasOne') 1 - 1 @else $relation->relation_type @endif</td>
+								<td>@if($relation->relation_type=='hasOne') 1 - 1 @else {{ $relation->relation_type }} @endif</td>
 								<td>{{ $relation->relationdatasource->table }}</td>
 								<td class="text-right">
 									<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar a relação?" data-reply="" data-toggle="modal" data-descr="{{ $relation->relation_description }}" data-url="{{ route('delete/datasource/relation', array($datasource->id, $relation->id)) }}" href="#modal-confirm">Eliminar</a>
@@ -138,12 +138,12 @@ Editar Data Source ::
 							</tr>
                   			@endforeach
                   			@if(!count($datasource->relations))<td colspan="4">Não existem relações</td>@endif
-		        		
+
 			        	</table>
-			        	
+
 			        </div>
 		        </div>
-		
+
 			</div>
 		</section>
 	  <div>
@@ -202,9 +202,9 @@ Editar Data Source ::
 	                            	<input type="checkbox" name="show_in_table" class="" />
 	                          	</div>
 							</div>
-						</div>		        
+						</div>
 		          	</div>
-		          	
+
 		          </div>
 		          <div class="modal-footer">
 		              <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
@@ -276,9 +276,9 @@ Editar Data Source ::
 	                            	<input type="checkbox" name="show_in_table" id="modal-edit_field-show_in_table" class="" />
 	                          	</div>
 							</div>
-						</div>	
+						</div>
 		          	</div>
-		          	
+
 		          </div>
 		          <div class="modal-footer">
 		              <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
@@ -315,8 +315,8 @@ Editar Data Source ::
 							<div class="col-lg-4">
 								<select class="form-control" name="type">
 	                          		<option value="hasOne">1 - 1</option>
-	                          		<!-- <option value="hasMany">1 - *</option>
-	                         		<option value="belongsToMany">* - *</option> -->
+	                          		<option value="hasMany">1 - *</option>
+	                         		<!-- <option value="belongsToMany">* - *</option> -->
 	                         	</select>
 							</div>
 						</div>
@@ -347,7 +347,7 @@ Editar Data Source ::
 							<label for="identify" class="col-lg-2 control-label">Identificador</label>
 							<div class="col-lg-5">
 								<select class="form-control relation_identify" name="identify">
-			                                  	
+
 	                         	</select>
 	                         	@foreach($datasources as $datasourcesItem)
 	                      			@if($datasourcesItem->id!=$datasource->id)
@@ -361,9 +361,9 @@ Editar Data Source ::
 	                      			@endif
 	                      		@endforeach
 							</div>
-						</div>		        
+						</div>
 		          	</div>
-		          	
+
 		          </div>
 		          <div class="modal-footer">
 		              <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
@@ -383,7 +383,7 @@ Editar Data Source ::
 
 @section('scripts')
 	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/bootstrap-switch.js') }}"></script>
-	<script type="text/javascript" charset="utf-8">	
+	<script type="text/javascript" charset="utf-8">
 
 		var fieldEditing;
 		$('.bt-edit_field').click(function(){
@@ -397,7 +397,7 @@ Editar Data Source ::
 			$('#modal-edit_field-datatype').change();
 		});
 
-		
+
 		$('.relation_datasource').change(function(){
 			var thisDatasource = $(this);
 			var thisDatasourceParent = $(this).closest('.table_relation_definition_item');
@@ -407,47 +407,47 @@ Editar Data Source ::
 
 			thisDatasourceIdentify.find('option').remove();
 			$.each(thisIndentifyOptions, function (i, item) {
-			    thisDatasourceIdentify.append($('<option>', { 
+			    thisDatasourceIdentify.append($('<option>', {
 			        value: item,
-			        text : item 
+			        text : item
 			    }));
 			});
 		});
 		$('.relation_datasource').change();
 
 
-		$('#modal-new_field-datatype').change(function(){ 
+		$('#modal-new_field-datatype').change(function(){
 			var thisDataType = $(this);
 			var thisDataTypeParametersArea = $('#modal-new_field-datatype_parameters_area');
 			thisDataTypeParametersArea.html('');
 
 			if($("#modal-new_field-fieldtype_parameters_"+thisDataType.val()).val()){
 				var thisParameters = ($("#modal-new_field-fieldtype_parameters_"+thisDataType.val()).val()).split(',');
-				
+
 				$.each(thisParameters, function (i, item) {
 				    thisDataTypeParametersArea.append('<div class="form-group"><label for="'+item+'" class="col-lg-2 control-label">'+item+'</label><div class="col-lg-8"><input type="text" class="form-control" name="parameters['+item+']" /></div></div>');
 				});
 			}
 		});
 
-		$('#modal-edit_field-datatype').change(function(){ 
+		$('#modal-edit_field-datatype').change(function(){
 			var thisDataType = $(this);
 			var thisDataTypeParametersArea = $('#modal-edit_field-datatype_parameters_area');
 			thisDataTypeParametersArea.html('');
 
 			if($("#modal-edit_field-fieldtype_parameters_"+thisDataType.val()).val()){
 				var thisParameters = ($("#modal-edit_field-fieldtype_parameters_"+thisDataType.val()).val()).split(',');
-				
+
 				$.each(thisParameters, function (i, item) {
 				    thisDataTypeParametersArea.append('<div class="form-group"><label for="'+item+'" class="col-lg-2 control-label">'+item+'</label><div class="col-lg-8"><input type="text" class="form-control" name="parameters['+item+']" value="'+(fieldEditing.data(item)?fieldEditing.data(item):'')+'" /></div></div>');
 				});
 			}
 		});
-		
 
-		
 
-		$(window).on('hashchange',function(){ 
+
+
+		$(window).on('hashchange',function(){
 			var hash = window.location.hash;
 			$('.nav-tabs a[href="#tab-' + hash.substr(1) + '"]').tab('show');
 		});

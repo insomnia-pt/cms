@@ -145,7 +145,7 @@ class DatasourcesController extends AdminController {
 		{
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
-  		
+
   		$datasource->name = Input::get('name');
 
 		if($datasource->save())
@@ -176,7 +176,7 @@ class DatasourcesController extends AdminController {
 		{
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
-  		
+
 		$datasourceFieldtypes = DatasourceFieldtype::get();
 		$newField = array(
 			'description'  		=> Input::get('description'),
@@ -192,7 +192,7 @@ class DatasourcesController extends AdminController {
 	    Schema::table($datasource->table, function($table) use($newField, $datasourceFieldtypes) {
 	        $table->{$datasourceFieldtypes->find($newField['datatype'])->type}($newField['name']);
 	    });
-		
+
 		$datasourceConfigs = $datasource->config();
 		array_push($datasourceConfigs, $newField);
 		$datasource->config = stripslashes(json_encode($datasourceConfigs, JSON_UNESCAPED_UNICODE));
@@ -206,7 +206,7 @@ class DatasourcesController extends AdminController {
 	}
 
 	public function postEditFieldEdit($id, $fieldName)
-	{ 
+	{
 		AdminController::checkPermission('datasources.update');
 
 		if (is_null($datasource = Datasource::find($id)))
@@ -226,7 +226,7 @@ class DatasourcesController extends AdminController {
 		{
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
-  		
+
 		$datasourceFieldtypes = DatasourceFieldtype::get();
 		$editField = array(
 			'description'  		=> Input::get('description'),
@@ -247,7 +247,7 @@ class DatasourcesController extends AdminController {
 		$key = $this->searchForFieldName($fieldName, $datasourceConfigs);
 		$datasourceConfigs[$key] = $editField;
 		$datasource->config = stripslashes(json_encode($datasourceConfigs, JSON_UNESCAPED_UNICODE));
-		
+
 		if($datasource->save())
 		{
 			return Redirect::back()->with('success', Lang::get('cms::datasources/message.update.success'));
@@ -278,24 +278,24 @@ class DatasourcesController extends AdminController {
 		{
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
-  		
+
 		$relationDatasource = Datasource::find(Input::get('datasource'));
 
 		switch (Input::get('type')) {
-			
+
 			case 'hasOne':
 				Schema::table($datasource->table, function($table) use($relationDatasource, $datasource) {
 				$table->integer($relationDatasource->table.'_id')->nullable();
 			});
-			
+
 			break;
 
-		// 	case 'hasMany':
-		// 		Schema::table($relationDatasource->table, function($table) use($relationDatasource, $datasource) {
-			// 	$table->integer($datasource->table.'_id')->nullable();
-			// });
-		// 		break;
-			
+			case 'hasMany':
+				Schema::table($relationDatasource->table, function($table) use($relationDatasource, $datasource) {
+				$table->integer($datasource->table.'_id')->nullable();
+			});
+				break;
+
 		}
 
 		$datasourceRelation = new DatasourceRelation(array(
@@ -306,7 +306,7 @@ class DatasourcesController extends AdminController {
 		));
 
 		$datasource->relations()->save($datasourceRelation);
-			
+
 
 		if($datasource->save()) {
 			return Redirect::back()->with('success', Lang::get('cms::datasources/message.update.success'));
@@ -358,11 +358,11 @@ class DatasourcesController extends AdminController {
 				});
 				break;
 
-			// case 'hasMany':
-			// 	Schema::table($relation->relation_datasource->table, function($table) use($datasource) {
-			// 		$table->dropColumn($datasource->table.'_id');
-			// 	});
-			// 	break;
+			case 'hasMany':
+				Schema::table($relation->relation_datasource->table, function($table) use($datasource) {
+					$table->dropColumn($datasource->table.'_id');
+				});
+				break;
 		}
 
 		$relation->delete();
@@ -371,7 +371,7 @@ class DatasourcesController extends AdminController {
 	}
 
 	public function getDeleteField($id, $fieldName)
-	{	
+	{
 		AdminController::checkPermission('datasources.update');
 
 		if (is_null($datasource = Datasource::find($id)))

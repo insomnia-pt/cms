@@ -15,6 +15,7 @@ use View;
 use Helpers;
 use Session;
 use Config;
+use URL;
 
 
 class DsController extends AdminController {
@@ -74,6 +75,11 @@ class DsController extends AdminController {
 			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
+		//se houver parent datasource (pds) e parent id (item), retorna no link
+		$returnUrlParams = null;
+		if(Input::get('pds')){ $returnUrlParams = '?pds='.Input::get('pds').'&item='.Input::get('item'); }
+		//////
+
 		if(Input::get('ds-orderlist')){
 
 			$orderIds = explode(',', Input::get('ds-orderlist'));
@@ -82,17 +88,17 @@ class DsController extends AdminController {
 				CMS_ModelBuilder::fromTable($datasource->table)->where('id', $id)->update(array('order' => $index));
 			}
 
-			return Redirect::to('cms/ds/'.$datasource->id)->with('success', Lang::get('cms::ds/message.success.order'));
+			return Redirect::to('cms/ds/'.$datasource->id.$returnUrlParams)->with('success', Lang::get('cms::ds/message.success.order'));
 		}
 		else if(Input::get('ds-orderlist-listview')) {
 			$orderIds = json_decode(Input::get('ds-orderlist-listview'));
 
 			$this->recursiveUpdate($datasource, $orderIds);
 
-			return Redirect::to('cms/ds/'.$datasource->id)->with('success', Lang::get('cms::ds/message.success.order'));
+			return Redirect::to('cms/ds/'.$datasource->id.$returnUrlParams)->with('success', Lang::get('cms::ds/message.success.order'));
 		}
 
-		return Redirect::to('cms/ds/'.$datasource->id)->with('error', Lang::get('cms::ds/message.error.order'));
+		return Redirect::to('cms/ds/'.$datasource->id.$returnUrlParams)->with('error', Lang::get('cms::ds/message.error.order'));
 	}
 
 	public function postCreate($id)
@@ -117,8 +123,13 @@ class DsController extends AdminController {
 		$ds = CMS_ModelBuilder::fromTable($datasource->table);
 		$ds->fill($inputs);
 
+		//se houver parent datasource (pds) e parent id (item), retorna no link
+		$returnUrlParams = null;
+		if(Input::get('pds')){ $returnUrlParams = '?pds='.Input::get('pds').'&item='.Input::get('item'); }
+		//////
+
 		if($ds->save()) {
-			return Redirect::to('cms/ds/'.$datasource->id.'/edit/'.$ds->id)->with('success', Lang::get('cms::ds/message.success.create'));
+			return Redirect::to('cms/ds/'.$datasource->id.'/edit/'.$ds->id.$returnUrlParams)->with('success', Lang::get('cms::ds/message.success.create'));
 		}
 
 		return Redirect::to('cms/ds/'.$datasource->id.'/create')->with('error', Lang::get('cms::ds/message.error.create'));
@@ -154,9 +165,9 @@ class DsController extends AdminController {
 
 		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
 
-		if($dsItem->update($inputs))
-		{
-			return Redirect::back()->with('success', Lang::get('cms::ds/message.success.update'));
+
+		if($dsItem->update($inputs)) {
+			return Redirect::to(URL::previous())->with('success', Lang::get('cms::ds/message.success.update'));
 		}
 
 		return Redirect::to("cms/ds/$id")->with('error', Lang::get('cms::ds/message.error.update'));
@@ -178,7 +189,7 @@ class DsController extends AdminController {
 		}
 		$dsItem->delete();
 
-		return Redirect::to('cms/ds/'.$id)->with('success', Lang::get('cms::ds/message.success.delete'));
+		return Redirect::to(URL::previous())->with('success', Lang::get('cms::ds/message.success.delete'));
 	}
 
 

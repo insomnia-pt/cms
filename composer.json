@@ -22,7 +22,8 @@
             "src/seeds",
             "src/controllers",
             "src/views",
-            "src/models"
+            "src/models",
+            "src/classes"
         ],
         "psr-0": {
             "Insomnia\\Cms\\": "src/"

@@ -34,6 +34,11 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	});
 
 
+
+	# Upload
+	Route::post('upload', array('as' => 'upload', 'uses' => 'Insomnia\Cms\Controllers\UploaderController@upload'));
+
+
 	# File Management
 	// Route::group(array('before' => 'auth'), function()
 	// {
