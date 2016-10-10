@@ -44,6 +44,7 @@
       <table class="table table-striped border-top table-hover table-no-top-border" id="main_table">
       <thead>
           <tr>
+						<td>#</td>
         	@foreach ($datasource->config() as $config)
         		@if($config->show_in_table)<th>{{ $config->description }}</th>@endif
         	@endforeach
@@ -52,9 +53,9 @@
           </tr>
       </thead>
       <tbody>
-      	@foreach ($pages as $page)
+      	@foreach ($pages as $index=>$page)
 		<tr class="odd gradeX">
-
+			<td>{{ $index }}</td>
 			@foreach ($datasource->config() as $config)
         		@if($config->show_in_table)<td>{{ $page[$config->name] }}</td>@endif
         	@endforeach
@@ -81,10 +82,8 @@
 
 
 @section('subscripts')
-	<script type="text/javascript">
-
-    	var oTable = $('#main_table').dataTable();
-    	oTable.fnSort( [[0,'asc'] ] );
-
-    </script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/dataTables.rowReorder.min.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/ds-table.js') }}"></script>
 @stop
