@@ -6,6 +6,7 @@ use Insomnia\Cms\Models\PageType as PageType;
 use Insomnia\Cms\Models\PageHistory as PageHistory;
 use Insomnia\Cms\Models\Datasource as Datasource;
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
+use Insomnia\Cms\Models\Setting as Setting;
 use Input;
 use Lang;
 use Redirect;
@@ -25,6 +26,14 @@ class PagesController extends AdminController {
 		AdminController::checkPermission('pages.view');
 
 		$pages = Page::where('language', Session::get('language'))->where('visible', 1)->orderBy('order')->get();
+
+		$globalPageSettings = Setting::where('name', 'page_global')->first()->config();
+		$pageGlobal = null;
+
+		if($globalPageSettings->active){
+			$pageGlobal = Page::where('language', Session::get('language'))->where('pagetype_id', $globalPageSettings->pagetype_id)->first();
+		}
+
 		$datasource = Datasource::where('table', 'pages')->first();
 		$parentPages = $pages->filter(function($page) {
 		    return $page->id_parent == 0;
@@ -34,7 +43,7 @@ class PagesController extends AdminController {
 			return Redirect::to('cms/pages?group='.$parentPages->first()->id);
 		}
 
-		return View::make('cms::pages/index', compact('pages','datasource','parentPages'));
+		return View::make('cms::pages/index', compact('pages','datasource','parentPages','pageGlobal'));
 	}
 
 	public function getCreate()
@@ -109,10 +118,17 @@ class PagesController extends AdminController {
 			return Redirect::route('pages')->with('error',Lang::get('cms::pages/message.does_not_exist'));
 		}
 
+		$globalPageSettings = Setting::where('name', 'page_global')->first()->config();
+		$pageGlobal = false;
+
+		if($globalPageSettings->active && ($globalPageSettings->pagetype_id == $page->pagetype_id)){
+			$pageGlobal = true;
+		}
+
 		$datasource = Datasource::where('table', 'pages')->first();
 		$datasourceFieldtypes = DatasourceFieldtype::get();
 		$hasDatasources = count($page->datasources);
-		return View::make('cms::pages/edit', compact('page','datasourceFieldtypes','datasource','hasDatasources'));
+		return View::make('cms::pages/edit', compact('page','datasourceFieldtypes','datasource','hasDatasources','pageGlobal'));
 	}
 
 
@@ -151,7 +167,7 @@ class PagesController extends AdminController {
 			$pageVersion->slug = $page->slug;
 			$pageVersion->content = $page->content;
 			$pageVersion->save();
-			
+
 			return Redirect::to("cms/pages/$id/edit".(Input::get('group')?'?group='.Input::get('group'):null))->with('success',Lang::get('cms::pages/message.success.update'));
 		}
 

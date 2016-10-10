@@ -31,6 +31,16 @@ class SettingTableSeeder extends Seeder {
         $setting->order = 2;
         $setting->save();
 
+				$setting = new Setting;
+        $setting->id = 3;
+        $setting->name = 'page_global';
+        $setting->description = 'Disponibiliza botão "Definições Globais" na gestão de páginas';
+        $setting->value = '{"active":"0", "pagetype_id":"0"}';
+        $setting->id_parent = 0;
+        $setting->system = 1;
+        $setting->order = 3;
+        $setting->save();
+
     }
 
 }

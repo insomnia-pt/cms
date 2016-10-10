@@ -40,12 +40,14 @@ Editar Página ::
 					</div>
 				</div>
 
-				<div class="form-group">
+
+				<div class="form-group" @if($pageGlobal) style="display:none;" @endif>
 					<label for="pageType" class="col-lg-2 control-label">URL</label>
 					<div class="col-lg-6">
 						<h5>{{ Config::get('app.url') }}<strong>{{ $page->slug }}</strong></h5>
 					</div>
 				</div>
+
 
 				@if(@$datasource->options()->subitems)
 					<div class="form-group">
@@ -78,7 +80,8 @@ Editar Página ::
 					<input type="hidden" name="id_parent" id="id_parent" value="{{ $page->id_parent }}" />
 				@endif
 
-        <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+
+        <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}" @if($pageGlobal) style="display:none;" @endif>
 					<label for="title" class="col-lg-2 control-label">Título da Página</label>
 					<div class="col-lg-7">
 						<input type="text" class="form-control" name="title" id="title" value="{{ Input::old('title', $page->title) }}" />

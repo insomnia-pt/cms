@@ -14,8 +14,11 @@ Gestão de Páginas ::
 	              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
 	              <li><span class="active">Páginas</span></li>
 	          </ul>
+						@if($pageGlobal)
+						<a href="{{ route('pages/edit', $pageGlobal->id) }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Definições Globais</a>
+						@endif
 	          @if(array_key_exists('pages.create', $_groupPermissions))
-	          <a href="{{ route('pages/create') }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
+	          <a href="{{ route('pages/create') }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" class="btn btn-small btn-info pull-right" style="margin-right: 5px;"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
 	          @endif
 	      </div>
   	</div>

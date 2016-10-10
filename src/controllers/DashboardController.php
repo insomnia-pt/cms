@@ -22,7 +22,7 @@ class DashboardController extends AdminController {
 		$tempFix = 1;
 		$ga_access_token = null;
 		if(!$tempFix){
-			$gaClient =  Analytics::getClient();
+			$gaClient = Analytics::getClient();
 			$gaClient->getAuth()->refreshTokenWithAssertion();
 			$ga_access_token = json_decode($gaClient->getAccessToken());
 		}
