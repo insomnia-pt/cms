@@ -1,38 +1,94 @@
-<form action="{{ route('upload') }}" method="post" enctype="multipart/form-data">
-      <input type="file" name="files[]" id="filer_input" multiple="multiple">
-      <input type="submit" value="Submit">
-</form>
+
+<input type="file" name="component-{{ $component['name'] }}" id="component-{{ $component['name'] }}" multiple="multiple" data-jfiler-extensions="{{ $component['extensions'] }}" data-jfiler-limit="{{ $component['limit'] }}" data-jfiler-files='{{ $component['data'] }}'>
 
 
-<input class="form-control inline image" type="text" name="{{ $component['name'] }}" id="{{ $component['name'] }}" data-limit="{{ $component['limit'] }}" value="{{ $component['data'] }}" readonly />
+<input type="hidden" name="{{ $component['name'] }}" id="{{ $component['name'] }}" value='{{ $component['data'] }}' style="width: 100%" />
 
-
-
-@section('styles')
+@section('substyles')
 	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/jquery-filer/css/jquery.filer.css') }}" rel="stylesheet">
 	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/jquery-filer/css/themes/jquery.filer-dragdropbox-theme.css') }}" rel="stylesheet">
 @stop
 
-@section('scripts')
-	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/jquery-filer/js/jquery.filer.min.js') }}"></script>
+@section('subscripts')
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/jquery-filer/js/jquery.filer.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/jquery-filer/js/template-preview.js') }}"></script>
 
     <script type="text/javascript">
-    	 $('#filer_input').filer({
-         uploadFile: {
-           url: '{{ route('upload') }}', //URL to which the request is sent {String}
-           // data: null, //Data to be sent to the server {Object}
-           type: 'POST', //The type of request {String}
-           enctype: 'multipart/form-data', //Request enctype {String}
-           // synchron: false //Upload synchron the files
-           // beforeSend: null, //A pre-request callback function {Function}
-           // success: null, //A function to be called if the request succeeds {Function}
-           // error: null, //A function to be called if the request fails {Function}
+
+			var images = $("#{{ $component['name'] }}").val()?JSON.parse($("#{{ $component['name'] }}").val()):[];
+			var componentVal = $.merge(images, []);
+
+    	$('#component-{{ $component['name'] }}').filer({
+				templates: filerTemplatePreview,
+        canvasImage: true,
+        synchron: true,
+        showThumbs: true,
+        dragDrop: {
+	     		dragEnter: null,
+	     		dragLeave: null,
+	     		drop: null,
+	     		dragContainer: null,
+     		},
+        uploadFile: {
+        	url: '{{ route('upload') }}',
+          data: { field:'component-{{ $component['name'] }}' },
+          type: 'POST',
+          enctype: 'multipart/form-data',
+          //synchron: true, //Upload synchron the files
+          beforeSend: function(){},
+          success: function(data, el){
+          	var parent = el.find(".jFiler-jProgressBar").parent();
+            el.find(".jFiler-jProgressBar").fadeOut("slow", function(){
+            	$("<div class=\"jFiler-item-others text-success\"><i class=\"icon-jfi-check-circle\"></i> </div>").hide().appendTo(parent).fadeIn("slow");
+            });
+
+							componentVal.push({
+								name: data.metas[0].old_name,
+								size: data.metas[0].size,
+								type: (data.metas[0].type).join('/'),
+								file: '/'+data.metas[0].file
+							});
+
+
+							var x = componentVal;
+							$("#{{ $component['name'] }}").val(JSON.stringify(x));
+
+           },
+
+           error: function(el){
+               var parent = el.find(".jFiler-jProgressBar").parent();
+               el.find(".jFiler-jProgressBar").fadeOut("slow", function(){
+                   $("<div class=\"jFiler-item-others text-error\"><i class=\"icon-jfi-minus-circle\"></i> Erro</div>").hide().appendTo(parent).fadeIn("slow");
+               });
+           },
            // statusCode: null, //An object of numeric HTTP codes {Object}
            // onProgress: null, //A function called while uploading file with progress percentage {Function}
-           // onComplete: null //A function called when all files were uploaded {Function}
+          // onComplete: function(){	 }
+         },
+				 onRemove: function(el, item, index){
+
+					 componentVal.splice(index,1);
+
+					 var x = componentVal;
+					 $("#{{ $component['name'] }}").val(JSON.stringify(x));
+
+				 },
+				 captions: {
+             button: "Escolher Ficheiros",
+             feedback: "Escolha ou arraste o ficheiro para esta área",
+             feedback2: "ficheiros escolhidos",
+             drop: "Drop file here to Upload",
+             removeConfirmation: "Confirma remover este ficheiro?",
+             errors: {
+                 filesLimit: "Ultrapassou o número de ficheiros permitidos.",
+                 filesType: "O tipo de ficheiro não é válido.",
+                 filesSize: "O tamanho do ficheiro ultrapassa o limite permitido.",
+                 filesSizeAll: "O tamanho dos ficheiros ultrapassa o limite permitido.",
+                 folderUpload: "Não é possível fazer upload de pastas."
+             }
          }
 
        });
     </script>
 
-@stop
+@append

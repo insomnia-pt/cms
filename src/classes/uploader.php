@@ -1,4 +1,6 @@
 <?php namespace Insomnia\Cms\Classes;
+
+use Str;
 # ======================================================================== #
 #
 #  Title      [PHP] Uploader
@@ -340,14 +342,14 @@ class Uploader {
      * @return boolean
      */
 	private function generateFileName($conf, $file, $skip_replace_check = false){
-        $file['name'] = preg_replace("[^\w\s\d\.\-_~,;:\[\]\(\]]", '', $file['name']);
+    $file['name'] = preg_replace("[^\w\s\d\.\-_~,;:\[\]\(\]]", '', $file['name']);
 		$type = is_array($conf) && isset($conf[0]) ? $conf[0] : $conf;
-        $type = $type ? $type : 'name';
+    $type = $type ? $type : 'name';
 		$length = is_array($conf) && isset($conf[1]) ? $conf[1] : null;
 		$random_string = substr(str_shuffle("_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length ? $length : 10);
-        $extension = !empty($file['extension']) ? "." . $file['extension'] : "";
-        $string = "";
-        $is_extension_used = false;
+    $extension = !empty($file['extension']) ? "." . $file['extension'] : "";
+    $string = "";
+    $is_extension_used = false;
 
 		switch($type){
 			case "auto":
@@ -355,6 +357,9 @@ class Uploader {
 			break;
 			case "name":
 				$string = $file['name'];
+			break;
+			case "slugname":
+				$string = Str::slug($file['name']).'_'.time();
 			break;
 			default:
 				$string = $type;

@@ -31,6 +31,7 @@ class CmsServiceProvider extends ServiceProvider {
 
 		class_alias('Insomnia\Cms\Models\ModelBuilder', 'CMS_ModelBuilder');
 		class_alias('Insomnia\Cms\Models\Page', 'CMS_Page');
+		class_alias('Insomnia\Cms\Models\Setting', 'CMS_Setting');
 		class_alias('Helpers', 'CMS_Helper');
 	}
 

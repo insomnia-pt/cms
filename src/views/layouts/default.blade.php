@@ -254,9 +254,9 @@
 
 		 	function maxTags(element, limit){
 		    	tagcount = $(element+'_tagsinput span.tag').length;
-		 		if(tagcount>=limit){ $(element+"_tagsinput .tagsinput-add").hide(); $(element+'_addTag').hide(); }
-		 		else { $(element+"_tagsinput .tagsinput-add").show();  $(element+'_addTag').show();}
-		    }
+			 		if(tagcount>=limit){ $(element+"_tagsinput .tagsinput-add").hide(); $(element+'_addTag').hide(); }
+			 		else { $(element+"_tagsinput .tagsinput-add").show();  $(element+'_addTag').show();}
+			    }
 
 		    </script>
 

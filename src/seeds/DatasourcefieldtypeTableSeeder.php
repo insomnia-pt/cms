@@ -64,6 +64,12 @@ class DatasourcefieldtypeTableSeeder extends Seeder {
         $datasourcefieldtype->type = 'text';
         $datasourcefieldtype->config = '{"field":"tags","parameters":["limit"]}';
         $datasourcefieldtype->save();
+
+				$datasourcefieldtype = new DatasourceFieldtype;
+        $datasourcefieldtype->name = 'Upload Direto';
+        $datasourcefieldtype->type = 'text';
+        $datasourcefieldtype->config = '{"field":"directupload","parameters":["limit","extensions"]}';
+        $datasourcefieldtype->save();
     }
 
 }

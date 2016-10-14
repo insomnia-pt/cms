@@ -15,6 +15,7 @@ use View;
 use Helpers;
 use Session;
 use Config;
+use Response;
 
 
 class UploaderController extends AdminController {
@@ -24,13 +25,13 @@ class UploaderController extends AdminController {
 	{
 
     $uploader = new Uploader();
-    $data = $uploader->upload($_FILES['files'], array(
-        'limit' => 10, //Maximum Limit of files. {null, Number}
-        'maxSize' => 10, //Maximum Size of files {null, Number(in MB's)}
+    $data = $uploader->upload($_FILES[$_POST['field']], array(
+        'limit' => null, //Maximum Limit of files. {null, Number}
+        'maxSize' => 30, //Maximum Size of files {null, Number(in MB's)}
         'extensions' => null, //Whitelist for file extension. {null, Array(ex: array('jpg', 'png'))}
         'required' => false, //Minimum one file is required for upload {Boolean}
-        'uploadDir' => 'superupload/', //Upload directory {String}
-        'title' => array('auto', 10), //New file name {null, String, Array} *please read documentation in README.md
+        'uploadDir' => Config::get('cms::config.elfinder_dir').'/global/', //Upload directory {String}
+        'title' => array('slugname', 10), //New file name {null, String, Array} *please read documentation in README.md
         'removeFiles' => true, //Enable file exclusion {Boolean(extra for jQuery.filer), String($_POST field name containing json data with file names)}
         'replace' => false, //Replace the file if it already exists {Boolean}
         'perms' => null, //Uploaded file permisions {null, Number}
@@ -44,7 +45,7 @@ class UploaderController extends AdminController {
 
     if($data['isComplete']){
         $files = $data['data'];
-        print_r($files);
+      return Response::json($files);
     }
 
     if($data['hasErrors']){

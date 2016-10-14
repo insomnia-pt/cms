@@ -978,7 +978,11 @@
                             return '<i class="icon-jfi-file-o jfi-file-type-' + type + ' jfi-file-ext-' + ext + '"></i>';
                         },
                         textParse: function(text, opts) {
+
+
                             opts = $.extend({}, {
+                                url: n.file?n.file:'#',
+                                wtarget: n.file?'':'_blank',
                                 limit: n.limit,
                                 maxSize: n.maxSize,
                                 fileMaxSize: n.fileMaxSize,

@@ -4528,3 +4528,31 @@ hr.top-line {
 .popover-content {
     font-size: 14px;
 }
+
+
+.jFiler-theme-default .jFiler-input {
+  width: 500px !important;
+}
+
+.jFiler-items-grid .jFiler-item .jFiler-item-container {
+  margin: 0 10px 30px 0 !important;
+}
+
+.jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-thumb {
+  width: 125px !important;
+  height: 100px !important;
+  min-height: 100px !important;
+}
+
+.jFiler-items-grid .jFiler-item {
+  width: 157px;
+  height: 162px;
+}
+
+.jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-thumb span.jFiler-icon-file {
+  margin-top: 12px !important;
+}
+
+.jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-assets .jFiler-jProgressBar {
+  width: 90px !important;
+}

@@ -109,8 +109,15 @@ class DsController extends AdminController {
 
 		AdminController::checkPermission($datasource->table.'.'.'create');
 
-		$inputs = Input::except('_token','pds','item');
-		if(isset($inputs['id_parent'])) if($inputs['id_parent']==''){ $inputs['id_parent'] = null; }
+		//only allow this inputs
+		$inputsAllowed = ['order','id_parent'];
+		foreach ($datasource->config() as $key => $config) {
+			array_push($inputsAllowed, $config->name);
+		}
+
+		foreach ($datasource->relations as $key => $relation) {
+			array_push($inputsAllowed, Datasource::find($relation->relation_datasource_id)->table.'_id');
+		}
 
 		if(Input::get('pds')){
 			if (is_null($parentDatasource = Datasource::find(Input::get('pds')))) {
@@ -118,10 +125,16 @@ class DsController extends AdminController {
 			}
 
 			$inputs[$parentDatasource->table.'_id'] = Input::get('item');
+			array_push($inputsAllowed, $parentDatasource->table.'_id');
 		}
+		////
+
+		$inputs = Input::only($inputsAllowed);
+		if(isset($inputs['id_parent'])) if($inputs['id_parent']==''){ $inputs['id_parent'] = null; }
+
 
 		$ds = CMS_ModelBuilder::fromTable($datasource->table);
-		$ds->fill($inputs);
+		$ds->fill(array_filter($inputs, 'strlen'));
 
 		//se houver parent datasource (pds) e parent id (item), retorna no link
 		$returnUrlParams = null;
@@ -160,13 +173,27 @@ class DsController extends AdminController {
 
 		AdminController::checkPermission($datasource->table.'.'.'update');
 
-		$inputs = Input::except('_token','pds','item');
+
+		//only allow this inputs
+		$inputsAllowed = ['order','id_parent'];
+		foreach ($datasource->config() as $key => $config) {
+			array_push($inputsAllowed, $config->name);
+		}
+
+		foreach ($datasource->relations as $key => $relation) {
+			array_push($inputsAllowed, Datasource::find($relation->relation_datasource_id)->table.'_id');
+		}
+		////
+
+		// dd($inputsAllowed);
+
+		$inputs = Input::only($inputsAllowed);
 		if(isset($inputs['id_parent'])) if($inputs['id_parent']==''){ $inputs['id_parent'] = null; }
 
 		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
 
 
-		if($dsItem->update($inputs)) {
+		if($dsItem->update(array_filter($inputs, 'strlen'))) {
 			return Redirect::to(URL::previous())->with('success', Lang::get('cms::ds/message.success.update'));
 		}
 
