@@ -124,12 +124,14 @@ class DsController extends AdminController {
 				return Redirect::to('ocms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 			}
 
-			$inputs[$parentDatasource->table.'_id'] = Input::get('item');
 			array_push($inputsAllowed, $parentDatasource->table.'_id');
+			$inputs = Input::only($inputsAllowed);
+			$inputs[$parentDatasource->table.'_id'] = Input::get('item');
+		} else {
+			$inputs = Input::only($inputsAllowed);
 		}
 		////
 
-		$inputs = Input::only($inputsAllowed);
 		if(isset($inputs['id_parent'])) if($inputs['id_parent']==''){ $inputs['id_parent'] = null; }
 
 

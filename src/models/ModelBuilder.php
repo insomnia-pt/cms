@@ -28,4 +28,9 @@ class ModelBuilder extends Eloquent {
     {
         return static::$_table;
     }
+
+    public function json($field)
+  	{
+  		return json_decode($this->{$field});
+  	}
 }
