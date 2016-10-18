@@ -3,6 +3,7 @@
 use Insomnia\Cms\Controllers\AdminController;
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
 use Insomnia\Cms\Models\Datasource as Datasource;
+use Insomnia\Cms\Models\DatasourceRelation as DatasourceRelation;
 use Insomnia\Cms\Models\ModelBuilder as CMS_ModelBuilder;
 
 use Input;
@@ -175,27 +176,29 @@ class DsController extends AdminController {
 
 		AdminController::checkPermission($datasource->table.'.'.'update');
 
-
 		//only allow this inputs
-		$inputsAllowed = ['order','id_parent'];
+		$inputsAllowed = ['order'];
 		foreach ($datasource->config() as $key => $config) {
 			array_push($inputsAllowed, $config->name);
 		}
 
-		foreach ($datasource->relations as $key => $relation) {
-			array_push($inputsAllowed, Datasource::find($relation->relation_datasource_id)->table.'_id');
-		}
-		////
+		if($datasource->options()->subitems){ array_push($inputsAllowed, 'id_parent'); }
+
+		$relations = DatasourceRelation::where('relation_datasource_id', $id)->get();
+
+		// foreach ($relations as $key => $relation) {
+		// 	if($relation->relation_type == 'hasMany'){
+		// 		array_push($inputsAllowed, Datasource::find($relation->datasource_id)->table.'_id');
+		// 	}
+		// }
 
 		// dd($inputsAllowed);
+		////
 
 		$inputs = Input::only($inputsAllowed);
-		if(isset($inputs['id_parent'])) if($inputs['id_parent']==''){ $inputs['id_parent'] = null; }
-
 		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
 
-
-		if($dsItem->update(array_filter($inputs, 'strlen'))) {
+		if($dsItem->update($inputs)) {
 			return Redirect::to(URL::previous())->with('success', Lang::get('cms::ds/message.success.update'));
 		}
 
