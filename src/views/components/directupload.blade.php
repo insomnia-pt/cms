@@ -15,8 +15,8 @@
 
     <script type="text/javascript">
 
-			var images = $("#{{ $component['name'] }}").val()?JSON.parse($("#{{ $component['name'] }}").val()):[];
-			var componentVal = $.merge(images, []);
+			var images_{{ $component['name'] }} = $("#{{ $component['name'] }}").val()?JSON.parse($("#{{ $component['name'] }}").val()):[];
+			var componentVal_{{ $component['name'] }} = $.merge(images_{{ $component['name'] }}, []);
 
     	$('#component-{{ $component['name'] }}').filer({
 				templates: filerTemplatePreview,
@@ -42,7 +42,7 @@
             	$("<div class=\"jFiler-item-others text-success\"><i class=\"icon-jfi-check-circle\"></i> </div>").hide().appendTo(parent).fadeIn("slow");
             });
 
-							componentVal.push({
+							componentVal_{{ $component['name'] }}.push({
 								name: data.metas[0].old_name,
 								size: data.metas[0].size,
 								type: (data.metas[0].type).join('/'),
@@ -50,7 +50,7 @@
 							});
 
 
-							var x = componentVal;
+							var x = componentVal_{{ $component['name'] }};
 							$("#{{ $component['name'] }}").val(JSON.stringify(x));
 
            },
@@ -67,9 +67,9 @@
          },
 				 onRemove: function(el, item, index){
 
-					 componentVal.splice(index,1);
+					 componentVal_{{ $component['name'] }}.splice(index,1);
 
-					 var x = componentVal;
+					 var x = componentVal_{{ $component['name'] }};
 					 $("#{{ $component['name'] }}").val(JSON.stringify(x));
 
 				 },
