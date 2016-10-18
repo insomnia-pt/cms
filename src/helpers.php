@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
 
@@ -77,6 +77,10 @@ class Helpers {
 
     public static function thumb($imageFile, $sizeW = null, $sizeH = null)
     {
+      $imageFile = ltrim($imageFile, '/');
+      if(!File::exists($imageFile)){
+        $imageFile = Config::get('cms::assets_path').'/assets/img/no-image.png';
+      }
 
       $img = Image::cache(function($image) use ($imageFile, $sizeW, $sizeH) {
 
@@ -86,7 +90,6 @@ class Helpers {
 
           return $thumb->encode('data-url');
       }, 10);
-
 
       return $img;
     }
