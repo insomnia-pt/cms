@@ -96,7 +96,7 @@ Editar Página ::
 						<label for="{{ $area->name }}" class="col-lg-2 control-label">{{ $area->field->name }}</label>
 						<div class="col-lg-{{ $area->field->size }}">
 
-							@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name, 'data' => Input::old($area->name, @$page->areas()->{$area->name}), 'limit' => @$area->field->parameters->limit, 'items' => @$area->field->parameters->values]])
+							@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name, 'data' => Input::old($area->name, @$page->areas()->{$area->name}), 'limit' => @$area->field->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$area->field->parameters->values]])
 
 	            {{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
 						</div>
