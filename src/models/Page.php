@@ -18,6 +18,7 @@ class Page extends Eloquent {
 	{
 		return json_decode($this->content);
 	}
+	
 
 	public function images()
 	{
@@ -25,7 +26,7 @@ class Page extends Eloquent {
 	}
 
 	public function imageFile()
-	{	
+	{
 
 		$imagePath = json_decode($this->images, true);
 		return ltrim(@$imagePath["images"][0], '/');

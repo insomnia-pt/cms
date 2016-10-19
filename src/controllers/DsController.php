@@ -111,7 +111,7 @@ class DsController extends AdminController {
 		AdminController::checkPermission($datasource->table.'.'.'create');
 
 		//only allow this inputs
-		$inputsAllowed = ['order','id_parent'];
+		$inputsAllowed = ['id_parent'];
 		foreach ($datasource->config() as $key => $config) {
 			array_push($inputsAllowed, $config->name);
 		}
@@ -177,23 +177,12 @@ class DsController extends AdminController {
 		AdminController::checkPermission($datasource->table.'.'.'update');
 
 		//only allow this inputs
-		$inputsAllowed = ['order'];
+		$inputsAllowed = [];
 		foreach ($datasource->config() as $key => $config) {
 			array_push($inputsAllowed, $config->name);
 		}
 
 		if($datasource->options()->subitems){ array_push($inputsAllowed, 'id_parent'); }
-
-		$relations = DatasourceRelation::where('relation_datasource_id', $id)->get();
-
-		// foreach ($relations as $key => $relation) {
-		// 	if($relation->relation_type == 'hasMany'){
-		// 		array_push($inputsAllowed, Datasource::find($relation->datasource_id)->table.'_id');
-		// 	}
-		// }
-
-		// dd($inputsAllowed);
-		////
 
 		$inputs = Input::only($inputsAllowed);
 		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
