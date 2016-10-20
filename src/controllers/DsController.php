@@ -70,7 +70,11 @@ class DsController extends AdminController {
 		return View::make('cms::ds/create', compact('datasource','parameters','datasourceFieldtypes'));
 	}
 
-	public function postOrder($id)
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function postOrder($id)
 	{
 		if (is_null($datasource = Datasource::find($id))) {
 			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
@@ -183,6 +187,16 @@ class DsController extends AdminController {
 		}
 
 		if($datasource->options()->subitems){ array_push($inputsAllowed, 'id_parent'); }
+
+		$relations = $datasource->relations;
+		foreach ($relations as $key => $relation) {
+			if($relation->relation_type == 'hasOne'){
+				array_push($inputsAllowed, Datasource::find($relation->relation_datasource_id)->table.'_id');
+			}
+		}
+
+		// dd($inputsAllowed);
+		////
 
 		$inputs = Input::only($inputsAllowed);
 		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
