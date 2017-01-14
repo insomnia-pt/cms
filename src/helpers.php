@@ -1,6 +1,7 @@
 <?php
 
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
+use Insomnia\Cms\Models\Cmslog as Cmslog;
 
 class Helpers {
 
@@ -92,5 +93,17 @@ class Helpers {
       }, 10);
 
       return $img;
+    }
+
+    public static function cmslog($action, $data, $datasource_id=null, $entry_id=null, $module=null, $user_id=null)
+    {
+        $log = new Cmslog;
+        $log->action = $action;
+        $log->data = is_array($data)?json_encode($data):$data;
+        $log->entry_id = $entry_id;
+        $log->datasource_id = $datasource_id;
+        $log->module = $module;
+        $log->user_id = $user_id?$user_id:\Sentry::getUser()->id;
+        $log->save();
     }
 }

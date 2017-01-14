@@ -149,6 +149,8 @@ class DsController extends AdminController {
 		//////
 
 		if($ds->save()) {
+            Helpers::cmslog('Inserção', $inputs, $datasource->id, $ds->id);
+
 			return Redirect::to('cms/ds/'.$datasource->id.'/edit/'.$ds->id.$returnUrlParams)->with('success', Lang::get('cms::ds/message.success.create'));
 		}
 
@@ -202,6 +204,9 @@ class DsController extends AdminController {
 		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
 
 		if($dsItem->update($inputs)) {
+
+            Helpers::cmslog('Edição', $dsItem, $datasource->id, $itemId);
+
 			return Redirect::to(URL::previous())->with('success', Lang::get('cms::ds/message.success.update'));
 		}
 
@@ -223,6 +228,8 @@ class DsController extends AdminController {
 			CMS_ModelBuilder::fromTable($datasource->table)->where('id_parent', $dsItem->id)->update(array('id_parent' => null));
 		}
 		$dsItem->delete();
+
+        Helpers::cmslog('Remoção', $dsItem, $datasource->id, $itemId);
 
 		return Redirect::to(URL::previous())->with('success', Lang::get('cms::ds/message.success.delete'));
 	}
