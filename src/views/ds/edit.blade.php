@@ -105,7 +105,7 @@ Editar Registo ::
 							<label for="{{ $config->name }}" class="col-lg-2 control-label">{{ $config->description }}</label>
 							<div class="col-lg-7">
 
-								@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values]])
+								@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
 
 								{{ $errors->first($config->name, '<p class="help-block">:message</p>') }}
 							</div>

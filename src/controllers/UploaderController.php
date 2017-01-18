@@ -1,19 +1,8 @@
 <?php namespace Insomnia\Cms\Controllers;
 
-use Insomnia\Cms\Controllers\AdminController;
 use Insomnia\Cms\Classes\Uploader as Uploader;
 use Insomnia\Cms\Models\Datasource as Datasource;
-use Insomnia\Cms\Models\ModelBuilder as CMS_ModelBuilder;
 
-use Input;
-use Lang;
-use Redirect;
-use Sentry;
-use Str;
-use Validator;
-use View;
-use Helpers;
-use Session;
 use Config;
 use Response;
 
@@ -21,16 +10,18 @@ use Response;
 class UploaderController extends AdminController {
 
 
-  public function upload()
-	{
+  public function upload() {
 
     $uploader = new Uploader();
+
+    $uploadDir = $_POST['folder']?'global/'.$_POST['folder']:'global';
+
     $data = $uploader->upload($_FILES[$_POST['field']], array(
         'limit' => null, //Maximum Limit of files. {null, Number}
         'maxSize' => 30, //Maximum Size of files {null, Number(in MB's)}
         'extensions' => null, //Whitelist for file extension. {null, Array(ex: array('jpg', 'png'))}
         'required' => false, //Minimum one file is required for upload {Boolean}
-        'uploadDir' => Config::get('cms::config.elfinder_dir').'/global/', //Upload directory {String}
+        'uploadDir' => Config::get('cms::config.elfinder_dir').'/'.$uploadDir.'/', //Upload directory {String}
         'title' => array('slugname', 10), //New file name {null, String, Array} *please read documentation in README.md
         'removeFiles' => true, //Enable file exclusion {Boolean(extra for jQuery.filer), String($_POST field name containing json data with file names)}
         'replace' => false, //Replace the file if it already exists {Boolean}

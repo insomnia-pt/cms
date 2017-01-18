@@ -28,7 +28,7 @@ Adicionar Grupo ::
 			<header class="panel-heading tab-bg-dark-navy-blue ">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#tab-general" data-toggle="tab">Geral</a></li>
-					<li><a href="#tab-permissions" data-toggle="tab">Permissões</a></li>
+					{{--<li><a href="#tab-permissions" data-toggle="tab">Permissões</a></li>--}}
 				</ul>
 			</header>
 			<div class="panel-body">
@@ -50,41 +50,41 @@ Adicionar Grupo ::
 						<div class="form-group"></div>
 
 					</div>
-					<div id="tab-permissions" class="tab-pane">
+					{{--<div id="tab-permissions" class="tab-pane">--}}
 
-						@foreach ($permissions as $area => $permissions)
-							<header class="panel-heading form-group">{{ $area }}</header>
+						{{--@foreach ($permissions as $area => $permissions)--}}
+							{{--<header class="panel-heading form-group">{{ $area }}</header>--}}
 
-							@foreach ($permissions as $permission)
-							<div class="control-group form-group">
-								<label class="col-lg-2 control-label">{{ $permission['label'] }}</label>
+							{{--@foreach ($permissions as $permission)--}}
+							{{--<div class="control-group form-group">--}}
+								{{--<label class="col-lg-2 control-label">{{ $permission['label'] }}</label>--}}
 
-								<div class="col-lg-10">
+								{{--<div class="col-lg-10">--}}
 
-									<span class="radio-inline radio">
-										<label for="{{ $permission['permission'] }}_allow" onclick="">
-											<input type="radio" value="1" id="{{ $permission['permission'] }}_allow" name="permissions[{{ $permission['permission'] }}]"{{ (array_get($selectedPermissions, $permission['permission']) === 1 ? ' checked="checked"' : '') }}>
-											Permitir
-										</label>
-									</span>
+									{{--<span class="radio-inline radio">--}}
+										{{--<label for="{{ $permission['permission'] }}_allow" onclick="">--}}
+											{{--<input type="radio" value="1" id="{{ $permission['permission'] }}_allow" name="permissions[{{ $permission['permission'] }}]"{{ (array_get($selectedPermissions, $permission['permission']) === 1 ? ' checked="checked"' : '') }}>--}}
+											{{--Permitir--}}
+										{{--</label>--}}
+									{{--</span>--}}
 
-									<span class="radio-inline radio">
-										<label for="{{ $permission['permission'] }}_deny" onclick="">
-											<input type="radio" value="0" id="{{ $permission['permission'] }}_deny" name="permissions[{{ $permission['permission'] }}]"{{ ( ! array_get($selectedPermissions, $permission['permission']) ? ' checked="checked"' : '') }}>
-											Negar
-										</span>
-									</span>
+									{{--<span class="radio-inline radio">--}}
+										{{--<label for="{{ $permission['permission'] }}_deny" onclick="">--}}
+											{{--<input type="radio" value="0" id="{{ $permission['permission'] }}_deny" name="permissions[{{ $permission['permission'] }}]"{{ ( ! array_get($selectedPermissions, $permission['permission']) ? ' checked="checked"' : '') }}>--}}
+											{{--Negar--}}
+										{{--</span>--}}
+									{{--</span>--}}
 
-								</div>
+								{{--</div>--}}
 
-							</div>
-							@endforeach
+							{{--</div>--}}
+							{{--@endforeach--}}
 
-						</fieldset>
-						@endforeach
+						{{--</fieldset>--}}
+						{{--@endforeach--}}
 
-						<div class="form-group"></div>
-					</div>
+						{{--<div class="form-group"></div>--}}
+					{{--</div>--}}
 				</div>
 
 				<div class="form-group">

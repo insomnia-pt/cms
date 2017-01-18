@@ -56,6 +56,10 @@ return array(
                     'pattern' => '/.quarantine+/',
                     'hidden' => true
                 ),
+                array(
+                    'pattern' => '/global+/',
+                    'hidden' => true
+                ),
             )
         )
     ),

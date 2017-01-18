@@ -1,5 +1,5 @@
 
-<input type="file" name="component-{{ $component['name'] }}" id="component-{{ $component['name'] }}" multiple="multiple" data-jfiler-extensions="{{ $component['extensions'] }}" data-jfiler-limit="{{ $component['limit'] }}" data-jfiler-files='{{ $component['data'] }}'>
+<input type="file" name="component-{{ $component['name'] }}" id="component-{{ $component['name'] }}" multiple="multiple" data-jfiler-extensions="{{ $component['extensions'] }}" data-jfiler-limit="{{ $component['limit'] }}" data-jfiler-files='{{ $component['data'] }}' data-folder="{{ $component['folder'] }}">
 
 
 <input type="hidden" name="{{ $component['name'] }}" id="{{ $component['name'] }}" value='{{ $component['data'] }}' style="width: 100%" />
@@ -19,61 +19,59 @@
 			var componentVal_{{ $component['name'] }} = $.merge(images_{{ $component['name'] }}, []);
 
     	$('#component-{{ $component['name'] }}').filer({
-				templates: filerTemplatePreview,
-        canvasImage: true,
-        synchron: true,
-        showThumbs: true,
-        dragDrop: {
-	     		dragEnter: null,
-	     		dragLeave: null,
-	     		drop: null,
-	     		dragContainer: null,
-     		},
-        uploadFile: {
-        	url: '{{ route('upload') }}',
-          data: { field:'component-{{ $component['name'] }}' },
-          type: 'POST',
-          enctype: 'multipart/form-data',
-          //synchron: true, //Upload synchron the files
-          beforeSend: function(){},
-          success: function(data, el){
-          	var parent = el.find(".jFiler-jProgressBar").parent();
-            el.find(".jFiler-jProgressBar").fadeOut("slow", function(){
-            	$("<div class=\"jFiler-item-others text-success\"><i class=\"icon-jfi-check-circle\"></i> </div>").hide().appendTo(parent).fadeIn("slow");
-            });
+    	    templates: filerTemplatePreview,
+            canvasImage: true,
+            synchron: true,
+            showThumbs: true,
+            dragDrop: {
+                dragEnter: null,
+                dragLeave: null,
+                drop: null,
+                dragContainer: null
+            },
+            uploadFile: {
+                url: '{{ route('upload') }}',
+                data: { field:'component-{{ $component['name'] }}', folder: $("#component-{{ $component['name'] }}").data('folder') },
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                //synchron: true, //Upload synchron the files
+                beforeSend: function(){},
+                success: function(data, el){
+                    var parent = el.find(".jFiler-jProgressBar").parent();
+                    el.find(".jFiler-jProgressBar").fadeOut("slow", function(){
+                        $("<div class=\"jFiler-item-others text-success\"><i class=\"icon-jfi-check-circle\"></i> </div>").hide().appendTo(parent).fadeIn("slow");
+                    });
 
-							componentVal_{{ $component['name'] }}.push({
-								name: data.metas[0].old_name,
-								size: data.metas[0].size,
-								type: (data.metas[0].type).join('/'),
-								file: '/'+data.metas[0].file
-							});
+                    componentVal_{{ $component['name'] }}.push({
+                        name: data.metas[0].old_name,
+                        size: data.metas[0].size,
+                        type: (data.metas[0].type).join('/'),
+                        file: '/'+data.metas[0].file
+                    });
 
+                    var x = componentVal_{{ $component['name'] }};
+                    $("#{{ $component['name'] }}").val(JSON.stringify(x));
+                },
 
-							var x = componentVal_{{ $component['name'] }};
-							$("#{{ $component['name'] }}").val(JSON.stringify(x));
+                error: function(el){
+                    var parent = el.find(".jFiler-jProgressBar").parent();
+                    el.find(".jFiler-jProgressBar").fadeOut("slow", function(){
+                        $("<div class=\"jFiler-item-others text-error\"><i class=\"icon-jfi-minus-circle\"></i> Erro</div>").hide().appendTo(parent).fadeIn("slow");
+                    });
+                },
+               // statusCode: null, //An object of numeric HTTP codes {Object}
+               // onProgress: null, //A function called while uploading file with progress percentage {Function}
+              // onComplete: function(){	 }
+            },
+             onRemove: function(el, item, index){
 
-           },
+                 componentVal_{{ $component['name'] }}.splice(index,1);
 
-           error: function(el){
-               var parent = el.find(".jFiler-jProgressBar").parent();
-               el.find(".jFiler-jProgressBar").fadeOut("slow", function(){
-                   $("<div class=\"jFiler-item-others text-error\"><i class=\"icon-jfi-minus-circle\"></i> Erro</div>").hide().appendTo(parent).fadeIn("slow");
-               });
-           },
-           // statusCode: null, //An object of numeric HTTP codes {Object}
-           // onProgress: null, //A function called while uploading file with progress percentage {Function}
-          // onComplete: function(){	 }
-         },
-				 onRemove: function(el, item, index){
+                 var x = componentVal_{{ $component['name'] }};
+                 $("#{{ $component['name'] }}").val(JSON.stringify(x));
 
-					 componentVal_{{ $component['name'] }}.splice(index,1);
-
-					 var x = componentVal_{{ $component['name'] }};
-					 $("#{{ $component['name'] }}").val(JSON.stringify(x));
-
-				 },
-				 captions: {
+             },
+			 captions: {
              button: "Escolher Ficheiros",
              feedback: "Escolha ou arraste o ficheiro para esta área",
              feedback2: "ficheiros escolhidos",

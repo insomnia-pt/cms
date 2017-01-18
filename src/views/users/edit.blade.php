@@ -132,7 +132,7 @@ Editar Utilizador ::
                 </div>
                 <div class="col-lg-3">
                   <br /><br /><br />
-                  <input type="file" id="photo" name="photo" />
+                  <input type="file" id="photo" name="photo" /> <br /><i class="fa fa-info-circle"></i> Tamanho máximo: 2MB
                   {{ $errors->first('photo', '<p class="help-block">:message</p>') }}
                 </div>
             </div>

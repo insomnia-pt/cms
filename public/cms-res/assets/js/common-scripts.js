@@ -1,7 +1,6 @@
 var Script = function () {
 
 
-
 //    sidebar dropdown menu
     //set parent active
     $('.sidebar-menu li > ul > li.active').parents('.sub-menu').addClass('active');
@@ -33,32 +32,32 @@ var Script = function () {
 //    sidebar toggle
 
     $.noty.defaults = {
-            layout: 'topRight',
-            theme: 'bootstrapTheme', // or 'relax'
-            type: 'alert',
-            dismissQueue: true, // If you want to use queue feature set this true
-            template: '<div class="noty_message"><span class="noty_text"></span><div class="noty_close"></div></div>',
-            animation: {
-                open: 'animated slideInDown', // or Animate.css class names like: 'animated bounceInLeft'
-                close: 'animated slideOutUp', // or Animate.css class names like: 'animated bounceOutLeft'
-                easing: 'swing',
-                speed: 500 // opening & closing animation speed
-            },
-            timeout: 4000,
-            force: false, // adds notification to the beginning of queue when set to true
-            modal: false,
-            maxVisible: 5, // you can set max visible notification for dismissQueue true option,
-            killer: false, // for close all notifications before show
-            closeWith: ['click','hover','backdrop'], // ['click', 'button', 'hover', 'backdrop'] // backdrop click will close all notifications
-            callback: {
-                onShow: function() {},
-                afterShow: function() {},
-                onClose: function() {},
-                afterClose: function() {},
-                onCloseClick: function() {},
-            },
-            buttons: false // an array of buttons
-        };
+        layout: 'topRight',
+        theme: 'bootstrapTheme', // or 'relax'
+        type: 'alert',
+        dismissQueue: true, // If you want to use queue feature set this true
+        template: '<div class="noty_message"><span class="noty_text"></span><div class="noty_close"></div></div>',
+        animation: {
+            open: 'animated slideInDown', // or Animate.css class names like: 'animated bounceInLeft'
+            close: 'animated slideOutUp', // or Animate.css class names like: 'animated bounceOutLeft'
+            easing: 'swing',
+            speed: 500 // opening & closing animation speed
+        },
+        timeout: 4000,
+        force: false, // adds notification to the beginning of queue when set to true
+        modal: false,
+        maxVisible: 5, // you can set max visible notification for dismissQueue true option,
+        killer: false, // for close all notifications before show
+        closeWith: ['click','hover','backdrop'], // ['click', 'button', 'hover', 'backdrop'] // backdrop click will close all notifications
+        callback: {
+            onShow: function() {},
+            afterShow: function() {},
+            onClose: function() {},
+            afterClose: function() {},
+            onCloseClick: function() {},
+        },
+        buttons: false // an array of buttons
+    };
 
 
     $(function() {
@@ -101,8 +100,8 @@ var Script = function () {
     });
 
 // custom scrollbar
-$("#sidebar").niceScroll({styler:"fb",cursorcolor:"#da9f3b", cursorwidth: '3', cursorborderradius: '10px', background: '#404040', cursorborder: ''});
-$("html").niceScroll({styler:"fb",cursorcolor:"#da9f3b", cursorwidth: '6', cursorborderradius: '10px', background: '#404040', cursorborder: '', zindex: '1000'});
+    $("#sidebar").niceScroll({styler:"fb",cursorcolor:"#da9f3b", cursorwidth: '3', cursorborderradius: '10px', background: '#404040', cursorborder: ''});
+    $("html").niceScroll({styler:"fb",cursorcolor:"#da9f3b", cursorwidth: '6', cursorborderradius: '10px', background: '#404040', cursorborder: '', zindex: '1000'});
 
 // widget tools
 
@@ -153,22 +152,77 @@ $("html").niceScroll({styler:"fb",cursorcolor:"#da9f3b", cursorwidth: '6', curso
 //    });
 
 
+    //checkbox and radio btn
+
+    var d = document;
+    var safari = (navigator.userAgent.toLowerCase().indexOf('safari') != -1) ? true : false;
+    var gebtn = function(parEl,child) { return parEl.getElementsByTagName(child); };
+    onload = function() {
+
+        var body = gebtn(d,'body')[0];
+        body.className = body.className && body.className != '' ? body.className + ' has-js' : 'has-js';
+
+        if (!d.getElementById || !d.createTextNode) return;
+        var ls = gebtn(d,'label');
+        for (var i = 0; i < ls.length; i++) {
+            var l = ls[i];
+            if (l.className.indexOf('label_') == -1) continue;
+            var inp = gebtn(l,'input')[0];
+            if (l.className == 'label_check') {
+                l.className = (safari && inp.checked == true || inp.checked) ? 'label_check c_on' : 'label_check c_off';
+                l.onclick = check_it;
+            };
+            if (l.className == 'label_radio') {
+                l.className = (safari && inp.checked == true || inp.checked) ? 'label_radio r_on' : 'label_radio r_off';
+                l.onclick = turn_radio;
+            };
+        };
+    };
+    var check_it = function() {
+        var inp = gebtn(this,'input')[0];
+        if (this.className == 'label_check c_off' || (!safari && inp.checked)) {
+            this.className = 'label_check c_on';
+            inp.checked = true;
+            if (safari) inp.click();
+        } else {
+            this.className = 'label_check c_off';
+            inp.checked = false;
+            if (safari) inp.click();
+        };
+    };
+    var turn_radio = function() {
+        var inp = gebtn(this,'input')[0];
+        if (this.className == 'label_radio r_off' || inp.checked) {
+            var ls = gebtn(this.parentNode,'label');
+            for (var i = 0; i < ls.length; i++) {
+                var l = ls[i];
+                if (l.className.indexOf('label_radio') == -1)  continue;
+                l.className = 'label_radio r_off';
+            };
+            this.className = 'label_radio r_on';
+            if (safari) inp.click();
+        } else {
+            this.className = 'label_radio r_off';
+            if (safari) inp.click();
+        };
+    };
+
 }();
 
 function convertToSlug(str) {
-  str = str.replace(/^\s+|\s+$/g, ''); // trim
-  str = str.toLowerCase();
+    str = str.replace(/^\s+|\s+$/g, ''); // trim
+    str = str.toLowerCase();
 
-  // remove accents, swap ñ for n, etc
-  var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
-  var to   = "aaaaaeeeeeiiiiooooouuuunc------";
-  for (var i=0, l=from.length ; i<l ; i++) {
-    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-  }
+    // remove accents, swap ñ for n, etc
+    var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
+    var to   = "aaaaaeeeeeiiiiooooouuuunc------";
+    for (var i=0, l=from.length ; i<l ; i++) {
+        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+    }
 
-  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-    .replace(/\s+/g, '-') // collapse whitespace and replace by -
-    .replace(/-+/g, '-'); // collapse dashes
+    str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+        .replace(/\s+/g, '-') // collapse whitespace and replace by -
+        .replace(/-+/g, '-'); // collapse dashes
 
-  return str;
+    return str;
 }

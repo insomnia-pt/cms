@@ -25,7 +25,7 @@ class UsersController extends AdminController {
 		'email'            => 'required|email|unique:users,email',
 		'password'         => 'required|between:3,32',
 		'password_confirm' => 'required|between:3,32|same:password',
-		'photo' 		   => 'image|max:600',
+		'photo' 		   => 'image|max:2100',
 	);
 
 	public function getIndex()
@@ -142,8 +142,8 @@ class UsersController extends AdminController {
 	 * @return View
 	 */
 	public function getEdit($id = null)
-	{	
-		AdminController::checkPermission('users.view');
+	{
+	    if(\Sentry::getUser()->id != $id) AdminController::checkPermission('users.view');
 
 		try
 		{
@@ -151,23 +151,19 @@ class UsersController extends AdminController {
 			$user = Sentry::getUserProvider()->findById($id);
 
 
-			if($user->hasAccess('admin') && !Sentry::getUser()->hasAccess('admin')){
-				return Redirect::route('users')->with('error', 'Sem permissões');
-			}
+			// Get this user groups
+			$userGroups = $user->groups()->lists('name', 'group_id');
 
-				// Get this user groups
-				$userGroups = $user->groups()->lists('name', 'group_id');
+            // Get this user permissions
+            $userPermissions = array_merge(Input::old('permissions', array('superuser' => -1)), $user->getPermissions());
+            $this->encodePermissions($userPermissions);
 
-				// Get this user permissions
-				$userPermissions = array_merge(Input::old('permissions', array('superuser' => -1)), $user->getPermissions());
-				$this->encodePermissions($userPermissions);
+            // Get a list of all the available groups
+            $groups = Sentry::getGroupProvider()->findAll();
 
-				// Get a list of all the available groups
-				$groups = Sentry::getGroupProvider()->findAll();
-
-				// Get all the available permissions
-				$permissions = Config::get('permissions');
-				$this->encodeAllPermissions($permissions);
+            // Get all the available permissions
+            $permissions = Config::get('permissions');
+            $this->encodeAllPermissions($permissions);
 
 		}
 		catch (UserNotFoundException $e)
@@ -192,23 +188,17 @@ class UsersController extends AdminController {
 	public function postEdit($id = null)
 	{
 
-		AdminController::checkPermission('users.update');
+        if(\Sentry::getUser()->id != $id) AdminController::checkPermission('users.update');
 
 		// We need to reverse the UI specific logic for our
 		// permissions here before we update the user.
-		$permissions = Input::get('permissions', array());
-		$this->decodePermissions($permissions);
-		app('request')->request->set('permissions', $permissions);
+//		$permissions = Input::get('permissions', array());
+//		$this->decodePermissions($permissions);
+//		app('request')->request->set('permissions', $permissions);
 
 		try
 		{
-			// Get the user information
 			$user = Sentry::getUserProvider()->findById($id);
-
-			if($user->hasAccess('admin') && !Sentry::getUser()->hasAccess('admin')){
-				return Redirect::route('users')->with('error', 'Sem permissões');
-			}
-
 		}
 		catch (UserNotFoundException $e)
 		{
@@ -255,7 +245,7 @@ class UsersController extends AdminController {
 			$user->last_name   = Input::get('last_name');
 			$user->email       = Input::get('email');
 			$user->activated   = Input::get('activated', $user->activated);
-			$user->permissions = Input::get('permissions');
+//			$user->permissions = Input::get('permissions');
 
 			// Do we want to update the user password?
 			if ($password)
@@ -263,32 +253,34 @@ class UsersController extends AdminController {
 				$user->password = $password;
 			}
 
-			// Get the current user groups
-			$userGroups = $user->groups()->lists('group_id', 'group_id');
+			if(Sentry::getUser()->hasAccess('users.group')){
+                // Get the current user groups
+                $userGroups = $user->groups()->lists('group_id', 'group_id');
 
-			// Get the selected groups
-			$selectedGroups = Input::get('groups', array());
+                // Get the selected groups
+                $selectedGroups = Input::get('groups', array());
 
-			// Groups comparison between the groups the user currently
-			// have and the groups the user wish to have.
-			$groupsToAdd    = array_diff($selectedGroups, $userGroups);
-			$groupsToRemove = array_diff($userGroups, $selectedGroups);
+                // Groups comparison between the groups the user currently
+                // have and the groups the user wish to have.
+                $groupsToAdd    = array_diff($selectedGroups, $userGroups);
+                $groupsToRemove = array_diff($userGroups, $selectedGroups);
 
-			// Assign the user to groups
-			foreach ($groupsToAdd as $groupId)
-			{
-				$group = Sentry::getGroupProvider()->findById($groupId);
+                // Assign the user to groups
+                foreach ($groupsToAdd as $groupId)
+                {
+                    $group = Sentry::getGroupProvider()->findById($groupId);
 
-				$user->addGroup($group);
-			}
+                    $user->addGroup($group);
+                }
 
-			// Remove the user from groups
-			foreach ($groupsToRemove as $groupId)
-			{
-				$group = Sentry::getGroupProvider()->findById($groupId);
+                // Remove the user from groups
+                foreach ($groupsToRemove as $groupId)
+                {
+                    $group = Sentry::getGroupProvider()->findById($groupId);
 
-				$user->removeGroup($group);
-			}
+                    $user->removeGroup($group);
+                }
+            }
 
 			// Was the user updated?
 			if ($user->save())

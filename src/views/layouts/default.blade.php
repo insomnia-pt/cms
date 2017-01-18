@@ -151,6 +151,7 @@
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.multi-select.js') }}" type="text/javascript"></script>
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.quicksearch.js') }}" type="text/javascript"></script>
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/js.cookie.js') }}" type="text/javascript"></script>
+        <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/ga.js') }}" type="text/javascript" ></script>
 
 	    <!--common script for all pages-->
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/common-scripts.js') }}"></script>
@@ -161,6 +162,8 @@
 		<script type="text/javascript" charset="utf-8">
 
 		@include('cms::notifications')
+
+
 
 		$('#modal-confirm').on('show.bs.modal', function(e) {
 		    $(e.currentTarget).find('#modal-bt-confirm').attr("href", $(e.relatedTarget).data('url'));

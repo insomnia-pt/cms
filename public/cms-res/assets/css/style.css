@@ -3873,6 +3873,7 @@ table.sliders tr td {
 
 .has-js .label_check,
 .has-js .label_radio {
+    height: 21px;
     padding-left: 34px;
 }
 
