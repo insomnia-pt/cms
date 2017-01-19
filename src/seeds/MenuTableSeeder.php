@@ -75,16 +75,16 @@ class MenuTableSeeder extends Seeder {
         $menu->group_id = 0;
         $menu->save();
 
-        	$menu = new Menu;
-        	$menu->id = 7;
-	        $menu->name = 'Menu';
-	        $menu->url = '/menu';
-	        $menu->id_parent = 6;
-	        $menu->order = 1;
-	        $menu->visible = 1;
-	        $menu->system = 1;
-	        $menu->group_id = 0;
-	        $menu->save();
+//        	$menu = new Menu;
+//        	$menu->id = 7;
+//	        $menu->name = 'Menu';
+//	        $menu->url = '/menu';
+//	        $menu->id_parent = 6;
+//	        $menu->order = 1;
+//	        $menu->visible = 1;
+//	        $menu->system = 1;
+//	        $menu->group_id = 0;
+//	        $menu->save();
 
 	        $menu = new Menu;
 	        $menu->id = 8;
@@ -174,16 +174,16 @@ class MenuTableSeeder extends Seeder {
         $menu->group_id = 1;
         $menu->save();
 
-        	$menu = new Menu;
-        	$menu->id = 16;
-	        $menu->name = 'Menu';
-	        $menu->url = '/menu';
-	        $menu->id_parent = 15;
-	        $menu->order = 1;
-	        $menu->visible = 1;
-	        $menu->system = 1;
-	        $menu->group_id = 1;
-	        $menu->save();
+//        	$menu = new Menu;
+//        	$menu->id = 16;
+//	        $menu->name = 'Menu';
+//	        $menu->url = '/menu';
+//	        $menu->id_parent = 15;
+//	        $menu->order = 1;
+//	        $menu->visible = 1;
+//	        $menu->system = 1;
+//	        $menu->group_id = 1;
+//	        $menu->save();
 
 	        $menu = new Menu;
 	        $menu->id = 17;
@@ -273,16 +273,16 @@ class MenuTableSeeder extends Seeder {
         $menu->group_id = 2;
         $menu->save();
 
-        	$menu = new Menu;
-        	$menu->id = 25;
-	        $menu->name = 'Menu';
-	        $menu->url = '/menu';
-	        $menu->id_parent = 24;
-	        $menu->order = 1;
-	        $menu->visible = 1;
-	        $menu->system = 1;
-	        $menu->group_id = 2;
-	        $menu->save();
+//        	$menu = new Menu;
+//        	$menu->id = 25;
+//	        $menu->name = 'Menu';
+//	        $menu->url = '/menu';
+//	        $menu->id_parent = 24;
+//	        $menu->order = 1;
+//	        $menu->visible = 1;
+//	        $menu->system = 1;
+//	        $menu->group_id = 2;
+//	        $menu->save();
 
 	        $menu = new Menu;
 	        $menu->id = 26;

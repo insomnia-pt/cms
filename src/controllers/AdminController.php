@@ -11,11 +11,6 @@ use Redirect;
 
 class AdminController extends Controller {
 
-	/**
-	 * Initializer.
-	 *
-	 * @return void
-	 */
 	public function __construct()
 	{		
 		// Apply the admin auth filter
@@ -38,10 +33,8 @@ class AdminController extends Controller {
 			$settings = Setting::where('name', 'general')->first()->config();
 			$menus = Menu::where('id_parent', 0)->where('visible', 1)->where('group_id', $userGroupId)->orderBy('order')->get();
 
-			if(!Session::has('super_user'))
-			{
-			    Session::put('settings_super_user', Setting::where('name', 'super_user')->first()->value&&$userGroupId!=1?true:false );
-			}
+            Session::put('settings_super_user', Setting::where('name', 'super_user')->first()->value&&$userGroupId!=1?true:false );
+
 
 			View::share('menus', $menus);
 			View::share('settings', $settings);

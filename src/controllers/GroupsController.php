@@ -141,6 +141,10 @@ class GroupsController extends AdminController {
 
 		AdminController::checkPermission('groups.view');
 
+        if(Session::get('settings_super_user') && $id == 1) {
+            return Redirect::route('groups')->with('error', 'Sem permissões');
+        }
+
 		try
 		{
 			// Get the group information
@@ -191,7 +195,7 @@ class GroupsController extends AdminController {
 		AdminController::checkPermission('groups.update');
 
 		if(Session::get('settings_super_user') && $id == 1) {
-			return Redirect::route('groups/edit', $id)->withInput()->with('error', 'Sem permissões');
+			return Redirect::route('groups')->with('error', 'Sem permissões');
 		}
 
 		// We need to reverse the UI specific logic for our
@@ -208,7 +212,7 @@ class GroupsController extends AdminController {
 		catch (GroupNotFoundException $e)
 		{
 			// Redirect to the groups management page
-			return Rediret::route('groups')->with('error', Lang::get('cms::groups/message.group_not_found', compact('id')));
+			return Redirect::route('groups')->with('error', Lang::get('cms::groups/message.group_not_found', compact('id')));
 		}
 
 		// Declare the rules for the form validation
@@ -372,7 +376,8 @@ class GroupsController extends AdminController {
 	{
 		AdminController::checkPermission('groups.delete');
 
-		if($id == 1) {
+        //check if group is Admin or Editor (cms default groups)
+		if($id == 1 || $id == 2) {
 			return Redirect::route('groups')->with('error', 'O grupo não pode ser removido');
 		}
 

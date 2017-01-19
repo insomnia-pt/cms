@@ -74,17 +74,6 @@ return array(
 		),
 	),
 
-	'Gestão Menu' => array(
-		array(
-			'permission' => 'menu.view',
-			'label'      => 'Visualização',
-		),
-		array(
-			'permission' => 'menu.update',
-			'label'      => 'Alteração',
-		),
-	),
-
 	'Gestão Ficheiros' => array(
 		array(
 			'permission' => 'filebrowser.view',

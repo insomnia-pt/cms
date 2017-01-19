@@ -92,34 +92,34 @@ Editar Utilizador ::
           	</div>
 
             @if(Sentry::getUser()->hasAccess('users.group'))
-						<div class="form-group {{ $errors->has('groups') ? 'has-error' : '' }}">
-							<label class="col-lg-2 control-label" for="groups">Grupo</label>
-							<div class="col-lg-4">
-								<select class="form-control" name="groups[]" id="groups">
-									@foreach ($groups as $group)
-                    @if(Session::get('settings_super_user') && $group->id == 1)
-                    @else
-									    <option value="{{ $group->id }}"{{ (array_key_exists($group->id, $userGroups) ? ' selected="selected"' : '') }}>{{ $group->name }}</option>
-                    @endif
-									@endforeach
-								</select>
-							</div>
+					<div class="form-group {{ $errors->has('groups') ? 'has-error' : '' }}">
+						<label class="col-lg-2 control-label" for="groups">Grupo</label>
+						<div class="col-lg-4">
+							<select class="form-control" name="groups[]" id="groups">
+								@foreach ($groups as $group)
+									@if(Session::get('settings_super_user') && $group->id == 1)
+									@else
+										<option value="{{ $group->id }}"{{ (array_key_exists($group->id, $userGroups) ? ' selected="selected"' : '') }}>{{ $group->name }}</option>
+									@endif
+								@endforeach
+							</select>
 						</div>
+					</div>
             @endif
 
-						<div class="form-group {{ $errors->has('activated') ? 'has-error' : '' }}">
-							<label class="col-lg-2 control-label" for="activated">Activo</label>
-							<div class="col-lg-2">
-								<select class="form-control" {{ ($user->id === Sentry::getUser()->id ? ' disabled="disabled"' : '') }} name="activated" id="activated">
-									<option value="1"{{ ($user->isActivated() ? ' selected="selected"' : '') }}>Sim</option>
-									<option value="0"{{ ( ! $user->isActivated() ? ' selected="selected"' : '') }}>Não</option>
-								</select>
-								{{ $errors->first('activated', '<p class="help-block">:message</p>') }}
-							</div>
-						</div>
-						<div class="form-group"></div>
+			<div class="form-group {{ $errors->has('activated') ? 'has-error' : '' }}">
+				<label class="col-lg-2 control-label" for="activated">Activo</label>
+				<div class="col-lg-2">
+					<select class="form-control" {{ ($user->id === Sentry::getUser()->id ? ' disabled="disabled"' : '') }} name="activated" id="activated">
+						<option value="1"{{ ($user->isActivated() ? ' selected="selected"' : '') }}>Sim</option>
+						<option value="0"{{ ( ! $user->isActivated() ? ' selected="selected"' : '') }}>Não</option>
+					</select>
+					{{ $errors->first('activated', '<p class="help-block">:message</p>') }}
+				</div>
+			</div>
+			<div class="form-group"></div>
 
-					</div>
+		</div>
 					
 
           <div id="tab-photo" class="tab-pane">

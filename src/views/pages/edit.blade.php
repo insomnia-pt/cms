@@ -92,7 +92,7 @@ Editar Página ::
 				@if(@$page->pagetype->config()->areas)
 				@foreach($page->pagetype->config()->areas as $area)
 
-					<div class="form-group {{ $errors->has($area->name) ? 'has-error' : '' }}" @if(isset($area->field->admin)&&!Sentry::getUser()->hasAccess('admin'))) style="display: none;" @endif>
+					<div class="form-group {{ $errors->has($area->name) ? 'has-error' : '' }}" @if(isset($area->field->admin)&&!@Sentry::getUser()->getGroups()[0]->id == 1)) style="display: none;" @endif>
 						<label for="{{ $area->name }}" class="col-lg-2 control-label">{{ $area->field->name }}</label>
 						<div class="col-lg-{{ $area->field->size }}">
 

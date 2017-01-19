@@ -1,6 +1,5 @@
 <?php namespace Insomnia\Cms\Controllers;
 
-use Insomnia\Cms\Controllers\AdminController;
 use Cartalyst\Sentry\Users\LoginRequiredException;
 use Cartalyst\Sentry\Users\PasswordRequiredException;
 use Cartalyst\Sentry\Users\UserExistsException;
@@ -13,8 +12,8 @@ use Redirect;
 use Sentry;
 use Validator;
 use View;
-use Helpers;
 use Image;
+use Session;
 
 
 class UsersController extends AdminController {
@@ -45,16 +44,19 @@ class UsersController extends AdminController {
 			$users = $users->onlyTrashed();
 		}
 
-		if(Sentry::getUser()->hasAccess('admin')){
-			$users = $users->get();
-		} else { 
-			$admins = Sentry::findAllUsersWithAccess(array('admin'));
-			$adminsId = [];
-			foreach ($admins as $admin) {
-				array_push($adminsId, $admin->id);
-			}
-	   		$users = $users->whereNotIn('id', $adminsId)->get();
-		}
+		//if settings_super_user is active and current user not in admin group, hide admin users
+		if(Session::get('settings_super_user') && Sentry::getUser()->getGroups()[0]->id != 1){
+            $group = Sentry::findGroupById(1);
+            $admins = Sentry::findAllUsersInGroup($group);
+            $adminsId = [];
+            foreach ($admins as $admin) {
+                array_push($adminsId, $admin->id);
+            }
+            $users = $users->whereNotIn('id', $adminsId)->get();
+		} else {
+            $users = $users->get();
+        }
+
 
 		return View::make('cms::users/index', compact('users'));
 	}
@@ -99,10 +101,18 @@ class UsersController extends AdminController {
 
 				if(Sentry::getUser()->hasAccess('users.groups')){
 					foreach (Input::get('groups', array()) as $groupId){
-						$group = Sentry::getGroupProvider()->findById($groupId);
-						$user->addGroup($group);
+
+                        if(Session::get('settings_super_user') && $groupId == 1) {
+                            return Redirect::route('users')->with('error', 'Sem permissões');
+                        } else {
+                            $group = Sentry::getGroupProvider()->findById($groupId);
+                            $user->addGroup($group);
+                        }
+
 					}
-				} else {
+				}
+				//if no permission to modify users group, set the new user to group 2
+				else {
 					$group = Sentry::getGroupProvider()->findById(2);
 					$user->addGroup($group);
 				}
@@ -150,6 +160,10 @@ class UsersController extends AdminController {
 			// Get the user information
 			$user = Sentry::getUserProvider()->findById($id);
 
+            //if settings_super_user is active and the user to edit is in admin group, return error
+            if(Session::get('settings_super_user') && @$user->getGroups()[0]->id == 1) {
+                return Redirect::route('users')->with('error', 'Sem permissões');
+            }
 
 			// Get this user groups
 			$userGroups = $user->groups()->lists('name', 'group_id');
@@ -199,6 +213,10 @@ class UsersController extends AdminController {
 		try
 		{
 			$user = Sentry::getUserProvider()->findById($id);
+            if(Session::get('settings_super_user') && @$user->getGroups()[0]->id == 1) {
+                return Redirect::route('users')->with('error', 'Sem permissões');
+            }
+
 		}
 		catch (UserNotFoundException $e)
 		{
@@ -268,9 +286,14 @@ class UsersController extends AdminController {
                 // Assign the user to groups
                 foreach ($groupsToAdd as $groupId)
                 {
-                    $group = Sentry::getGroupProvider()->findById($groupId);
+                    if(Session::get('settings_super_user') && $groupId == 1) {
+                        return Redirect::route('users/edit', $id)->with('error', 'Sem permissões');
+                    } else {
+                        $group = Sentry::getGroupProvider()->findById($groupId);
+                        $user->addGroup($group);
+                    }
 
-                    $user->addGroup($group);
+
                 }
 
                 // Remove the user from groups
@@ -313,6 +336,9 @@ class UsersController extends AdminController {
 		{
 			// Get user information
 			$user = Sentry::getUserProvider()->findById($id);
+            if(@$user->getGroups()[0]->id == 1 && @Sentry::getUser()->getGroups()[0]->id != 1) {
+                return Redirect::route('users')->with('error', 'Sem permissões');
+            }
 
 			// Check if we are not trying to delete ourselves
 			if ($user->id === Sentry::getId())
@@ -322,13 +348,6 @@ class UsersController extends AdminController {
 
 				// Redirect to the user management page
 				return Redirect::route('users')->with('error', $error);
-			}
-
-			// Do we have permission to delete this user?
-			if($user->hasAccess('admin') && !Sentry::getUser()->hasAccess('admin')){
-				
-				// Redirect to the user management page
-				return Redirect::route('users')->with('error', 'Insufficient permissions!');
 			}
 
 			// Delete the user

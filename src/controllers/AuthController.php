@@ -87,14 +87,7 @@ class AuthController extends BaseController {
 		return View::make('frontend.auth.signup')->with('refCode', $refCode);
 	}
 
-	
 
-	/**
-	 * User account activation page.
-	 *
-	 * @param  string  $actvationCode
-	 * @return
-	 */
 	public function getActivate($activationCode = null)
 	{
 		// Is the user logged in?
@@ -233,6 +226,7 @@ class AuthController extends BaseController {
 
 		try
 		{
+
 			// Find the user using the password reset code
 			$user = Sentry::getUserProvider()->findByResetPasswordCode($passwordResetCode);
 
