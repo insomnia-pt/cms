@@ -91,6 +91,7 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	{
 		Route::get('/{datasourceId}', array('as' => 'cms/ds', 'uses' => 'Insomnia\Cms\Controllers\DsController@getIndex'));
 		Route::post('/{datasourceId}/order', array('as' => 'cms/ds/order', 'uses' => 'Insomnia\Cms\Controllers\DsController@postOrder'));
+		Route::post('/{datasourceId}/edit/fromcomponent', array('as' => 'cms/ds/edit/fromcomponent', 'uses' => 'Insomnia\Cms\Controllers\DsController@postAjaxComponent'));
 		Route::get('{datasourceId}/create', array('as' => 'cms/ds/create', 'uses' => 'Insomnia\Cms\Controllers\DsController@getCreate'));
 		Route::post('{datasourceId}/create', 'Insomnia\Cms\Controllers\DsController@postCreate');
 		Route::get('{datasourceId}/edit/{itemId}', array('as' => 'cms/ds/edit', 'uses' => 'Insomnia\Cms\Controllers\DsController@getEdit'));

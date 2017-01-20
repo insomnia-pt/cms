@@ -1,4 +1,49 @@
-	<section class="panel panel-primary">
+@section('substyles')
+    <link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.css') }}" rel="stylesheet">
+@stop
+
+@section('subscripts')
+    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/dataTables.rowReorder.min.js') }}"></script>
+    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/ds-table.js') }}"></script>
+    <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/bootstrap-switch.js') }}"></script>
+    <script>
+        $(function() {
+            component_switch(1);
+
+            $('#main_table').dataTable().fnSettings().aoDrawCallback.push({
+                "fn": function () {
+                    component_switch(0);
+                }
+            });
+        });
+
+
+        function component_switch(dataTableFirstLoad) {
+            var elmts;
+            if(dataTableFirstLoad){
+                elmts = $('.switch_cmp');
+            }
+            elmts =  elmts?elmts:$('.switch_cmp:not(.has-switch)');
+
+            elmts.on('switch-change', function (e, data) {
+                var updatedata = {
+                    id : data.el.data('entryid')
+                };
+                updatedata[data.el.data('field')] = data.value?1:0;
+                $.post("{{ route('cms/ds/edit/fromcomponent', $datasource->id) }}", updatedata, function(data) {});
+            });
+
+            $('.switch_cmp:not(.has-switch)').bootstrapSwitch();
+
+        }
+
+    </script>
+@stop
+
+
+<section class="panel panel-primary">
       <header class="panel-heading">
         Lista de Registos
         @if($parameters['pds'])
@@ -18,13 +63,13 @@
       <table class="table table-striped border-top table-hover table-no-top-border" id="main_table">
       <thead>
           <tr>
-							<td>
-								#
-							</td>
+            <td>
+                #
+            </td>
         	@foreach ($datasource->config() as $config)
-        		@if($config->show_in_table)<th>{{ $config->description }}</th>@endif
+        		@if($config->show_in_table)<th @if(@$config->parameters->mini_cmp) class="nosort text-center" @endif>{{ $config->description }}</th>@endif
         	@endforeach
-        		<th class="nosort"></th>
+              <th class="nosort"></th>
           </tr>
       </thead>
 
@@ -34,7 +79,18 @@
 					<td>{{ $index }}</td>
     			<?php $firstTableField = null; ?>
     			@foreach ($datasource->config() as $config)
-        		@if($config->show_in_table)<td> @if(!$firstTableField)<div class="dd-handle"></div> @endif {{ $dsItem[$config->name] }}<?php $firstTableField = $firstTableField?$firstTableField:$dsItem[$config->name]; ?></td>@endif
+        		@if($config->show_in_table)
+                <td @if(@$config->parameters->mini_cmp) class="nosort text-center" @endif>
+                    @if(!$firstTableField)<div class="dd-handle"></div> @endif
+                    @if(@$config->parameters->mini_cmp)
+                            @include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field.'_mini', ['component' => ['entry_id' => $dsItem->id, 'name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
+                        @else
+					{{ $dsItem[$config->name] }}
+                 @endif
+                 <?php $firstTableField = $firstTableField?$firstTableField:$dsItem[$config->name]; ?>
+
+                </td>
+                @endif
         	@endforeach
 
     			<td class="text-right">
@@ -68,13 +124,3 @@
   	</section>
 
 
-@section('substyles')
-	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.css') }}" rel="stylesheet">
-@stop
-
-@section('subscripts')
-	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/jquery.dataTables.js') }}"></script>
-	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/dataTables.rowReorder.min.js') }}"></script>
-	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/data-tables/DT_bootstrap.js') }}"></script>
-	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/ds-table.js') }}"></script>
-@stop

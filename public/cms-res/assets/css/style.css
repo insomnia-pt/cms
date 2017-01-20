@@ -528,13 +528,13 @@ ul {
     background: #5193ea;
     margin-right: 22px;
     box-shadow: 0 4px #2775e2;
-	float:left;
+    float:left;
 }
 
 .login-social-link a.twitter {
     background: #44ccfe;
     box-shadow: 0 4px #2bb4e8;
-	float:left;
+    float:left;
 }
 
 
@@ -1772,8 +1772,8 @@ h3.timeline-title {
 /*easy pie chart*/
 
 .easy-pie-chart {
-   display: inline-block;
-   padding: 30px 0;
+    display: inline-block;
+    padding: 30px 0;
 }
 
 .chart-info, .chart-info .increase, .chart-info .decrease {
@@ -1820,7 +1820,7 @@ h3.timeline-title {
     .panel-footer.revenue-foot {
         margin-bottom: -4px;
     };
-    }
+}
 
 
 .panel-footer.revenue-foot ul  {
@@ -2218,8 +2218,8 @@ ul.ft-link li a i {
 }
 
 .follower img {
-   border-radius: 50%;
-   -webkit-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
     width: 62px;
     height: 62px;
     /*display: inline-block;*/
@@ -2436,7 +2436,7 @@ ul.inbox-nav li a i {
 }
 
 ul.inbox-nav li a span.label {
-   margin-top: 13px;
+    margin-top: 13px;
 }
 
 ul.labels-info li h4 {
@@ -2449,7 +2449,7 @@ ul.labels-info li h4 {
 }
 
 ul.labels-info li  {
-   margin: 0;
+    margin: 0;
 }
 
 ul.labels-info li a {
@@ -2999,7 +2999,7 @@ ul.summary-list > li:last-child  {
 }
 
 .activity.alt .activity-desk .panel {
-   float: right;
+    float: right;
     position: relative;
 }
 
@@ -3482,7 +3482,7 @@ ul.amounts li {
 
 .form-horizontal.tasi-form .checkbox-inline > input {
     margin-top: 1px;
-	border:none;
+    border:none;
 }
 
 
@@ -3507,7 +3507,7 @@ input:focus:invalid:focus, textarea:focus:invalid:focus, select:focus:invalid:fo
 }
 
 .checkbox, .checkbox:hover, .checkbox:focus  {
-	border:none;
+    border:none;
 }
 
 
@@ -3736,6 +3736,23 @@ table.sliders tr td {
 .switch-square label {
     border-radius: 0 6px 6px 0;
     border-color: #DEB774;
+}
+
+.switch-small {
+    width: 50px;
+}
+
+.switch-small .switch-left,
+.switch-small .switch-right,
+.switch-small label {
+    height: 18px;
+    font-size: 10px;
+    line-height: 0;
+    padding-top: 4px;
+}
+
+.switch-small .switch-left {
+    text-indent: -6px;
 }
 
 
@@ -4346,7 +4363,7 @@ span.customSelect.changed {
 
 /* insomniafix - Fix bootstrap callendar using switch plugin*/
 .datepicker .switch {
-  display: table-cell;
+    display: table-cell;
 }
 
 .datepicker .has-switch {
@@ -4359,18 +4376,18 @@ span.customSelect.changed {
 
 
 .cd-accordion-menu ul {
-  display: none;
-  margin-left: 0;
+    display: none;
+    margin-left: 0;
 }
 .cd-accordion-menu li {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .cd-accordion-menu input[type=checkbox] {
-  position: absolute;
-  opacity: 0;
+    position: absolute;
+    opacity: 0;
 }
 
 .cd-accordion-menu label {
@@ -4397,10 +4414,10 @@ span.customSelect.changed {
     margin-right: 15px;
 }
 
-    .cd-accordion-menu .list-group-item {
-        padding: 10px 0px 10px 0;
-        transition: padding .5s ease;
-    }
+.cd-accordion-menu .list-group-item {
+    padding: 10px 0px 10px 0;
+    transition: padding .5s ease;
+}
 
 .cd-accordion-menu .list-group-item:hover {
     background: #f5f5f5;
@@ -4426,19 +4443,19 @@ span.customSelect.changed {
     font-size: 10px;
 }
 
-    .cd-accordion-menu .has-children ul {
-        margin: 10px 0 0 0;
-    }
+.cd-accordion-menu .has-children ul {
+    margin: 10px 0 0 0;
+}
 
-    .cd-accordion-menu .has-children ul li:last-child {
-        border-bottom: none;
-    }
+.cd-accordion-menu .has-children ul li:last-child {
+    border-bottom: none;
+}
 
-    .cd-accordion-menu .has-children li {
-        border-left: 0;
-        border-right: 0;
-        border-radius: 0;
-    }
+.cd-accordion-menu .has-children li {
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+}
 
 
 
@@ -4471,22 +4488,22 @@ span.customSelect.changed {
 
 
 body.dragging, body.dragging * {
-  cursor: move !important;
+    cursor: move !important;
 }
 
 .dragged {
-  position: absolute;
-  opacity: 0.5;
-  z-index: 2000;
+    position: absolute;
+    opacity: 0.5;
+    z-index: 2000;
 }
 
 ol.example li.placeholder {
-  position: relative;
-  /** More li styles **/
+    position: relative;
+    /** More li styles **/
 }
 ol.example li.placeholder:before {
-  position: absolute;
-  /** Define arrowhead **/
+    position: absolute;
+    /** Define arrowhead **/
 }
 
 .breadcrumb {
@@ -4522,9 +4539,9 @@ hr.top-line {
     right: 14px !important;
 }
 
-    #noty_topRight_layout_container li {
-        margin-bottom: 0;
-    }
+#noty_topRight_layout_container li {
+    margin-bottom: 0;
+}
 
 .popover-content {
     font-size: 14px;
@@ -4532,28 +4549,28 @@ hr.top-line {
 
 
 .jFiler-theme-default .jFiler-input {
-  width: 500px !important;
+    width: 500px !important;
 }
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container {
-  margin: 0 10px 30px 0 !important;
+    margin: 0 10px 30px 0 !important;
 }
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-thumb {
-  width: 125px !important;
-  height: 100px !important;
-  min-height: 100px !important;
+    width: 125px !important;
+    height: 100px !important;
+    min-height: 100px !important;
 }
 
 .jFiler-items-grid .jFiler-item {
-  width: 157px;
-  height: 162px;
+    width: 157px;
+    height: 162px;
 }
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-thumb span.jFiler-icon-file {
-  margin-top: 12px !important;
+    margin-top: 12px !important;
 }
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-assets .jFiler-jProgressBar {
-  width: 90px !important;
+    width: 90px !important;
 }

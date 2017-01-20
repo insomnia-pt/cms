@@ -52,7 +52,9 @@ class DsController extends AdminController {
 
 		$parameters = $this::parameters();
 
-		return View::make('cms::ds/index', compact('datasource','parentDatasource','dsItems','parameters','parentDatasourceItem'));
+        $datasourceFieldtypes = DatasourceFieldtype::get();
+
+		return View::make('cms::ds/index', compact('datasource','parentDatasource','dsItems','parameters','parentDatasourceItem','datasourceFieldtypes'));
 	}
 
 	public function getCreate($id)
@@ -105,6 +107,40 @@ class DsController extends AdminController {
 
 		return Redirect::to('cms/ds/'.$datasource->id.$returnUrlParams)->with('error', Lang::get('cms::ds/message.error.order'));
 	}
+
+    public function postAjaxComponent($id)
+    {
+        if (is_null($datasource = Datasource::find($id)))
+        {
+            return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
+        }
+
+        AdminController::checkPermission($datasource->table.'.'.'update');
+
+        $itemId = Input::get('id');
+
+        //only allow this inputs
+        $inputsAllowed = [];
+        foreach ($datasource->config() as $key => $config) {
+            array_push($inputsAllowed, $config->name);
+        }
+
+        // dd($inputsAllowed);
+        ////
+
+        $inputs = Input::only($inputsAllowed);
+        $inputs = array_filter($inputs, 'strlen');
+        $dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
+
+        if($dsItem->update($inputs)) {
+
+            Helpers::cmslog('Edição', $dsItem, $datasource->id, $itemId);
+
+            return 'Ok';
+        }
+
+        return 'Error';
+    }
 
 	public function postCreate($id)
 	{

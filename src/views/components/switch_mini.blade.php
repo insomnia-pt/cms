@@ -1,0 +1,3 @@
+<div class="switch switch-square switch-small switch_cmp" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-remove'></i>">
+    <input type="checkbox" data-entryid="{{ $component['entry_id'] }}" data-field="{{ $component['name'] }}" name="{{ $component['name'] }}_{{ $component['entry_id'] }}" id="{{ $component['name'] }}_{{ $component['entry_id'] }}" value="1" {{ $component['data']?'checked':'' }} />
+</div>
