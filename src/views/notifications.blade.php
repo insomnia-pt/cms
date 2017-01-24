@@ -1,7 +1,7 @@
 @if ($errors->any())
 var n = noty({
 	text:'<strong>Erro</strong><br />Verifique os erros no formulário', 
- 	type:'danger'
+ 	type:'error'
 });
 @endif
 
@@ -15,7 +15,7 @@ var n = noty({
 @if ($message = Session::get('error'))
 var n = noty({
 	text:'<strong>Erro</strong><br />{{ $message }}', 
- 	type:'danger'
+ 	type:'error'
 });
 @endif
 
@@ -29,6 +29,6 @@ var n = noty({
 @if ($message = Session::get('info'))
 var n = noty({
 	text:'<strong>Informação</strong><br />{{ $message }}', 
- 	type:'info'
+ 	type:'information'
 });
 @endif
