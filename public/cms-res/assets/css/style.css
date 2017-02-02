@@ -809,9 +809,9 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 
 .dropdown-menu.extended {
     max-width: 300px !important;
-    min-width: 160px !important;
+    min-width: 120px !important;
     top: 42px;
-    width: 235px !important;
+    /*width: 235px !important;*/
     padding: 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.176) !important;
     border: none !important;
@@ -921,8 +921,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 }
 
 .top-nav ul.top-menu > li .dropdown-menu.logout {
-    width: 268px !important;
-
+    /*width: 268px !important;*/
 }
 
 .top-nav li.dropdown .dropdown-menu {
@@ -932,9 +931,11 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 }
 
 .dropdown-menu.extended.logout > li {
-    float: left;
+    /*float: left;*/
+    display: inline-block;
+    vertical-align: top;
     text-align: center;
-    width: 33.3%;
+    /*width: 33.3%;*/
 }
 
 .dropdown-menu.extended.logout > li:last-child {
@@ -4573,4 +4574,12 @@ hr.top-line {
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-assets .jFiler-jProgressBar {
     width: 90px !important;
+}
+
+.appversion {
+    position: fixed;
+    left: 20px;
+    opacity:.5;
+    bottom: 10px;
+    text-align: center;
 }

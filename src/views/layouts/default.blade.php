@@ -75,12 +75,11 @@
 		                            <span class="username">{{ Sentry::getUser()->fullName() }}</span>
 		                            <b class="caret"></b>
 		                        </a>
-		                        <ul class="dropdown-menu extended logout">
+		                        <ul class="dropdown-menu extended logout text-center">
 		                            <div class="log-arrow-up"></div>
-		                            <li><a href="{{ route('users/edit', Sentry::getUser()->id ) }}"><i class=" fa fa-male"></i>Perfil</a></li>
-		                            <li><a href="{{ route('admin/programador') }}"><i class="fa fa-code"></i>Modo Prog</a></li>
-		                            <li><a href="#"><i class="fa fa-cog"></i> Definições</a></li>
-		                            <li><a href="{{ route('logout') }}"><i class="fa fa-key"></i> Log Out</a></li>
+		                            <li class="text-center"><a href="{{ route('users/edit', Sentry::getUser()->id ) }}"><i class=" fa fa-user"></i>Editar Perfil</a></li>
+									{{--<li><a href="{{ route('admin/programador') }}"><i class="fa fa-code"></i>Modo Prog</a></li>--}}
+		                            <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> Terminar Sessão</a></li>
 		                        </ul>
 		                    </li>
 		                    <!-- user login dropdown end -->
@@ -99,7 +98,8 @@
 
 		              </ul>
 		              <!-- sidebar menu end-->
-		          </div>
+					  @if(@Config::get('app.version'))<div class="appversion">{{ Config::get('app.version') }}</div>@endif
+				  </div>
 		      </aside>
 		      <!--sidebar end-->
 		      <!--main content start-->
