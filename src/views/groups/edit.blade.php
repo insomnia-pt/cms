@@ -43,7 +43,7 @@ Editar Grupo ::
 
 						<div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                           	<label for="name" class="col-lg-2 control-label">Nome</label>
-                          	<div class="col-lg-10">
+                          	<div class="col-lg-6">
                               	<input type="text" class="form-control" name="name" id="name" value="{{ Input::old('name', $group->name) }}" />
                              	{{ $errors->first('name', '<p class="help-block">:message</p>') }}
                           	</div>
@@ -190,7 +190,7 @@ Editar Grupo ::
 				</div>
 
 				<div class="form-group">
-					<div class="col-lg-12 text-right">
+                    <div class="col-lg-12 text-right">
 						<button class="btn btn-danger" type="submit">Guardar</button>
 						<a class="btn btn-default" href="{{ route('groups') }}">Cancelar</a>
 					</div>

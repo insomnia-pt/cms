@@ -143,7 +143,7 @@ Editar Utilizador ::
 				</div>
 
 				<div class="form-group">
-					<div class="col-lg-offset-2 col-lg-10">
+					<div class="col-lg-12 text-right">
 						<button class="btn btn-danger" type="submit">Guardar</button>
 						<a class="btn btn-default" href="{{ route('users') }}">Cancelar</a>
 					</div>

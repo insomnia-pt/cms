@@ -88,7 +88,7 @@ Adicionar Grupo ::
 				</div>
 
 				<div class="form-group">
-					<div class="col-lg-offset-2 col-lg-10">
+					<div class="col-lg-12 text-right">
 						<button class="btn btn-danger" type="submit">Adicionar</button>
 						<a class="btn btn-default" href="{{ route('groups') }}">Cancelar</a>
 					</div>

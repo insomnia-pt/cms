@@ -45,7 +45,7 @@ Adicionar Página ::
 						</div>
 						@if(Input::get('group'))<input type="hidden" name="group" value="{{ Input::get('group') }}"></input>@endif
 						<div class="form-group">
-							<div class="col-lg-offset-2 col-lg-10">
+							<div class="col-lg-12 text-right">
 								<button class="btn btn-danger" type="submit">Seguinte</button>
 								<a class="btn btn-default" href="{{ route('pages') }}{{ Input::get('group')?'?group='.Input::get('group'):null }}">Cancelar</a>
 							</div>
@@ -136,7 +136,7 @@ Adicionar Página ::
 					@endforeach
 
 					<div class="form-group">
-						<div class="col-lg-offset-2 col-lg-10">
+						<div class="col-lg-12 text-right">
 							<button class="btn btn-danger" type="submit">Adicionar</button>
 							<a class="btn btn-default" href="{{ route('pages') }}{{ Input::get('group')?'?group='.Input::get('group'):null }}">Cancelar</a>
 						</div>
