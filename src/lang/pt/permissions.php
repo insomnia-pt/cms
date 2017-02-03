@@ -2,9 +2,9 @@
 
 return array(
 
-	'view'    => 'Visualização',
-	'create'  => 'Criação',
-	'update' => 'Alteração',
-	'delete' => 'Remoção',
+	'view'    => 'Visualizar',
+	'create'  => 'Criar',
+	'update' => 'Alterar',
+	'delete' => 'Eliminar',
 
 );

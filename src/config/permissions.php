@@ -16,34 +16,34 @@ return array(
 	'Grupos' => array(
 		array(
 			'permission' => 'groups.view',
-			'label'      => 'Visualização',
+			'label'      => 'Visualizar',
 		),
 		array(
 			'permission' => 'groups.create',
-			'label'      => 'Criação',
+			'label'      => 'Criar',
 		),
 		array(
 			'permission' => 'groups.update',
-			'label'      => 'Alteração',
+			'label'      => 'Alterar',
 		),
 		array(
 			'permission' => 'groups.delete',
-			'label'      => 'Remoção',
+			'label'      => 'Eliminar',
 		),
 	),
 
 	'Utilizadores' => array(
 		array(
 			'permission' => 'users.view',
-			'label'      => 'Visualização',
+			'label'      => 'Visualizar',
 		),
 		array(
 			'permission' => 'users.create',
-			'label'      => 'Criação',
+			'label'      => 'Criar',
 		),
 		array(
 			'permission' => 'users.update',
-			'label'      => 'Alteração',
+			'label'      => 'Alterar',
 		),
 		array(
 			'permission' => 'users.group',
@@ -51,33 +51,33 @@ return array(
 		),
 		array(
 			'permission' => 'users.delete',
-			'label'      => 'Remoção',
+			'label'      => 'Eliminar',
 		),
 	),
 
 	'Datasources' => array(
 		array(
 			'permission' => 'datasources.view',
-			'label'      => 'Visualização',
+			'label'      => 'Visualizar',
 		),
 		array(
 			'permission' => 'datasources.create',
-			'label'      => 'Criação',
+			'label'      => 'Criar',
 		),
 		array(
 			'permission' => 'datasources.update',
-			'label'      => 'Alteração',
+			'label'      => 'Alterar',
 		),
 		array(
 			'permission' => 'datasources.delete',
-			'label'      => 'Remoção',
+			'label'      => 'Eliminar',
 		),
 	),
 
 	'Gestão Ficheiros' => array(
 		array(
 			'permission' => 'filebrowser.view',
-			'label'      => 'Visualização',
+			'label'      => 'Visualizar',
 		),
 	),
 
