@@ -298,7 +298,7 @@
 							this.fill();
 							this.set();
 							this.element.trigger({
-								type: 'changeDate',
+								type: 'changeDateDay',
 								date: this.date,
 								viewMode: DPGlobal.modes[this.viewMode].clsName
 							});

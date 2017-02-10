@@ -44,7 +44,7 @@ class AuthController extends BaseController {
             $user = Sentry::authenticate($credentials, Input::get('remember-me', 0));
 
 			// Get the page we were before
-			$redirect = Session::get('loginRedirect', 'ocms');
+			$redirect = Session::get('loginRedirect', 'cms');
 
 			// Unset the page we were before from the session
 			Session::forget('loginRedirect');
