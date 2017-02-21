@@ -162,7 +162,7 @@ class DsController extends AdminController {
 
 		if(Input::get('pds')){
 			if (is_null($parentDatasource = Datasource::find(Input::get('pds')))) {
-				return Redirect::to('ocms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
+				return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 			}
 
 			array_push($inputsAllowed, $parentDatasource->table.'_id');

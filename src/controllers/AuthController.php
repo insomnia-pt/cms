@@ -22,8 +22,6 @@ class AuthController extends BaseController {
 
 	public function postSignin()
 	{
-		if (Request::ajax()){ sleep(1); }
-
 		$rules = array(
 			'username'    => 'required|between:3,32',
 			'password' => 'required|between:3,32',
@@ -84,7 +82,7 @@ class AuthController extends BaseController {
 		}
 
 		// Show the page
-		return View::make('frontend.auth.signup')->with('refCode', $refCode);
+		return View::make('cms::auth.signup')->with('refCode', $refCode);
 	}
 
 
@@ -128,7 +126,7 @@ class AuthController extends BaseController {
 	public function getForgotPassword()
 	{
 		// Show the page
-		return View::make('frontend.auth.forgot-password');
+		return View::make('cms::auth.forgot-password');
 	}
 
 	/**
@@ -137,7 +135,7 @@ class AuthController extends BaseController {
 	 * @return Redirect
 	 */
 	public function postForgotPassword()
-	{sleep(1);
+	{
 
 		$rules = array(
 			'email' => 'required|email',
@@ -146,7 +144,7 @@ class AuthController extends BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Response::json($validator->messages());
+            return Redirect::back()->withErrors($validator);
 		}
 
 		try
@@ -157,19 +155,21 @@ class AuthController extends BaseController {
 			$emptyModelInstance = Sentry::getUserProvider()->getEmptyUser();
 			$user = $emptyModelInstance->where('email', '=', Input::get('email'))->first();
 			
+            if($user){
+                // Data to be used on the email view
+                $data = array(
+                    'user'              => $user,
+                    'forgotPasswordUrl' => URL::route('forgot-password-confirm', $user->getResetPasswordCode()),
+                );
 
-			// Data to be used on the email view
-			$data = array(
-				'user'              => $user,
-				'forgotPasswordUrl' => URL::route('forgot-password-confirm', $user->getResetPasswordCode()),
-			);
+                // Send the activation code through email
+                Mail::send('emails.forgot-password', $data, function($m) use ($user)
+                {
+                    $m->to($user->email, $user->first_name . ' ' . $user->last_name);
+                    $m->subject('Recuperação de Password');
+                });
+            }
 
-			// Send the activation code through email
-			Mail::send('emails.forgot-password', $data, function($m) use ($user)
-			{
-				$m->to($user->email, $user->first_name . ' ' . $user->last_name);
-				$m->subject('Recuperação de Password');
-			});
 		}
 		catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
 		{
@@ -178,7 +178,7 @@ class AuthController extends BaseController {
 			// this is a security measure against hackers.
 		}
 
-		return Response::json(array('success' => Lang::get('cms::auth/message.forgot-password.success')));
+        return Redirect::back()->with('success', Lang::get('cms::auth/message.forgot-password.success'));
 	}
 
 	/**
@@ -201,7 +201,7 @@ class AuthController extends BaseController {
 		}
 
 		// Show the page
-		return View::make('frontend.auth.forgot-password-confirm')->with('passwordResetCode', $passwordResetCode);
+		return View::make('cms::auth.forgot-password-confirm')->with('passwordResetCode', $passwordResetCode);
 	}
 
 	/**
@@ -211,7 +211,7 @@ class AuthController extends BaseController {
 	 * @return Redirect
 	 */
 	public function postForgotPasswordConfirm($passwordResetCode = null)
-	{sleep(1);
+	{
 
 		$rules = array(
 			'password'         => 'required|between:3,32',
@@ -221,7 +221,7 @@ class AuthController extends BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Response::json($validator->messages());
+            return Redirect::back()->withErrors($validator);
 		}
 
 		try
@@ -234,25 +234,24 @@ class AuthController extends BaseController {
 			if ($user->attemptResetPassword($passwordResetCode, Input::get('password')))
 			{
 				// Password successfully reseted
-				return Response::json(array('success' => Lang::get('cms::auth/message.forgot-password-confirm.success')));
+                return Redirect::back()->with('success', Lang::get('cms::auth/message.forgot-password-confirm.success'));
 			}
 			else
 			{
 				// Ooops.. something went wrong
-				return Response::json(array('success' => Lang::get('cms::auth/message.forgot-password-confirm.error')));
+                return Redirect::back()->with('success', Lang::get('cms::auth/message.forgot-password-confirm.error'));
 			}
 		}
 		catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
 		{
-			// Redirect to the forgot password page
-			return Redirect::route('forgot-password')->with('error', Lang::get('cms::auth/message.account_not_found'));
+			return Redirect::route('signin')->with('error', Lang::get('cms::auth/message.account_not_found'));
 		}
 	}
 
 	public function getLogout()
 	{
 		Sentry::logout();
-		return Redirect::route('cms')->with('success', 'Login efectuado com sucesso!');
+		return Redirect::route('cms')->with('success', 'Logout efectuado com sucesso!');
 	}
 
 }

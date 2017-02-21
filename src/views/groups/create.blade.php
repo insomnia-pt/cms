@@ -47,6 +47,22 @@ Adicionar Grupo ::
                              	{{ $errors->first('name', '<p class="help-block">:message</p>') }}
                           	</div>
                       	</div>
+
+						<div class="form-group {{ $errors->has('copy') ? 'has-error' : '' }}">
+							<label class="col-lg-2 control-label" for="copy">Copiar definições de Grupo</label>
+							<div class="col-lg-4">
+								<select class="form-control" name="copy" id="copy">
+									<option value="0">Não</option>
+									@foreach ($groups as $group)
+										@if(Session::get('settings_super_user') && $group->id == 1)
+										@else
+											<option value="{{ $group->id }}">{{ $group->name }}</option>
+										@endif
+									@endforeach
+								</select>
+							</div>
+						</div>
+
 						<div class="form-group"></div>
 
 					</div>

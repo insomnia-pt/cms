@@ -13,9 +13,9 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 		Route::post('signin', 'AuthController@postSignin');
 
 		# Register
-		Route::get('signup', array('as' => 'signup', 'uses' => 'AuthController@getSignup'));
-		Route::get('signup/{refCode}', 'AuthController@getSignup');
-		Route::post('signup', 'AuthController@postSignup');
+//		Route::get('signup', array('as' => 'signup', 'uses' => 'AuthController@getSignup'));
+//		Route::get('signup/{refCode}', 'AuthController@getSignup');
+//		Route::post('signup', 'AuthController@postSignup');
 
 		# Account Activation
 		Route::get('activate/{activationCode}', array('as' => 'activate', 'uses' => 'AuthController@getActivate'));

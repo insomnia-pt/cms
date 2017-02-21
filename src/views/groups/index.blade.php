@@ -32,8 +32,8 @@ Gestão de Grupos ::
               <thead>
               <tr>
                   <th>Nome</th>
-                  <th class="hidden-phone"># utilizadores</th>
-                  <th class="hidden-phone">Criado em</th>
+                  <th class="hidden-phone text-center">Nº Utilizadores</th>
+                  <th class="hidden-phone ">Criado em</th>
                   <th class="nosort"></th>
               </tr>
               </thead>
@@ -46,7 +46,7 @@ Gestão de Grupos ::
           @else
             <tr class="odd gradeX">
               <td class="hidden-phone">{{ $group->name }}</td>
-              <td class="hidden-phone">{{ $group->users()->count() }}</td>
+              <td class="hidden-phone text-center">{{ $group->users()->count() }}</td>
               <td class="hidden-phone">{{ $group->created_at }}</td>
               <td class="text-right">
                 <a href="{{ route('groups/edit', $group->id) }}" class="btn btn-xs btn-default">@lang('cms::button.edit')</a>

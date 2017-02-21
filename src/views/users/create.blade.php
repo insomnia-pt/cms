@@ -74,7 +74,7 @@ Adicionar Utilizador ::
           	</div>
 
           	<div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-              	<label for="password" class="col-lg-2 control-label">Password</label>
+              	<label for="password" class="col-lg-2 control-label">Senha</label>
               	<div class="col-lg-5">
                   	<input type="password" class="form-control" name="password" id="password" />
                  	{{ $errors->first('password', '<p class="help-block">:message</p>') }}
@@ -82,7 +82,7 @@ Adicionar Utilizador ::
           	</div>
 
           	<div class="form-group {{ $errors->has('password_confirm') ? 'has-error' : '' }}">
-              	<label for="password_confirm" class="col-lg-2 control-label">Confirm. Password</label>
+              	<label for="password_confirm" class="col-lg-2 control-label">Confirm. Senha</label>
               	<div class="col-lg-5">
                   	<input type="password" class="form-control" name="password_confirm" id="password_confirm" />
                  	{{ $errors->first('password_confirm', '<p class="help-block">:message</p>') }}

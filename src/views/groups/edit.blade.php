@@ -28,8 +28,8 @@ Editar Grupo ::
 			<header class="panel-heading tab-bg-dark-navy-blue ">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#tab-general" data-toggle="tab">Geral</a></li>
-					<li><a href="#tab-permissions" data-toggle="tab">Permissões</a></li>
-					<li><a href="#tab-menus" data-toggle="tab">Menu</a></li>
+                    <li><a href="#tab-menus" data-toggle="tab">Menu</a></li>
+                    <li><a href="#tab-permissions" data-toggle="tab">Permissões</a></li>
 				</ul>
 			</header>
 			<div class="panel-body">
@@ -97,7 +97,7 @@ Editar Grupo ::
                             <div class="col-lg-7">
 
                                 <section>
-                                    <header class="panel-heading"><strong>MENU VISÍVEL</strong></header>
+                                    <header class="panel-heading"><strong>LISTA DE MENUS ACTIVOS</strong></header>
                                     <input type="hidden" name="menuconfig" id="menuconfig" />
                                     <div id="menulist" class="dd ">
                                         <ol class="list-group dd-list menulists">
@@ -137,7 +137,7 @@ Editar Grupo ::
                             <div class="col-lg-5">
                                 <section>
                                     <header class="panel-heading">
-                                        LINKS OCULTOS
+                                        OPÇÕES DE MENU
                                         <button class="btn btn-info btn-xs pull-right bt-add-group" type="button">Novo Agrupamento</button>
                                     </header>
                                     <input type="hidden" name="menuoutconfig" id="menuoutconfig" />

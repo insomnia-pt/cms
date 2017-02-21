@@ -2,15 +2,15 @@
 
 return array(
 
-	'account_already_exists' => 'An account with the provided email, already exists.',
-	'account_not_found'      => 'This user account was not found.',
-	'account_not_activated'  => 'This user account is not activated.',
-	'account_suspended'      => 'This user account is suspended.',
-	'account_banned'         => 'This user account is banned.',
+	'account_already_exists' => 'Já existe uma conta com este email.',
+	'account_not_found'      => 'A conta não foi encontrada.',
+	'account_not_activated'  => 'Esta conta não está activa.',
+	'account_suspended'      => 'Esta conta está suspensa.',
+	'account_banned'         => 'Esta conta foi banida.',
 
 	'signin' => array(
 		'error'   => 'Login inválido',
-		'success' => 'You have successfully logged in.',
+		'success' => 'Login efectuado com sucesso.',
 	),
 
 	'signup' => array(
@@ -20,12 +20,12 @@ return array(
 
         'forgot-password' => array(
             'error'   => 'There was a problem while trying to get a reset password code, please try again.',
-            'success' => 'Password recovery email successfully sent.',
+            'success' => 'Enviado email de recuperação de password.',
         ),
 
         'forgot-password-confirm' => array(
             'error'   => 'There was a problem while trying to reset your password, please try again.',
-            'success' => 'Your password has been successfully reset.',
+            'success' => 'A password foi reposta.',
         ),
     
 	'activate' => array(

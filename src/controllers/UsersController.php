@@ -271,37 +271,40 @@ class UsersController extends AdminController {
 				$user->password = $password;
 			}
 
-			if(Sentry::getUser()->hasAccess('users.group')){
-                // Get the current user groups
-                $userGroups = $user->groups()->lists('group_id', 'group_id');
+			if(Input::get('groups')[0]){
 
-                // Get the selected groups
-                $selectedGroups = Input::get('groups', array());
+                if(Sentry::getUser()->hasAccess('users.group')){
+                    // Get the current user groups
+                    $userGroups = $user->groups()->lists('group_id', 'group_id');
 
-                // Groups comparison between the groups the user currently
-                // have and the groups the user wish to have.
-                $groupsToAdd    = array_diff($selectedGroups, $userGroups);
-                $groupsToRemove = array_diff($userGroups, $selectedGroups);
+                    // Get the selected groups
+                    $selectedGroups = Input::get('groups', array());
 
-                // Assign the user to groups
-                foreach ($groupsToAdd as $groupId)
-                {
-                    if(Session::get('settings_super_user') && $groupId == 1) {
-                        return Redirect::route('users/edit', $id)->with('error', 'Sem permissões');
-                    } else {
-                        $group = Sentry::getGroupProvider()->findById($groupId);
-                        $user->addGroup($group);
+                    // Groups comparison between the groups the user currently
+                    // have and the groups the user wish to have.
+                    $groupsToAdd    = array_diff($selectedGroups, $userGroups);
+                    $groupsToRemove = array_diff($userGroups, $selectedGroups);
+
+                    // Assign the user to groups
+                    foreach ($groupsToAdd as $groupId)
+                    {
+                        if(Session::get('settings_super_user') && $groupId == 1) {
+                            return Redirect::route('users/edit', $id)->with('error', 'Sem permissões');
+                        } else {
+                            $group = Sentry::getGroupProvider()->findById($groupId);
+                            $user->addGroup($group);
+                        }
+
+
                     }
 
+                    // Remove the user from groups
+                    foreach ($groupsToRemove as $groupId)
+                    {
+                        $group = Sentry::getGroupProvider()->findById($groupId);
 
-                }
-
-                // Remove the user from groups
-                foreach ($groupsToRemove as $groupId)
-                {
-                    $group = Sentry::getGroupProvider()->findById($groupId);
-
-                    $user->removeGroup($group);
+                        $user->removeGroup($group);
+                    }
                 }
             }
 
@@ -351,6 +354,8 @@ class UsersController extends AdminController {
 			}
 
 			// Delete the user
+			$user->activated = 0;
+			$user->save();
 			$user->delete();
 
 			// Prepare the success message

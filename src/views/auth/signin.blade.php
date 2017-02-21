@@ -1,7 +1,7 @@
 @extends('cms::layouts/auth')
 
 @section('title')
-	ocms LOGIN ::
+	CMS LOGIN ::
 @parent
 @stop
 
@@ -20,7 +20,7 @@
 	        <input type="password" class="form-control" placeholder="Password" name="password">
 	        <label class="checkbox">
 	            <input type="checkbox" value="remember-me"> Lembrar-me
-	            <span class="pull-right"> <a href="/ocms/auth/forgot-password"> Esqueceu-se da password?</a></span>
+	            <span class="pull-right"> <a href="/cms/auth/forgot-password"> Esqueceu-se da password?</a></span>
 	        </label>
 	        <button class="btn btn-lg btn-login btn-block" type="submit">Entrar</button>
 

@@ -33,6 +33,8 @@ class GroupsController extends AdminController {
 	{
 		AdminController::checkPermission('groups.create');
 
+        $groups = Sentry::getGroupProvider()->findAll();
+
 		// Get all the available permissions
 		$permissions = Config::get('cms::permissions');
 		$this->encodeAllPermissions($permissions, true);
@@ -41,7 +43,7 @@ class GroupsController extends AdminController {
 		$selectedPermissions = Input::old('permissions', array());
 
 		// Show the page
-		return View::make('cms::groups/create', compact('permissions', 'selectedPermissions'));
+		return View::make('cms::groups/create', compact('permissions', 'selectedPermissions','groups'));
 	}
 
 	public function postCreate()
@@ -50,6 +52,7 @@ class GroupsController extends AdminController {
 
 		$rules = array(
 			'name' => 'required',
+            'copy' => 'required'
 		);
 
 		// Create a new validator instance from our validation rules
@@ -71,14 +74,20 @@ class GroupsController extends AdminController {
 			app('request')->request->set('permissions', $permissions);
 
 			// Get the inputs, with some exceptions
-			$inputs = Input::except('_token');
+			$inputs = Input::except('_token', 'copy');
 
 			// Was the group created?
 			if ($group = Sentry::getGroupProvider()->create($inputs))
-			{	
+			{
+			    //copy permissions
+                if(Input::get('copy')!=0){
+                    $copyGroup = Sentry::getGroupProvider()->findById(Input::get('copy'));
+                    $group->permissions = $copyGroup->permissions;
+                    $group->save();
+                }
 
 				//create group menus
-				$systemMenus = Menu::where('group_id', 0)->orderBy('order')->get();
+				$systemMenus = Menu::where('group_id', Input::get('copy'))->orderBy('order')->get();
 		  		$parentMenus = $systemMenus->filter(function($menu) {
 				    return $menu->id_parent == 0;
 				})->values();

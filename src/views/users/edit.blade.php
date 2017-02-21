@@ -76,17 +76,17 @@ Editar Utilizador ::
           	</div>
 
           	<div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-              	<label for="password" class="col-lg-2 control-label">Password</label>
+              	<label for="password" class="col-lg-2 control-label">Senha</label>
               	<div class="col-lg-5">
-                  	<input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+                  	<input type="password" class="form-control" name="password" id="password" placeholder="Senha" />
                  	{{ $errors->first('password', '<p class="help-block">:message</p>') }}
               	</div>
           	</div>
 
           	<div class="form-group {{ $errors->has('password_confirm') ? 'has-error' : '' }}">
-              	<label for="password_confirm" class="col-lg-2 control-label">Confirm. Password</label>
+              	<label for="password_confirm" class="col-lg-2 control-label">Confirm. Senha</label>
               	<div class="col-lg-5">
-                  	<input type="password" class="form-control" name="password_confirm" id="password_confirm" placeholder="Conf. Password" />
+                  	<input type="password" class="form-control" name="password_confirm" id="password_confirm" placeholder="Conf. Senha" />
                  	{{ $errors->first('password_confirm', '<p class="help-block">:message</p>') }}
               	</div>
           	</div>
@@ -96,6 +96,7 @@ Editar Utilizador ::
 						<label class="col-lg-2 control-label" for="groups">Grupo</label>
 						<div class="col-lg-4">
 							<select class="form-control" name="groups[]" id="groups">
+								@if(!count($userGroups))<option value="0">(Não definido)</option>@endif
 								@foreach ($groups as $group)
 									@if(Session::get('settings_super_user') && $group->id == 1)
 									@else

@@ -1,25 +1,31 @@
-@extends('frontend/layouts/default')
+@extends('cms::layouts/auth')
 
-{{-- Page title --}}
 @section('title')
-Recuperar Password ::
-@parent
+	Recuperar Password ::
+	@parent
 @stop
 
-{{-- Page content --}}
 @section('content')
 
-	<div id="page-account" class="page-inside">
-		<div class="page-title"><h1 class="title">RECUPERAR PASSWORD</h1></div>
-		<form action="/ocms/auth/forgot-password/{{ $passwordResetCode }}" id="reset_account_form" class="general-form" onkeypress="return event.keyCode != 13;">
+	<div style="text-align: center;margin: 80px 0 0 10px "><img src="{{ Helpers::asset('packages/insomnia/cms/cms-res/assets/img/logo.png') }}" ></div>
 
-			<div class='form_item'>{{ Form::label('password','Password') }}{{ Form::password('password','',array('style'=>'width:150px')) }}<div class='field_error'></div><span class="required">*</span></div>
-				<div class='form_item'>{{ Form::label('password_confirm','Confirme Password') }}{{ Form::password('password_confirm','',array('style'=>'width:150px')) }}<div class='field_error'></div><span class="required">*</span></div>
+	<form action="/cms/auth/forgot-password/{{ $passwordResetCode }}" id="reset_account_form" class="form-signin" onkeypress="return event.keyCode != 13;" method="POST">
 
-			{{ Form::token() }}
-			<span class="bt button-blue unselectable">Confirmar</span><span class="msg-form"></span>
-			<div class="clear"></div>
-		</form>
-	</div>
+		<h2 class="form-signin-heading">Nova Password</h2>
+		<div class="login-wrap">
+			@if(Session::get('success'))
+				{{ Session::get('success') }}
+			@else
+				{{ $errors->first('password', '<p class="help-block">:message</p>') }}
+				<input type="password" class="form-control" placeholder="Password" name="password" autofocus>
+				{{ $errors->first('password_confirm', '<p class="help-block">:message</p>') }}
+				<input type="password" class="form-control" placeholder="Confirmar Password" name="password_confirm" autofocus>
+
+				<button class="btn btn-lg btn-login btn-block" type="submit">Confirmar</button>
+			@endif
+
+		</div>
+		{{ Form::token() }}
+	</form>
 
 @stop

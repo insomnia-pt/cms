@@ -1,24 +1,31 @@
-@extends('frontend/layouts/default')
+@extends('cms::layouts/auth')
 
-{{-- Page title --}}
 @section('title')
-Recuperar Password ::
-@parent
+	Recuperar Password ::
+	@parent
 @stop
 
-{{-- Page content --}}
 @section('content')
 
-	<div id="page-account" class="page-inside">
-		<div class="page-title"><h1 class="title">RECUPERAR PASSWORD</h1></div>
-		<form id="recover_account_form" class="general-form" onkeypress="return event.keyCode != 13;">
+	<div style="text-align: center;margin: 80px 0 0 10px "><img src="{{ Helpers::asset('packages/insomnia/cms/cms-res/assets/img/logo.png') }}" ></div>
 
-			<div class='form_item'>{{ Form::label('email','Email') }}{{ Form::email('email','',array('style'=>'width:250px')) }}<div class='field_error'></div><span class="required">*</span></div>
+	<form id="recover_account_form" class="form-signin" onkeypress="return event.keyCode != 13;" method="POST">
 
-			{{ Form::token() }}
-			<span class="bt button-blue unselectable">Confirmar</span><span class="msg-form"></span>
-			<div class="clear"></div>
-		</form>
-	</div>
+		<h2 class="form-signin-heading">Recuperar Password</h2>
+		<div class="login-wrap">
+			@if(Session::get('success'))
+				{{ Session::get('success') }}
+			@else
+			{{ $errors->first('email', '<p class="help-block">:message</p>') }}
+			<input type="text" class="form-control" placeholder="Email" name="email" autofocus>
+			<label class="checkbox">
+				<span class="pull-right"> <a href="/cms/auth/signin"><i class="fa fa-arrow-circle-left"></i> Voltar à Autenticação</a></span>
+			</label>
+			<button class="btn btn-lg btn-login btn-block" type="submit">Recuperar</button>
+			@endif
+
+		</div>
+		{{ Form::token() }}
+	</form>
 
 @stop
