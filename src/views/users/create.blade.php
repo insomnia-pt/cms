@@ -17,7 +17,7 @@ Adicionar Utilizador ::
               <li><span class="active">Adicionar</span></li>
           </ul>
 
-          <a href="{{ route('users') }}" class="btn btn-small btn-info pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
+          <a href="{{ route('users') }}" class="btn btn-small btn-default pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
       </div>
   </div>
 

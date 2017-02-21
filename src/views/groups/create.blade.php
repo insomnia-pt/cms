@@ -16,7 +16,7 @@ Adicionar Grupo ::
               <li><a href="{{ route('groups') }}">Grupos</a></li>
               <li><span class="active">Adicionar</span></li>
           </ul>
-          <a href="{{ route('groups') }}" class="btn btn-small btn-info pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
+          <a href="{{ route('groups') }}" class="btn btn-small btn-default pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
       </div>
   </div>
 

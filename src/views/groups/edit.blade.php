@@ -16,7 +16,7 @@ Editar Grupo ::
               <li><a href="{{ route('groups') }}">Grupos</a></li>
               <li><span class="active">Editar</span></li>
           </ul>
-          <a href="{{ route('groups') }}" class="btn btn-small btn-info pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
+          <a href="{{ route('groups') }}" class="btn btn-small btn-default pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
       </div>
   </div>
 
@@ -108,7 +108,7 @@ Editar Grupo ::
                                                         @if(!$menuitem->system&&!$menuitem->datasource_id)<button class="menu-remove btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button>@endif
                                                         <button class="menu-edit btn btn-xs btn-info" type="button"><i class="fa fa-pencil"></i></button>
                                                         <span class="menu-label-text">{{ $menuitem->name?$menuitem->name:$menuitem->datasource->name }}</span>
-                                                        <span class="menu-label-info"> {{ $menuitem->datasource_id?'<small class="text-muted">(DATASOURCE)</small>':'' }}</span>
+                                                        <span class="menu-label-info"> {{ $menuitem->datasource_id?'<small class="text-muted"></small>':'' }}</span>
                                                         <input type="text" class="menu-input-text form-control" />
                                                     </div>
                                                     @if(count($menuitem->children))
@@ -120,7 +120,7 @@ Editar Grupo ::
                                                                         @if(!$submenuitem->system&&!$submenuitem->datasource_id)<button class="menu-remove btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button>@endif
                                                                         <button class="menu-edit btn btn-xs btn-info" type="button"><i class="fa fa-pencil"></i></button>
                                                                         <span class="menu-label-text">{{ $submenuitem->name?$submenuitem->name:$submenuitem->datasource->name }}</span>
-                                                                        <span class="menu-label-info"> {{ $submenuitem->datasource_id?'<small class="text-muted">(DATASOURCE)</small>':'' }}</span>
+                                                                        <span class="menu-label-info"> {{ $submenuitem->datasource_id?'<small class="text-muted"></small>':'' }}</span>
                                                                         <input type="text" class="menu-input-text form-control" />
                                                                     </div>
                                                                 </li>
@@ -151,7 +151,7 @@ Editar Grupo ::
                                                             @if(!$menuoutitem->system&&!$menuoutitem->table)<button class="menu-remove btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button>@endif
                                                             <button class="menu-edit btn btn-xs btn-info" type="button"><i class="fa fa-pencil"></i></button>
                                                             <span class="menu-label-text">{{ $menuoutitem->name?$menuoutitem->name:$menuoutitem->datasource->name }}</span>
-                                                            <span class="menu-label-info"> {{ $menuoutitem->datasource_id?'<small class="text-muted">(DATASOURCE)</small>':'' }}</span>
+                                                            <span class="menu-label-info"> {{ $menuoutitem->datasource_id?'<small class="text-muted"></small>':'' }}</span>
                                                             <input type="text" class="menu-input-text form-control" />
                                                         </div>
                                                         @if(count($menuoutitem->children))
@@ -163,7 +163,7 @@ Editar Grupo ::
                                                                             @if(!$submenuitem->system&&!$submenuitem->table)<button class="menu-remove btn btn-xs btn-danger" type="button"><i class="fa fa-trash"></i></button>@endif
                                                                             <button class="menu-edit btn btn-xs btn-info" type="button"><i class="fa fa-pencil"></i></button>
                                                                             <span class="menu-label-text">{{ $submenuitem->name?$submenuitem->name:$submenuitem->datasource->name }}</span>
-                                                                            <span class="menu-label-info"> {{ $submenuitem->datasource_id?'<small class="text-muted">(DATASOURCE)</small>':'' }}</span>
+                                                                            <span class="menu-label-info"> {{ $submenuitem->datasource_id?'<small class="text-muted"></small>':'' }}</span>
                                                                             <input type="text" class="menu-input-text form-control" />
                                                                         </div>
                                                                     </li>

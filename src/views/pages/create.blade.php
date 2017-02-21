@@ -17,7 +17,7 @@ Adicionar Página ::
               <li><span class="active">Adicionar</span></li>
           </ul>
 
-          <a href="{{ URL::previous() }}" class="btn btn-small btn-info pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
+          <a href="{{ URL::previous() }}" class="btn btn-small btn-default pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
       </div>
   </div>
 
