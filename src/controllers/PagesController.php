@@ -170,8 +170,15 @@ class PagesController extends AdminController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 
+		if(@count($page->contentdatasources())){
+            $pageContent = Input::except('_token','title','pageType','group');
+            $page->content = json_encode(array_add($pageContent, 'datasources', $page->contentdatasources()));
+        } else {
+            $page->content = json_encode(Input::except('_token','title','pageType','group'));
+        }
+
 		$page->title          = Input::get('title');
-		$page->content        = json_encode(Input::except('_token','title','pageType','group'));
+
 		if(isset($inputs['id_parent'])) { $page->id_parent = Input::get('id_parent'); }
 
 		if($page->save()) {
