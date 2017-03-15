@@ -70,7 +70,7 @@
 	          @endif
         	</a>
 	        @if(array_key_exists($datasource->table.'.delete', $_groupPermissions))
-					<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar a página?" data-reply="" data-toggle="modal" data-descr="{{ $page->title }}" data-url="{{ route('pages/delete', $page->id) }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" href="#modal-confirm">@lang('cms::button.delete')</a>
+					<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar a página?@if(@count($page->contentdatasources())) <br /><br />NOTA: Esta acção também irá remover os componentes associados à página, assim como todos os seus registos. @endif" data-reply="" data-toggle="modal" data-descr="{{ $page->title }}" data-url="{{ route('pages/delete', $page->id) }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" href="#modal-confirm">@lang('cms::button.delete')</a>
 	        @endif
 			</td>
 		</tr>

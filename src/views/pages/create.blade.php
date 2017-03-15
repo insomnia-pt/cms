@@ -130,7 +130,7 @@ Adicionar Página ::
 
 								@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name, 'data' => Input::old($area->name), 'limit' => @$area->field->parameters->limit, 'extensions' => @$area->field->parameters->extensions, 'items' => @$area->field->parameters->values, 'folder' => @$area->field->parameters->folder]])
 
-               	{{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
+               					{{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
 							</div>
 						</div>
 					@endforeach
@@ -154,31 +154,15 @@ Adicionar Página ::
 			<section class="panel">
 				<header class="panel-heading">Definições </header>
 				<div class="panel-body form-horizontal tasi-form">
+
 					@foreach($pageTypeSel->config()->settings as $setting)
-						<div class="form-group {{ $errors->has($setting->name) ? 'has-error' : '' }}">
+						<div class="form-group {{ $errors->has($setting->name) ? 'has-error' : '' }}" @if(isset($setting->field->admin)&&!@Sentry::getUser()->getGroups()[0]->id == 1)) style="display: none;" @endif>
 							<label for="{{ $setting->name }}" class="col-lg-2 control-label">{{ $setting->field->name }}</label>
 							<div class="col-lg-{{ $setting->field->size }}">
-							@if($datasourceFieldtypes->find($setting->field->datatype)->config()->field == 'textarea')
-								<textarea class="form-control ckeditor" name="{{ $setting->name }}" id="{{ $setting->name }}" value="content" rows="10">{{ Input::old($setting->name) }}</textarea>
-							@elseif($datasourceFieldtypes->find($setting->field->datatype)->config()->field == 'text')
-								<input type="text" class="form-control" name="{{ $setting->name }}" id="{{ $setting->name }}" value="{{ Input::old($setting->name) }}" />
-							@elseif($datasourceFieldtypes->find($setting->field->datatype)->config()->field == 'image')
-								<input class="form-control inline image" type="text" name="{{ $setting->name }}" id="{{ $setting->name }}" data-limit="{{ @$setting->field->parameters->limit }}" value="{{ Input::old($setting->name) }}" readonly />
-							@elseif($datasourceFieldtypes->find($setting->field->datatype)->config()->field == 'document')
-								<input class="form-control inline document" type="text" name="{{ $setting->name }}" id="{{ $setting->name }}" data-limit="{{ @$setting->field->parameters->limit }}" value="{{ Input::old($setting->name) }}" readonly />
-							@elseif($datasourceFieldtypes->find($setting->field->datatype)->config()->field == 'date')
-								<div class="input-append date col-lg-10" style="padding: 0" data-date-format="yyyy-mm-dd" data-date="{{ date('Y-m-d') }}">
-									<input type="text" class="form-control" name="{{ $setting->name }}" id="{{ $setting->name }}" value="{{ Input::old($setting->name) }}" readonly />
-									<span class="add-on"><i class="fa fa-calendar"></i></span>
-								</div>
-							@elseif($datasourceFieldtypes->find($setting->field->datatype)->config()->field == 'combobox')
-								<select class="form-control" name="{{ $setting->name }}" id="{{ $setting->name }}">
-									@foreach(explode(';', @$setting->parameters->values) as $fieldOption)
-										<option value="{{ @explode(',', $fieldOption)[0] }}" {{ Input::old($setting->name)==@explode(',', $fieldOption)[0]?'selected':'' }}>{{ @explode(',', $fieldOption)[1] }}</option>
-									@endforeach
-								</select>
-							@endif
-		            {{ $errors->first($setting->name, '<p class="help-block">:message</p>') }}
+
+								@include('cms::components.'.$datasourceFieldtypes->find($setting->field->datatype)->config()->field, ['component' => ['name' => $setting->name, 'data' => Input::old($setting->name), 'limit' => @$setting->field->parameters->limit, 'extensions' => @$setting->field->parameters->extensions, 'items' => @$setting->field->parameters->values, 'folder' => @$setting->field->parameters->folder]])
+
+								{{ $errors->first($setting->name, '<p class="help-block">:message</p>') }}
 							</div>
 						</div>
 					@endforeach

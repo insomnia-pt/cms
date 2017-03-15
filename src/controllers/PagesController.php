@@ -1,6 +1,7 @@
 <?php namespace Insomnia\Cms\Controllers;
 
 use Insomnia\Cms\Controllers\AdminController;
+use Insomnia\Cms\Models\DatasourcePage;
 use Insomnia\Cms\Models\Page as Page;
 use Insomnia\Cms\Models\PageType as PageType;
 use Insomnia\Cms\Models\PageHistory as PageHistory;
@@ -10,16 +11,15 @@ use Insomnia\Cms\Models\Setting as Setting;
 use Input;
 use Lang;
 use Redirect;
-use Sentry;
-use Str;
 use Validator;
 use View;
-use URL;
 use Helpers;
 use Session;
+use Sentry;
+use Str;
+use URL;
 
 class PagesController extends AdminController {
-
 
 	public function getIndex()
 	{
@@ -84,8 +84,10 @@ class PagesController extends AdminController {
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 
+        $pageType = PageType::find(Input::get('pageType'));
+
 		$page = new Page;
-		$page->pagetype_id    = Input::get('pageType');
+		$page->pagetype_id    = $pageType->id;
 		$page->language       = Session::get('language');
 		$page->slug           = $slug;
 		$page->title          = Input::get('title');
@@ -93,6 +95,21 @@ class PagesController extends AdminController {
 		if(isset($inputs['id_parent'])) { $page->id_parent = Input::get('id_parent'); }
 
 		if($page->save()) {
+
+		    //SE HOUVER "DATASOURCES" NO TIPO DE PÁGINA, CRIA DATASOURCES E ASSOCIA-OS À PÁGINA
+            if(@count($pageType->datasources())){
+                $datasourcesIds = [];
+                foreach ($pageType->datasources() as $pageTypeDatasource){
+                    $datasource = DatasourcesController::DsCreate($pageTypeDatasource['name']." - ".Input::get('title'), 0, $pageTypeDatasource['model']);
+                    DatasourcePage::create(array('page_id' => $page->id, 'datasource_id' => $datasource->id));
+                    array_push($datasourcesIds, $datasource->id);
+                }
+
+                $pageContent = Input::except('_token','title','pageType','group','slug');
+                $page->content = json_encode(array_add($pageContent, 'datasources', $datasourcesIds));
+                $page->save();
+            }
+            ////
 
 			$pageVersion = new PageHistory();
 			$pageVersion->page_id = $page->id;
@@ -176,14 +193,27 @@ class PagesController extends AdminController {
 
 	public function getDelete($id)
 	{
-		AdminController::checkPermission('pages.delete');
-		if (is_null($page = Page::find($id)))
-		{
-			return Redirect::to('cms/pages')->with('error',Lang::get('cms::pages/message.does_not_exist'));
-		}
 
-		Page::where('id_parent', $page->id)->update(array('id_parent' => null));
-		$page->delete();
+        AdminController::checkPermission('pages.delete');
+        if (is_null($page = Page::find($id)))
+        {
+            return Redirect::to('cms/pages')->with('error',Lang::get('cms::pages/message.does_not_exist'));
+        }
+
+
+        Page::where('id_parent', $page->id)->update(array('id_parent' => null));
+        $page->datasources()->detach();
+
+        //SE HOUVER "DATASOURCES" NO "CONTENT" DA PÁGINA, ELIMINA-OS
+        if(@count($page->contentdatasources())) {
+            foreach ($page->contentdatasources() as $contentdatasource){
+                $datasource = Datasource::find($contentdatasource);
+                DatasourcesController::DsDelete($datasource);
+            }
+        }
+        ////
+
+        $page->delete();
 
 		return Redirect::to('cms/pages'.(Input::get('group')?'?group='.Input::get('group'):null))->with('success',Lang::get('cms::pages/message.success.delete'));
 	}

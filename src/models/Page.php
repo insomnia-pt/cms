@@ -18,6 +18,12 @@ class Page extends Eloquent {
 	{
 		return json_decode($this->content);
 	}
+
+    public function contentdatasources()
+    {
+        $content = json_decode($this->content);
+        return $content->datasources;
+    }
 	
 
 	public function images()
@@ -32,8 +38,7 @@ class Page extends Eloquent {
 		return ltrim(@$imagePath["images"][0], '/');
 	}
 
-	public function pagetype()
-	{
+	public function pagetype()	{
 		return $this->belongsTo('Insomnia\Cms\Models\PageType', 'pagetype_id');
 	}
 
@@ -45,8 +50,7 @@ class Page extends Eloquent {
 	    return $this->hasMany('Insomnia\Cms\Models\Page', 'id_parent');
 	}
 
-	public function datasources()
-    {
+	public function datasources() {
         return $this->belongsToMany('Insomnia\Cms\Models\Datasource');
     }
 

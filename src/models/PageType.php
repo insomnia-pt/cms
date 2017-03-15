@@ -14,4 +14,10 @@ class PageType extends Eloquent {
 		return json_decode($this->config);
 	}
 
+    public function datasources()
+    {
+        $config = json_decode($this->config, true);
+        return $config['datasources'];
+    }
+
 }

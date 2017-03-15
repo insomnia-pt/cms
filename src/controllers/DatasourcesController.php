@@ -53,57 +53,9 @@ class DatasourcesController extends AdminController {
 
 		$tableConfig = json_decode(Input::get('table_config'), true);
 
-		$newtableschema = array(
-            'table_name' => Config::get('cms::config.datasource_table_prefix').Str::slug(Input::get('name')),
-            'table_config' => $tableConfig,
-            'table_options' => array(
-            	'subitems' => Input::get('subitems')?1:0,
-            	'permissions' => array('view','create','update','delete')
-            )
-        );
-
-		$datasourceFieldtypes = DatasourceFieldtype::get();
-
-		//converte descrição em nome da tabela e adiciona parametros adicionais (tipo de datasource field) ao array
-		foreach($newtableschema['table_config'] as $index => $col){
-			$newtableschema['table_config'][$index]['name'] = Str::slug($col['description'], '_');
-			$parameters = @$datasourceFieldtypes->find($col['datatype'])->config()->parameters;
-			if($parameters){
-				foreach ($parameters as $parameter) {
-					$newtableschema['table_config'][$index][$parameter] = '';
-				}
-			}
+        if($this->DsCreate(Input::get('name'), Input::get('subitems')?1:0, $tableConfig)){
+            return Redirect::to("cms/datasources")->with('success', Lang::get('cms::datasources/message.create.success'));
         }
-
-        $datasourceFieldtypes = DatasourceFieldtype::get();
-
-       	DB::beginTransaction();
-
-	    Schema::create($newtableschema['table_name'], function($table) use($newtableschema, $datasourceFieldtypes) {
-	        $table->increments('id')->unique();
-	        $table->integer('order')->nullable();
-
-	        foreach($newtableschema['table_config'] as $col) {
-	        	$table->{$datasourceFieldtypes->find($col['datatype'])->type}(Str::slug($col['description'], '_'));
-	        }
-
-	        if($newtableschema['table_options']['subitems']){
-	        	$table->integer('id_parent')->nullable();
-	        }
-
-	        $table->timestamps();
-	    });
-
-		$datasource = new Datasource;
-		$datasource->name        	= Input::get('name');
-		$datasource->table        	= $newtableschema['table_name'];
-		$datasource->config        	= stripslashes(json_encode($newtableschema['table_config'], JSON_UNESCAPED_UNICODE));
-		$datasource->options        = stripslashes(json_encode($newtableschema['table_options']));
-
-		if($datasource->save()) {
-			DB::commit();
-			return Redirect::to("cms/datasources")->with('success', Lang::get('cms::datasources/message.create.success'));
-		}
 
 		return Redirect::to('cms/datasources/create')->with('error', Lang::get('cms::datasources/message.create.error'));
 	}
@@ -326,10 +278,7 @@ class DatasourcesController extends AdminController {
 			return Redirect::to('cms/datasources')->with('error', Lang::get('cms::datasources/message.does_not_exist'));
 		}
 
-		Schema::drop($datasource->table);
-		Menu::where('datasource_id', $datasource->id)->delete();
-		$datasource->relations()->delete();
-		$datasource->delete();
+		$this->DsDelete($datasource);
 
 		return Redirect::to('cms/datasources')->with('success', Lang::get('cms::datasources/message.delete.success'));
 	}
@@ -396,7 +345,6 @@ class DatasourcesController extends AdminController {
 		return Redirect::to('cms/datasources/'.$datasource->id.'/edit')->with('success', Lang::get('cms::datasources/message.delete.success'));
 	}
 
-
 	private function searchForFieldName($name, $array) {
 	   foreach ($array as $key => $val) {
 	       if ($val->name == $name) {
@@ -405,5 +353,75 @@ class DatasourcesController extends AdminController {
 	   }
 	   return null;
 	}
+
+
+	static function DsCreate($dsName, $dsSubItems, $dsTableConfig){
+
+        $date = new \DateTime();
+	    $newTableName = Str::limit(Config::get('cms::config.datasource_table_prefix').Str::slug($dsName), 20, '').$date->getTimestamp();
+
+        $newtableschema = array(
+            'table_name' => $newTableName,
+            'table_config' => $dsTableConfig,
+            'table_options' => array(
+                'subitems' => $dsSubItems,
+                'permissions' => array('view','create','update','delete')
+            )
+        );
+
+        $datasourceFieldtypes = DatasourceFieldtype::get();
+
+        //converte descrição em nome da tabela e adiciona parametros adicionais (tipo de datasource field) ao array
+        foreach($newtableschema['table_config'] as $index => $col){
+            $newtableschema['table_config'][$index]['name'] = Str::slug($col['description'], '_');
+            $parameters = @$datasourceFieldtypes->find($col['datatype'])->config()->parameters;
+            if($parameters){
+                foreach ($parameters as $parameter) {
+                    $newtableschema['table_config'][$index][$parameter] = '';
+                }
+            }
+        }
+
+        $datasourceFieldtypes = DatasourceFieldtype::get();
+
+        DB::beginTransaction();
+
+        Schema::create($newtableschema['table_name'], function($table) use($newtableschema, $datasourceFieldtypes) {
+            $table->increments('id')->unique();
+            $table->integer('order')->nullable();
+
+            foreach($newtableschema['table_config'] as $col) {
+                $table->{$datasourceFieldtypes->find($col['datatype'])->type}(Str::slug($col['description'], '_'));
+            }
+
+            if($newtableschema['table_options']['subitems']){
+                $table->integer('id_parent')->nullable();
+            }
+
+            $table->timestamps();
+        });
+
+        $datasource = new Datasource;
+        $datasource->name        	= $dsName;
+        $datasource->table        	= $newtableschema['table_name'];
+        $datasource->config        	= stripslashes(json_encode($newtableschema['table_config'], JSON_UNESCAPED_UNICODE));
+        $datasource->options        = stripslashes(json_encode($newtableschema['table_options']));
+
+        if($datasource->save()) {
+            DB::commit();
+            return $datasource;
+        }
+
+        return false;
+    }
+
+    static function DsDelete($datasource){
+
+        Schema::drop($datasource->table);
+        Menu::where('datasource_id', $datasource->id)->delete();
+        $datasource->relations()->delete();
+        $datasource->delete();
+
+    }
 
 }

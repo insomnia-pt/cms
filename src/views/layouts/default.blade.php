@@ -163,7 +163,13 @@
 
 		@include('cms::notifications')
 
+		$('.mightOverflow').bind('mouseenter', function(){
+			var $this = $(this);
 
+			if(this.offsetWidth < this.scrollWidth && !$this.attr('title')){
+				$this.attr('title', $this.text());
+			}
+		});
 
 		$('#modal-confirm').on('show.bs.modal', function(e) {
 		    $(e.currentTarget).find('#modal-bt-confirm').attr("href", $(e.relatedTarget).data('url'));
