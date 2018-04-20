@@ -40,7 +40,7 @@ Adicionar Data Source ::
 					</div>
 
 					<div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-						<label for="subitems" class="col-lg-2 control-label">Sub Items</label>
+						<label for="subitems" class="col-lg-2 control-label">Recursividade</label>
 						<div class="col-lg-5">
 							<div class="switch switch-square subitems" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-remove'></i>">
                             	<input type="checkbox" name="subitems" id="subitems" />
@@ -57,9 +57,11 @@ Adicionar Data Source ::
 		                          <table class="table table-striped">
 		                              <thead>
 		                              <tr>
-		                                  <th>Nome</th>
-		                                  <th>Datatype</th>
-		                                  <th>Mostrar na Listagem</th>
+		                                  <th>Nome <i class="fa fa-info-circle" title="Nome da coluna (permite maiúsculas e acentuações)"></i></th>
+		                                  <th>Tipo <i class="fa fa-info-circle" title="Componente que será apresentado para inserção de dados"></i></th>
+		                                  <th>Listagem <i class="fa fa-info-circle" title="Apresenta a coluna na listagem"></i></th>
+		                                  <th>Traduzir <i class="fa fa-info-circle" title="Permite traduzir o campo em vários idiomas"></i></th>
+		                                  <th>Largura <i class="fa fa-info-circle" title="Tamanho coluna bootstrap 'col-'"></i></th>
 		                              </tr>
 		                              </thead>
 		                              <tbody id="table_definition">
@@ -77,6 +79,23 @@ Adicionar Data Source ::
 				                                	<input type="checkbox" class="" />
 				                              	</div>
 			                                  </td>
+											  <td> 
+			                                  	<div class="switch switch-square col_translate" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-remove'></i>">
+				                                	<input type="checkbox" class="" />
+				                              	</div>
+			                                  </td>
+											  <td> <select class="form-control col_size">
+											  		<option value="1">1</option>
+											  		<option value="2">2</option>
+											  		<option value="3">3</option>
+											  		<option value="4">4</option>
+											  		<option value="5">5</option>
+											  		<option value="6">6</option>
+											  		<option value="7">7</option>
+											  		<option value="8">8</option>
+											  		<option value="9">9</option>
+											  		<option value="10">10</option>
+												</select>  </td>
 			                              </tr>
 		                              </tbody>
 		                          </table>
@@ -86,9 +105,10 @@ Adicionar Data Source ::
 		              </div>
 
 		              <div class="form-group">
-						<div class="col-lg-offset-2 col-lg-8 text-right">
+						<div class="col-lg-offset-2 col-lg-8">
 		            		<button type="button" class="btn btn-default" id="bt-lessConfigs" style="display: none"><i class="fa fa-minus"></i></button>
 		            		<button type="button" class="btn btn-default" id="bt-moreConfigs"><i class="fa fa-plus"></i></button>
+							<small class="text-muted">&nbsp; Adicionar linha</small>
 		            	</div>
 		            </div>
 					<div class="form-group">
@@ -132,6 +152,7 @@ Adicionar Data Source ::
 	var table_config = {
 		elem: $("#table_definition"),
 		datatypeOptions: $('.col_datatype').clone(),
+		sizeOptions: $('.col_size').clone(),
 		get: function(){
 			var table_config_list = [];
 			table_config.elem.children().each(function(){
@@ -139,7 +160,9 @@ Adicionar Data Source ::
 					table_config_list.push({
 						description: $(this).find('.col_description').val(), 
 						datatype: $(this).find('.col_datatype').val(),
-						show_in_table: $(this).find('.col_show_in_table').bootstrapSwitch('status') ?1:0
+						show_in_table: $(this).find('.col_show_in_table').bootstrapSwitch('status') ?1:0,
+						multilang: $(this).find('.col_translate').bootstrapSwitch('status') ?1:0,
+						size: $(this).find('.col_size').val()
 					});
 				}
 			});
@@ -149,7 +172,7 @@ Adicionar Data Source ::
 
 		create: function(){
 			var row = table_config.elem.children().size()+1;
-			table_config.elem.append('<tr id="table_definition_item-'+row+'" class="table_definition_item"><td><input type="text" class="form-control col_description" value="" /></td><td><select class="form-control col_datatype" >'+table_config.datatypeOptions.html()+'</select></td><td><div class="switch switch-square col_show_in_table" data-on-label="<i class=\' fa fa-check\'></i>" data-off-label="<i class=\'fa fa-remove\'></i>"><input type="checkbox" /></div></td></tr>');
+			table_config.elem.append('<tr id="table_definition_item-'+row+'" class="table_definition_item"><td><input type="text" class="form-control col_description" value="" /></td><td><select class="form-control col_datatype" >'+table_config.datatypeOptions.html()+'</select></td><td><div class="switch switch-square col_show_in_table" data-on-label="<i class=\' fa fa-check\'></i>" data-off-label="<i class=\'fa fa-remove\'></i>"><input type="checkbox" /></div></td><td><div class="switch switch-square col_translate" data-on-label="<i class=\' fa fa-check\'></i>" data-off-label="<i class=\'fa fa-remove\'></i>"><input type="checkbox" /></div></td><td><select class="form-control col_size" >'+table_config.sizeOptions.html()+'</select></td></tr>');
 
 			$('#table_definition_item-'+row).find('.switch')['bootstrapSwitch']();
 			

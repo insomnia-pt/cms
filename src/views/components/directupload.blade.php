@@ -1,8 +1,8 @@
 
-<input type="file" name="component-{{ $component['name'] }}" id="component-{{ $component['name'] }}" multiple="multiple" data-jfiler-extensions="{{ $component['extensions'] }}" data-jfiler-limit="{{ $component['limit'] }}" data-jfiler-files='{{ $component['data'] }}' data-folder="{{ $component['folder'] }}">
+<input type="file" name="component-{{ str_replace(['[',']'], '_', $component['name']) }}" id="component-{{ str_replace(['[',']'], '_', $component['name']) }}" multiple="multiple" data-jfiler-extensions="{{ $component['extensions'] }}" data-jfiler-limit="{{ $component['limit'] }}" data-jfiler-files='{{ $component['data'] }}' data-folder="{{ $component['folder'] }}">
 
 
-<input type="hidden" name="{{ $component['name'] }}" id="{{ $component['name'] }}" value='{{ $component['data'] }}' style="width: 100%" />
+<input type="hidden" name="{{ $component['name'] }}" id="{{ str_replace(['[',']'], '_', $component['name']) }}" value='{{ $component['data'] }}' style="width: 100%" />
 
 @section('substyles')
 	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/jquery-filer/css/jquery.filer.css') }}" rel="stylesheet">
@@ -15,10 +15,10 @@
 
     <script type="text/javascript">
 
-			var images_{{ $component['name'] }} = $("#{{ $component['name'] }}").val()?JSON.parse($("#{{ $component['name'] }}").val()):[];
-			var componentVal_{{ $component['name'] }} = $.merge(images_{{ $component['name'] }}, []);
+			var images_{{ str_replace(['[',']'], '_', $component['name']) }} = $("#{{ str_replace(['[',']'], '_', $component['name']) }}").val()?JSON.parse($("#{{ str_replace(['[',']'], '_', $component['name']) }}").val()):[];
+			var componentVal_{{ str_replace(['[',']'], '_', $component['name']) }} = $.merge(images_{{ str_replace(['[',']'], '_', $component['name']) }}, []);
 
-    	$('#component-{{ $component['name'] }}').filer({
+    	$('#component-{{ str_replace(['[',']'], '_', $component['name']) }}').filer({
     	    templates: filerTemplatePreview,
             canvasImage: true,
             synchron: true,
@@ -31,7 +31,7 @@
             },
             uploadFile: {
                 url: '{{ route('upload') }}',
-                data: { field:'component-{{ $component['name'] }}', folder: $("#component-{{ $component['name'] }}").data('folder') },
+                data: { field:'component-{{ str_replace(['[',']'], '_', $component['name']) }}', folder: $("#component-{{ str_replace(['[',']'], '_', $component['name']) }}").data('folder') },
                 type: 'POST',
                 enctype: 'multipart/form-data',
                 //synchron: true, //Upload synchron the files
@@ -42,15 +42,15 @@
                         $("<div class=\"jFiler-item-others text-success\"><i class=\"icon-jfi-check-circle\"></i> </div>").hide().appendTo(parent).fadeIn("slow");
                     });
 
-                    componentVal_{{ $component['name'] }}.push({
+                    componentVal_{{ str_replace(['[',']'], '_', $component['name']) }}.push({
                         name: data.metas[0].old_name,
                         size: data.metas[0].size,
                         type: (data.metas[0].type).join('/'),
                         file: '/'+data.metas[0].file
                     });
 
-                    var x = componentVal_{{ $component['name'] }};
-                    $("#{{ $component['name'] }}").val(JSON.stringify(x));
+                    var x = componentVal_{{ str_replace(['[',']'], '_', $component['name']) }};
+                    $("#{{ str_replace(['[',']'], '_', $component['name']) }}").val(JSON.stringify(x));
                 },
 
                 error: function(el){
@@ -65,10 +65,10 @@
             },
              onRemove: function(el, item, index){
 
-                 componentVal_{{ $component['name'] }}.splice(index,1);
+                 componentVal_{{ str_replace(['[',']'], '_', $component['name']) }}.splice(index,1);
 
-                 var x = componentVal_{{ $component['name'] }};
-                 $("#{{ $component['name'] }}").val(JSON.stringify(x));
+                 var x = componentVal_{{ str_replace(['[',']'], '_', $component['name']) }};
+                 $("#{{ str_replace(['[',']'], '_', $component['name']) }}").val(JSON.stringify(x));
 
              },
 			 captions: {

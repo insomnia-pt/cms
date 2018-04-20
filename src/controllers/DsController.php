@@ -5,6 +5,7 @@ use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
 use Insomnia\Cms\Models\Datasource as Datasource;
 use Insomnia\Cms\Models\DatasourceRelation as DatasourceRelation;
 use Insomnia\Cms\Models\ModelBuilder as CMS_ModelBuilder;
+use Insomnia\Cms\Models\Setting as Setting;
 
 use Input;
 use Lang;
@@ -66,10 +67,11 @@ class DsController extends AdminController {
 
 		AdminController::checkPermission($datasource->table.'.'.'create');
 
+		$languages = Setting::where('name', 'languages')->first()->config();
 		$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
 		$parameters = $this::parameters();
 
-		return View::make('cms::ds/create', compact('datasource','parameters','datasourceFieldtypes'));
+		return View::make('cms::ds/create', compact('datasource','parameters','datasourceFieldtypes','languages'));
 	}
 
     /**
@@ -175,6 +177,11 @@ class DsController extends AdminController {
 
 		if(isset($inputs['id_parent'])) if($inputs['id_parent']==''){ $inputs['id_parent'] = null; }
 
+		//caso o input seja array (por exemplo nos campos multilang) faz o encoding para json
+		foreach($inputs as $key => $input) {
+			if(is_array($input)) $inputs[$key] = json_encode($input);
+		}
+
 
 		$ds = CMS_ModelBuilder::fromTable($datasource->table);
 		$ds->fill(array_filter($inputs, 'strlen'));
@@ -202,11 +209,12 @@ class DsController extends AdminController {
 
 		AdminController::checkPermission($datasource->table.'.'.'view');
 
+		$languages = Setting::where('name', 'languages')->first()->config();
 		$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
 		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
 		$parameters = $this::parameters();
 
-		return View::make('cms::ds/edit', compact('datasource','dsItem','parameters','datasourceFieldtypes'));
+		return View::make('cms::ds/edit', compact('datasource','dsItem','parameters','datasourceFieldtypes','languages'));
 	}
 
 	public function postEdit($id, $itemId)
@@ -238,6 +246,11 @@ class DsController extends AdminController {
 
 		$inputs = Input::only($inputsAllowed);
 		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
+
+		//caso o input seja array (por exemplo nos campos multilang) faz o encoding para json
+		foreach($inputs as $key => $input) {
+			if(is_array($input)) $inputs[$key] = json_encode($input);
+		}
 
 		if($dsItem->update($inputs)) {
 

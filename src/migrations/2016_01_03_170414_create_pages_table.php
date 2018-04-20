@@ -20,10 +20,7 @@ class CreatePagesTable extends Migration {
 			$table->string('title');
 			$table->string('slug');
 			$table->text('content');
-			$table->string('language');
-			$table->string('meta_title')->nullable();
-			$table->string('meta_description')->nullable();
-			$table->string('meta_keywords')->nullable();
+			$table->text('meta')->nullable();
 			$table->integer('id_parent')->unsigned()->default(0);
 			$table->integer('system')->unsigned();
 			$table->integer('visible')->unsigned()->default(1);

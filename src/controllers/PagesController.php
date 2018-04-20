@@ -25,13 +25,13 @@ class PagesController extends AdminController {
 	{
 		AdminController::checkPermission('pages.view');
 
-		$pages = Page::where('language', Session::get('language'))->where('visible', 1)->orderBy('order')->get();
+		$pages = Page::where('visible', 1)->orderBy('order')->get();
 
 		$globalPageSettings = Setting::where('name', 'page_global')->first()->config();
 		$pageGlobal = null;
 
 		if($globalPageSettings->active){
-			$pageGlobal = Page::where('language', Session::get('language'))->where('pagetype_id', $globalPageSettings->pagetype_id)->first();
+			$pageGlobal = Page::where('pagetype_id', $globalPageSettings->pagetype_id)->first();
 		}
 
 		$datasource = Datasource::where('table', 'pages')->first();
@@ -50,16 +50,18 @@ class PagesController extends AdminController {
 	{
 		AdminController::checkPermission('pages.create');
 
+		$languages = null;
 		$pageTypes = PageType::where('system', 0)->get();
 		$pageTypeSel = null;
 		$datasourceFieldtypes = null;
 
 		if(Input::get('pageType')) {
+			$languages = Setting::where('name', 'languages')->first()->config();
 			$datasource = Datasource::where('table', 'pages')->first();
 			$pageTypeSel = PageType::find(Input::get('pageType'));
 			$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
 		}
-		return View::make('cms::pages/create', compact('pageTypes','pageTypeSel','datasourceFieldtypes', 'datasource'));
+		return View::make('cms::pages/create', compact('pageTypes','pageTypeSel','datasourceFieldtypes', 'datasource', 'languages'));
 	}
 
 	public function postCreate()
@@ -88,7 +90,6 @@ class PagesController extends AdminController {
 
 		$page = new Page;
 		$page->pagetype_id    = $pageType->id;
-		$page->language       = Session::get('language');
 		$page->slug           = $slug;
 		$page->title          = Input::get('title');
 		$page->content        = json_encode(Input::except('_token','title','pageType','group','slug'));
@@ -142,10 +143,11 @@ class PagesController extends AdminController {
 			$pageGlobal = true;
 		}
 
+		$languages = Setting::where('name', 'languages')->first()->config();
 		$datasource = Datasource::where('table', 'pages')->first();
 		$datasourceFieldtypes = DatasourceFieldtype::get();
 		$hasDatasources = count($page->datasources);
-		return View::make('cms::pages/edit', compact('page','datasourceFieldtypes','datasource','hasDatasources','pageGlobal'));
+		return View::make('cms::pages/edit', compact('page','datasourceFieldtypes','datasource','hasDatasources','pageGlobal','languages'));
 	}
 
 

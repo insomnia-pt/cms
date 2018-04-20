@@ -27,7 +27,16 @@ Editar Página ::
   	<form method="post" action="" autocomplete="off">
 	  <div class="col-lg-{{ ($hasDatasources||@count($page->pagetype->config()->settings))?'9':'12' }}">
 		<section class="panel">
-			<header class="panel-heading form-group">Detalhes da Página</header>
+
+			<header class="panel-heading">Detalhes da Página</header>
+
+			<ul class="pull-right nav nav-tabs" style="margin: -40px 10px 0 0">
+				<li><i title="Idiomas" class="fa fa-language" style="padding:14px 12px 0 0"></i> </li>
+				@foreach($languages as $langkey => $language)
+				<li><a class="lang-selection" data-toggle="tab" data-langselection="{{ $langkey }}" href="#" >{{ $language }}</a></li>
+				@endforeach
+			</ul>
+
 			<div class="panel-body form-horizontal tasi-form">
 
 				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -81,8 +90,8 @@ Editar Página ::
 				@endif
 
 
-        <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}" @if($pageGlobal) style="display:none;" @endif>
-					<label for="title" class="col-lg-2 control-label">Título da Página</label>
+        		<div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}" @if($pageGlobal) style="display:none;" @endif>
+					<label for="title" class="col-lg-2 control-label">Nome</label>
 					<div class="col-lg-7">
 						<input type="text" class="form-control" name="title" id="title" value="{{ Input::old('title', $page->title) }}" />
                      	{{ $errors->first('title', '<p class="help-block">:message</p>') }}
@@ -92,15 +101,32 @@ Editar Página ::
 				@if(@$page->pagetype->config()->areas)
 				@foreach($page->pagetype->config()->areas as $area)
 
-					<div class="form-group {{ $errors->has($area->name) ? 'has-error' : '' }}" @if(isset($area->field->admin)&&!@Sentry::getUser()->getGroups()[0]->id == 1)) style="display: none;" @endif>
-						<label for="{{ $area->name }}" class="col-lg-2 control-label">{{ $area->field->name }}</label>
-						<div class="col-lg-{{ $area->field->size }}">
+					@if(@$area->field->multilang)
+						@foreach($languages as $langkey => $language)
 
-							@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name, 'data' => Input::old($area->name, @$page->areas()->{$area->name}), 'limit' => @$area->field->parameters->limit, 'extensions' => @$area->field->parameters->extensions, 'items' => @$area->field->parameters->values, 'folder' => @$area->field->parameters->folder]])
+						<div data-lang="lang-{{ $langkey }}" class="form-group lang-field {{ $errors->has($area->name.'['.$langkey.']') ? 'has-error' : '' }}" @if(isset($area->field->admin)&&!@Sentry::getUser()->getGroups()[0]->id == 1)) style="display: none;" @endif>
+							<label for="{{ $area->name }}[{{ $langkey }}]" class="col-lg-2 control-label">{{ $area->field->name }} &nbsp;<i title="Campo com possibilidade de tradução" class="fa fa-language"></i> <small class="lang-active text-muted"></small></label>
+							<div class="col-lg-{{ $area->field->size }}">
 
-	            {{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
+								@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name.'['.$langkey.']', 'data' => Input::old($area->name.'.'.$langkey, @$page->areas()->{$area->name}->{$langkey}), 'limit' => @$area->field->parameters->limit, 'extensions' => @$area->field->parameters->extensions, 'items' => @$area->field->parameters->values, 'folder' => @$area->field->parameters->folder]])
+
+								{{ $errors->first($area->name.'['.$langkey.']', '<p class="help-block">:message</p>') }}
+							</div>
 						</div>
-					</div>
+						@endforeach
+					@else
+
+						<div class="form-group {{ $errors->has($area->name) ? 'has-error' : '' }}" @if(isset($area->field->admin)&&!@Sentry::getUser()->getGroups()[0]->id == 1)) style="display: none;" @endif>
+							<label for="{{ $area->name }}" class="col-lg-2 control-label">{{ $area->field->name }}</label>
+							<div class="col-lg-{{ $area->field->size }}">
+
+								@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name, 'data' => Input::old($area->name, @$page->areas()->{$area->name}), 'limit' => @$area->field->parameters->limit, 'extensions' => @$area->field->parameters->extensions, 'items' => @$area->field->parameters->values, 'folder' => @$area->field->parameters->folder]])
+
+								{{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
+							</div>
+						</div>
+
+					@endif
 
 				@endforeach
 				@endif
@@ -185,6 +211,17 @@ Editar Página ::
 
     <script type="text/javascript">
     	$('.easy-tree').EasyTree();
+
+		$('.lang-selection').on('keypress click', function(e){
+			e.preventDefault();
+			$('.lang-selection').parent().removeClass('active');
+			$(this).parent().addClass('active');
+			$('.lang-field').hide();
+			$('[data-lang=lang-'+$(this).data("langselection")+']').fadeIn(230);
+			$('.lang-active').text($(this).data("langselection").toUpperCase());
+		});
+
+		$('.lang-selection').first().click();
     </script>
 
 @stop

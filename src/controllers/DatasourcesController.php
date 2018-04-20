@@ -134,6 +134,8 @@ class DatasourcesController extends AdminController {
 			'description'  		=> Input::get('description'),
 			'datatype'   		=> Input::get('datatype'),
 			'show_in_table'   	=> Input::get('show_in_table'),
+			'multilang'   		=> Input::get('multilang'),
+			'size'   			=> Input::get('size'),
 			'name' 				=> Str::slug(Input::get('description'), '_')
 		);
 
@@ -184,6 +186,8 @@ class DatasourcesController extends AdminController {
 			'description'  		=> Input::get('description'),
 			'datatype'   		=> Input::get('datatype'),
 			'show_in_table'   	=> Input::get('show_in_table'),
+			'multilang'   		=> Input::get('multilang'),
+			'size'		   		=> Input::get('size'),
 			'name' 				=> Str::slug(Input::get('name'), '_')
 		);
 
@@ -358,7 +362,7 @@ class DatasourcesController extends AdminController {
 	static function DsCreate($dsName, $dsSubItems, $dsTableConfig){
 
         $date = new \DateTime();
-	    $newTableName = Str::limit(Config::get('cms::config.datasource_table_prefix').Str::slug($dsName), 20, '').$date->getTimestamp();
+	    $newTableName = Str::limit(Config::get('cms::config.datasource_table_prefix').Str::slug($dsName), 20, '').'_'.$date->getTimestamp();
 
         $newtableschema = array(
             'table_name' => $newTableName,

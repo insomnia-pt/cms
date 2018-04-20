@@ -29,7 +29,15 @@ Editar Registo ::
   <div class="row">
 	  <div class="col-lg-12">
 		<section class="panel">
-			<header class="panel-heading form-group">Detalhes do Registo</header>
+			<header class="panel-heading">Detalhes do Registo</header>
+
+			<ul class="pull-right nav nav-tabs" style="margin: -40px 10px 0 0">
+				<li><i title="Idiomas" class="fa fa-language" style="padding:14px 12px 0 0"></i> </li>
+				@foreach($languages as $langkey => $language)
+				<li><a class="lang-selection" data-toggle="tab" data-langselection="{{ $langkey }}" href="#" >{{ $language }}</a></li>
+				@endforeach
+			</ul>
+
 			<div class="panel-body">
 
 				<form class="form-horizontal tasi-form" method="post" action="" autocomplete="off">
@@ -101,15 +109,34 @@ Editar Registo ::
 					@endforeach
 
 					@foreach($datasource->config() as $config)
-						<div class="form-group {{ $errors->has($config->name) ? 'has-error' : '' }}">
-							<label for="{{ $config->name }}" class="col-lg-2 control-label">{{ $config->description }}</label>
-							<div class="col-lg-7">
 
-								@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
+						@if(@$config->multilang)
+							@foreach($languages as $langkey => $language)
+							
+							<div data-lang="lang-{{ $langkey }}"  class="form-group lang-field {{ $errors->has($config->name.'['.$langkey.']') ? 'has-error' : '' }}">
+								<label for="{{ $config->name }}[{{ $langkey }}]" class="col-lg-2 control-label">{{ $config->description }} &nbsp;<i title="Campo com possibilidade de tradução" class="fa fa-language"></i> <small class="lang-active text-muted"></small></label>
+								<div class="col-lg-{{ $config->size }}">
 
-								{{ $errors->first($config->name, '<p class="help-block">:message</p>') }}
+									@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name.'['.$langkey.']', 'data' => Input::old($config->name.'.'.$langkey, @json_decode($dsItem->{$config->name})->{$langkey}), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
+
+									{{ $errors->first($config->name.'['.$langkey.']', '<p class="help-block">:message</p>') }}
+								</div>
 							</div>
-						</div>
+
+							@endforeach
+						@else
+
+							<div class="form-group {{ $errors->has($config->name) ? 'has-error' : '' }}">
+								<label for="{{ $config->name }}" class="col-lg-2 control-label">{{ $config->description }}</label>
+								<div class="col-lg-7">
+
+									@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
+
+									{{ $errors->first($config->name, '<p class="help-block">:message</p>') }}
+								</div>
+							</div>
+
+						@endif
 					@endforeach
 
 					<div class="form-group">
@@ -146,5 +173,16 @@ Editar Registo ::
 
     <script type="text/javascript">
     	$('.easy-tree').EasyTree();
+
+		$('.lang-selection').on('keypress click', function(e){
+			e.preventDefault();
+			$('.lang-selection').parent().removeClass('active');
+			$(this).parent().addClass('active');
+			$('.lang-field').hide();
+			$('[data-lang=lang-'+$(this).data("langselection")+']').fadeIn(230);
+			$('.lang-active').text($(this).data("langselection").toUpperCase());
+		});
+
+		$('.lang-selection').first().click();
     </script>
 @stop

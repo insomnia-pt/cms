@@ -1,1 +1,1 @@
-<input class="form-control inline component-tags" type="text" name="{{ $component['name'] }}" id="{{ $component['name'] }}" data-limit="{{ $component['limit'] }}" value="{{ $component['data'] }}" readonly />
+<input class="form-control inline component-tags" type="text" name="{{ $component['name'] }}" id="{{ str_replace(['[',']'], '_', $component['name']) }}" data-limit="{{ $component['limit'] }}" value="{{ $component['data'] }}" readonly />

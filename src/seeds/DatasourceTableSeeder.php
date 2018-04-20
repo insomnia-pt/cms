@@ -14,7 +14,7 @@ class DatasourceTableSeeder extends Seeder {
         $datasource = new Datasource;
         $datasource->name = 'Páginas';
         $datasource->table = 'pages';
-        $datasource->config = '[{"description":"Título","datatype":"2","show_in_table":1,"name":"title"},{"description":"Slug","datatype":"2","show_in_table":0,"name":"slug"}]';
+        $datasource->config = '[{"description":"Nome","datatype":"2","show_in_table":1,"name":"title"},{"description":"Slug","datatype":"2","show_in_table":0,"name":"slug"}]';
         $datasource->options = '{"subitems":0, "permissions": ["view", "create", "update", "delete"]}';
         $datasource->system = 1;
         $datasource->menu = 1;

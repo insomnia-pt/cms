@@ -31,7 +31,7 @@ class SettingTableSeeder extends Seeder {
         $setting->order = 2;
         $setting->save();
 
-				$setting = new Setting;
+		$setting = new Setting;
         $setting->id = 3;
         $setting->name = 'page_global';
         $setting->description = 'Disponibiliza botão "Definições Globais" na gestão de páginas';
@@ -40,6 +40,17 @@ class SettingTableSeeder extends Seeder {
         $setting->system = 1;
         $setting->order = 3;
         $setting->save();
+
+        $setting = new Setting;
+        $setting->id = 4;
+        $setting->name = 'languages';
+        $setting->description = 'Idiomas disponíveis no site e para tradução';
+        $setting->value = '{"pt":"Português"}';
+        $setting->id_parent = 0;
+        $setting->system = 1;
+        $setting->order = 4;
+        $setting->save();
+
 
     }
 

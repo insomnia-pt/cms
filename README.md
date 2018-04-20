@@ -49,7 +49,7 @@ Add a new record into `pages_types` table and put this JSON on `config` column:
                 "name":"Datasource",
                 "description":"", 
                 "datatype":2, 
-                "size": 8, 
+                "size": 8,
                 "admin":1 
             } 
         },
@@ -101,7 +101,8 @@ Add a new record into `pages_types` table and put this JSON on `config` column:
                 "name":"Sub-título",
                 "description":"", 
                 "datatype":2, 
-                "size": 8 
+                "size": 8,
+                "multilang": 1
             } 
         },
         {
@@ -110,7 +111,8 @@ Add a new record into `pages_types` table and put this JSON on `config` column:
                 "name":"Conteúdo",
                 "description":"", 
                 "datatype":5, 
-                "size": 10 
+                "size": 10,
+                "multilang": 1
             }
         },
         {
@@ -142,6 +144,16 @@ Add a new record into `pages_types` table and put this JSON on `config` column:
         }
     ]
 }
+```
+
+### Example of a page that creates a Datasource component and associates it with the page
+Add a new record into `pages_types` table and put this JSON on `config` column:
+
+```json
+
+
+
+
 
 ```
 
@@ -152,6 +164,7 @@ Add a new record into `pages_types` table and put this JSON on `config` column:
     - description (description visible in page edition)
     - datatype (id of the field type - text / combobox / upload / ... - check `datasources_fieldtypes` table)
     - size (bootstrap col size)
+    - multilang (if 1, the system allow translate de field)
     - admin (if 1, the field is only visible to admin)
     - parameters (in some cases, the field type require values to choose - like a combobox)
       - values

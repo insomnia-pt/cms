@@ -79,6 +79,8 @@ Editar Data Source ::
 				        		<th>Coluna</th>
 				        		<th>Tipo</th>
 				        		<th class="text-center">Listagem</th>
+				        		<th class="text-center">Traduzir</th>
+				        		<th class="text-center">Largura</th>
 				        		<th></th>
 				        	</tr>
 			        		@foreach($datasource->config() as $configs)
@@ -91,12 +93,16 @@ Editar Data Source ::
 		                           @endforeach
 		                        </td>
 				        		<td class="text-center"><i class="fa {{ $configs->show_in_table?'fa-check':'fa-close' }}"></i></td>
+								<td class="text-center"><i class="fa {{ $configs->multilang?'fa-check':'fa-close' }}"></i></td>
+								<td class="text-center">{{ $configs->size }}</td>
 								<td class="text-right">
 									<button class="btn btn-xs btn-default bt-edit_field" data-toggle="modal" data-target="#modal-edit_field"
 										data-description="{{ $configs->description }}"
 										data-name="{{ $configs->name }}"
 										data-datatype="{{ $configs->datatype }}"
 										data-showintable="{{ $configs->show_in_table }}"
+										data-multilang="{{ $configs->multilang }}"
+										data-size="{{ $configs->size }}"
 										@if(@count($configs->parameters))
 											@foreach($configs->parameters as $parameter => $value)
 											data-{{ $parameter }}="{{ $value }}"
@@ -203,6 +209,34 @@ Editar Data Source ::
 	                          	</div>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label for="" class="col-lg-2 control-label">Traduzir</label>
+							<div class="col-lg-8">
+								<div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-remove'></i>">
+	                            	<input type="checkbox" name="multilang" class="" />
+	                          	</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="size" class="col-lg-2 control-label">Largura</label>
+							<div class="col-lg-8">
+								<select class="form-control" name="size" id="modal-new_field-size">
+	                          		<option value="1">1</option>
+	                          		<option value="2">2</option>
+	                          		<option value="3">3</option>
+	                          		<option value="4">4</option>
+	                          		<option value="5">5</option>
+	                          		<option value="6">6</option>
+	                          		<option value="7">7</option>
+	                          		<option value="8">8</option>
+	                          		<option value="9">9</option>
+	                          		<option value="10">10</option>
+	                          	</select>
+							</div>
+						</div>
+
 		          	</div>
 
 		          </div>
@@ -275,6 +309,33 @@ Editar Data Source ::
 								<div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-remove'></i>">
 	                            	<input type="checkbox" name="show_in_table" id="modal-edit_field-show_in_table" class="" />
 	                          	</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="" class="col-lg-2 control-label">Traduzir</label>
+							<div class="col-lg-8">
+								<div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-remove'></i>">
+	                            	<input type="checkbox" name="multilang" id="modal-edit_field-multilang" class="" />
+	                          	</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="size" class="col-lg-2 control-label">Largura</label>
+							<div class="col-lg-3">
+								<select class="form-control" name="size" id="modal-edit_field-size">
+	                          		<option value="1">1</option>
+	                          		<option value="2">2</option>
+	                          		<option value="3">3</option>
+	                          		<option value="4">4</option>
+	                          		<option value="5">5</option>
+	                          		<option value="6">6</option>
+	                          		<option value="7">7</option>
+	                          		<option value="8">8</option>
+	                          		<option value="9">9</option>
+	                          		<option value="10">10</option>
+	                          	</select>
 							</div>
 						</div>
 		          	</div>
@@ -393,6 +454,8 @@ Editar Data Source ::
 			$('#modal-edit_field-name').val(fieldEditing.data('name'));
 			$('#modal-edit_field-datatype').val(fieldEditing.data('datatype'));
 			$('#modal-edit_field-show_in_table').parent().bootstrapSwitch('setState', fieldEditing.data('showintable'));
+			$('#modal-edit_field-multilang').parent().bootstrapSwitch('setState', fieldEditing.data('multilang'));
+			$('#modal-edit_field-size').val(fieldEditing.data('size'));
 
 			$('#modal-edit_field-datatype').change();
 		});
