@@ -92,17 +92,17 @@ Editar Data Source ::
 		                                @if($configs->datatype==$fieldtype->id) {{ $fieldtype->name }} @endif
 		                           @endforeach
 		                        </td>
-				        		<td class="text-center"><i class="fa {{ $configs->show_in_table?'fa-check':'fa-close' }}"></i></td>
-								<td class="text-center"><i class="fa {{ $configs->multilang?'fa-check':'fa-close' }}"></i></td>
-								<td class="text-center">{{ $configs->size }}</td>
+				        		<td class="text-center"><i class="fa {{ @$configs->show_in_table?'fa-check':'fa-close' }}"></i></td>
+								<td class="text-center"><i class="fa {{ @$configs->multilang?'fa-check':'fa-close' }}"></i></td>
+								<td class="text-center">{{ @$configs->size }}</td>
 								<td class="text-right">
 									<button class="btn btn-xs btn-default bt-edit_field" data-toggle="modal" data-target="#modal-edit_field"
 										data-description="{{ $configs->description }}"
 										data-name="{{ $configs->name }}"
 										data-datatype="{{ $configs->datatype }}"
-										data-showintable="{{ $configs->show_in_table }}"
-										data-multilang="{{ $configs->multilang }}"
-										data-size="{{ $configs->size }}"
+										data-showintable="{{ @$configs->show_in_table }}"
+										data-multilang="{{ @$configs->multilang }}"
+										data-size="{{ @$configs->size }}"
 										@if(@count($configs->parameters))
 											@foreach($configs->parameters as $parameter => $value)
 											data-{{ $parameter }}="{{ $value }}"

@@ -15,7 +15,6 @@ class PageTableSeeder extends Seeder {
         $page->title = 'Home';
         $page->slug = '/';
         $page->content = '{"intro":"Lorem ipsum"}';
-        $page->language = 'pt';
         $page->order = 1;
         $page->system = 1;
         $page->pagetype_id = 2;
