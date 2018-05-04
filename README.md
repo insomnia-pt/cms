@@ -10,8 +10,7 @@ Add this to composer.json and run `composer update` :
 ```json
 {
     "require": {
-        "insomnia/cms": "dev-master",
-        "cartalyst/sentry": "2.1.*"
+        "insomnia/cms": "dev-master"
     }
 }
 ```

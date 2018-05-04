@@ -1,19 +1,29 @@
-<?php 
+<?php namespace Insomnia\Cms\Controllers;
 
+use Insomnia\Cms\Controllers\AdminController;
 use Cartalyst\Sentry\Users\Eloquent\User;
 
-class AuthController extends BaseController {
+use Sentry;
+use Redirect;
+use View;
+use Validator;
+use Input;
+use Session;
+use Lang;
+
+
+class AuthController extends AdminController {
 
 	public function __construct()
 	{
-		$this->messageBag = new Illuminate\Support\MessageBag;
+		$this->messageBag = new \Illuminate\Support\MessageBag;
 	}
 
 	public function getSignin()
 	{
 		if (Sentry::check())
 		{
-			return Redirect::route('admin');
+			return Redirect::route('cms');
 		}
 
 		return View::make('cms::auth.signin');
@@ -36,10 +46,9 @@ class AuthController extends BaseController {
 		}
 
 		try
-		{
-
+		{			
             $credentials = Input::only('username', 'password');
-            $user = Sentry::authenticate($credentials, Input::get('remember-me', 0));
+            $user = Sentry::authenticate($credentials, Input::get('remember-me', Input::get('remember')));
 
 			// Get the page we were before
 			$redirect = Session::get('loginRedirect', 'cms');
@@ -49,19 +58,19 @@ class AuthController extends BaseController {
 
 			return Redirect::to($redirect);	
 		}
-		catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+		catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
 		{
 			$this->messageBag->add('username', Lang::get('cms::auth/message.account_not_found'));
 		}
-		catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
+		catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e)
 		{
 			$this->messageBag->add('username', Lang::get('cms::auth/message.account_not_activated'));
 		}
-		catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e)
+		catch (\Cartalyst\Sentry\Throttling\UserSuspendedException $e)
 		{
 			$this->messageBag->add('username', Lang::get('cms::auth/message.account_suspended'));
 		}
-		catch (Cartalyst\Sentry\Throttling\UserBannedException $e)
+		catch (\Cartalyst\Sentry\Throttling\UserBannedException $e)
 		{
 			$this->messageBag->add('username', Lang::get('cms::auth/message.account_banned'));
 		}

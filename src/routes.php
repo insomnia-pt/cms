@@ -9,8 +9,8 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	Route::group(array('prefix' => 'auth'), function()
 	{
 		# Login
-		Route::get('signin', array('as' => 'signin', 'uses' => 'AuthController@getSignin'));
-		Route::post('signin', 'AuthController@postSignin');
+		Route::get('signin', array('as' => 'signin', 'uses' => 'Insomnia\Cms\Controllers\AuthController@getSignin'));
+		Route::post('signin', 'Insomnia\Cms\Controllers\AuthController@postSignin');
 
 		# Register
 //		Route::get('signup', array('as' => 'signup', 'uses' => 'AuthController@getSignup'));
@@ -18,18 +18,18 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 //		Route::post('signup', 'AuthController@postSignup');
 
 		# Account Activation
-		Route::get('activate/{activationCode}', array('as' => 'activate', 'uses' => 'AuthController@getActivate'));
+		Route::get('activate/{activationCode}', array('as' => 'activate', 'uses' => 'Insomnia\Cms\Controllers\AuthController@getActivate'));
 
 		# Forgot Password
-		Route::get('forgot-password', array('as' => 'forgot-password', 'uses' => 'AuthController@getForgotPassword'));
+		Route::get('forgot-password', array('as' => 'forgot-password', 'uses' => 'Insomnia\Cms\Controllers\AuthController@getForgotPassword'));
 		Route::post('forgot-password', 'AuthController@postForgotPassword');
 
 		# Forgot Password Confirmation
-		Route::get('forgot-password/{passwordResetCode}', array('as' => 'forgot-password-confirm', 'uses' => 'AuthController@getForgotPasswordConfirm'));
-		Route::post('forgot-password/{passwordResetCode}', 'AuthController@postForgotPasswordConfirm');
+		Route::get('forgot-password/{passwordResetCode}', array('as' => 'forgot-password-confirm', 'uses' => 'Insomnia\Cms\Controllers\AuthController@getForgotPasswordConfirm'));
+		Route::post('forgot-password/{passwordResetCode}', 'Insomnia\Cms\Controllers\AuthController@postForgotPasswordConfirm');
 
 		# Logout
-		Route::get('logout', array('as' => 'logout', 'uses' => 'AuthController@getLogout'));
+		Route::get('logout', array('as' => 'logout', 'uses' => 'Insomnia\Cms\Controllers\AuthController@getLogout'));
 
 	});
 

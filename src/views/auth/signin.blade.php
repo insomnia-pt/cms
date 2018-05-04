@@ -19,7 +19,7 @@
 	        {{ $errors->first('password', '<p class="help-block">:message</p>') }}
 	        <input type="password" class="form-control" placeholder="Password" name="password">
 	        <label class="checkbox">
-	            <input type="checkbox" value="remember-me"> Lembrar-me
+	            <input type="checkbox" name="remember" value=""> Lembrar-me
 	            <span class="pull-right"> <a href="/cms/auth/forgot-password"> Esqueceu-se da password?</a></span>
 	        </label>
 	        <button class="btn btn-lg btn-login btn-block" type="submit">Entrar</button>
