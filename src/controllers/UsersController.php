@@ -99,7 +99,7 @@ class UsersController extends AdminController {
 					$user->photo = $imageName;
 				}
 
-				if(Sentry::getUser()->hasAccess('users.groups')){
+				if(Sentry::getUser()->hasAccess('users.group')){
 					foreach (Input::get('groups', array()) as $groupId){
 
                         if(Session::get('settings_super_user') && $groupId == 1) {

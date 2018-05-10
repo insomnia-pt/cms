@@ -56,36 +56,53 @@ Editar Grupo ::
                         <br />
 
 						@foreach ($permissions as $area => $permissions)
+                            <?php $hasAreaPermission=0; foreach ($permissions as $permission) {
+                                if(\Sentry::getUser()->hasAccess(base64_decode($permission['permission']))) $hasAreaPermission = 1;
+                            }
+                            ?>
+                            @if($hasAreaPermission)
                             <p style="height: 1px;"></p>
                             <div class="row">
                                 <div class="col-md-2"><strong>{{ $area }}</strong></div>
                                 @foreach ($permissions as $permission)
-                                <div class="text-left text-muted col-md-2">
-                                    <input type="hidden" name="permissions[{{ $permission['permission'] }}]" value="0" />
-                                    <label class="label_check" for="{{ $permission['permission'] }}" style="font-weight: normal">
-                                        <input type="checkbox" id="{{ $permission['permission'] }}" name="permissions[{{ $permission['permission'] }}]" {{ (array_get($groupPermissions, $permission['permission']) === 1 ? ' checked="checked"' : '') }} value="1" /> {{ $permission['label'] }}
-                                    </label>
-                                </div>
+                                    @if(\Sentry::getUser()->hasAccess(base64_decode($permission['permission'])))
+                                    <div class="text-left text-muted col-md-2">
+                                        <input type="hidden" name="permissions[{{ $permission['permission'] }}]" value="0" />
+                                        <label class="label_check" for="{{ $permission['permission'] }}" style="font-weight: normal">
+                                            <input type="checkbox" id="{{ $permission['permission'] }}" name="permissions[{{ $permission['permission'] }}]" {{ (array_get($groupPermissions, $permission['permission']) === 1 ? ' checked="checked"' : '') }} value="1" /> {{ $permission['label'] }}
+                                        </label>
+                                    </div>
+                                    @endif
                                 @endforeach
                             </div>
                             <hr />
+                            @endif
 						@endforeach
 
                         @foreach ($datasources as $datasource)
                             @if($datasource->permissions())
-                                <p style="height: 1px;"></p>
-                                <div class="row">
-                                    <div class="col-md-2"><strong>{{ $datasource->name }}</strong></div>
-                                    @foreach ($datasource->permissions() as $permission)
-                                        <div class="text-left text-muted col-md-2">
-                                            <input type="hidden" name="permissions[{{ base64_encode($datasource->table.'.'.$permission) }}]" value="0" />
-                                            <label class="label_check" for="{{ base64_encode($datasource->table.'.'.$permission) }}" style="font-weight: normal">
-                                                <input type="checkbox" id="{{ base64_encode($datasource->table.'.'.$permission) }}" name="permissions[{{ base64_encode($datasource->table.'.'.$permission) }}]" {{ (array_get($groupPermissions, base64_encode($datasource->table.'.'.$permission)) === 1 ? ' checked="checked"' : '') }} value="1" /> @lang('cms::permissions.'.$permission)
-                                            </label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <hr />
+                                
+                                <?php $hasDatasourcePermission=0; foreach ($datasource->permissions() as $permission) {
+                                    if(\Sentry::getUser()->hasAccess($datasource->table.'.'.$permission)) $hasDatasourcePermission = 1;
+                                }
+                                ?>
+                                @if($hasDatasourcePermission)
+                                    <p style="height: 1px;"></p>
+                                    <div class="row">
+                                        <div class="col-md-2"><strong>{{ $datasource->name }}</strong></div>
+                                        @foreach ($datasource->permissions() as $permission)
+                                            @if(\Sentry::getUser()->hasAccess($datasource->table.'.'.$permission))
+                                            <div class="text-left text-muted col-md-2">
+                                                <input type="hidden" name="permissions[{{ base64_encode($datasource->table.'.'.$permission) }}]" value="0" />
+                                                <label class="label_check" for="{{ base64_encode($datasource->table.'.'.$permission) }}" style="font-weight: normal">
+                                                    <input type="checkbox" id="{{ base64_encode($datasource->table.'.'.$permission) }}" name="permissions[{{ base64_encode($datasource->table.'.'.$permission) }}]" {{ (array_get($groupPermissions, base64_encode($datasource->table.'.'.$permission)) === 1 ? ' checked="checked"' : '') }} value="1" /> @lang('cms::permissions.'.$permission)
+                                                </label>
+                                            </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                    <hr />
+                                @endif
                             @endif
                         @endforeach
 
