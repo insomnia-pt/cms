@@ -56,7 +56,7 @@ Editar Registo ::
 									?>
 									<input type="hidden" name="id_parent" id="id_parent" value="{{ $dsItem->id_parent }}" class="form-control easy-tree-selected" />
 									<div class="input-group easy-tree-openlist">
-								      <input value="{{ @$dsItems->find($dsItem->id_parent)->{$datasource->config()[0]->name} }}" type="text" class="form-control easy-tree-selected-text" placeholder="Selecione.." readonly />
+								      <input value="{{ @$datasource->config()[0]->multilang ? @json_decode(@$dsItems->find($dsItem->id_parent)->{$datasource->config()[0]->name})->{$settings->language} : @$dsItems->find($dsItem->id_parent)->{$datasource->config()[0]->name} }}" type="text" class="form-control easy-tree-selected-text" placeholder="Selecione.." readonly />
 								      <div class="input-group-addon"><i class="fa fa-chevron-down"></i></div>
 								    </div>
 									<div class="easy-tree-list">
@@ -77,7 +77,18 @@ Editar Registo ::
 					@foreach($datasource->relations as $relation)
 						@if($relation->relation_type=="hasOne")
 							<?php
-								$relationTable = Insomnia\Cms\Models\Datasource::find($relation->relation_datasource_id)->table;
+								$relationTableModel = Insomnia\Cms\Models\Datasource::find($relation->relation_datasource_id);
+								$relationTable = $relationTableModel->table;
+
+								if($relation) {
+									$field = null;
+									foreach($relationTableModel->config() as $struct) {
+										if ($relation->config()->fields[0] == $struct->name) {
+											$field = $struct;
+											break;
+										}
+									}
+								}
 							?>
 							<div class="form-group">
 								<label for="{{ $relationTable }}_id" class="col-lg-2 control-label">{{ $relation->relation_description }}</label>
@@ -90,7 +101,7 @@ Editar Registo ::
 										?>
 										<input type="hidden" name="{{ $relationTable }}_id" id="{{ $relationTable }}_id" value="{{ $dsItem->{$relationTable.'_id'} }}" class="form-control easy-tree-selected"  />
 										<div class="input-group easy-tree-openlist">
-									      <input value="{{ @$dsItems->find($dsItem->{$relationTable.'_id'})->{$relation->config()->fields[0]} }}" type="text" class="form-control easy-tree-selected-text" placeholder="Selecione.." readonly />
+									      <input value="{{ @$field->multilang ? @json_decode(@$dsItems->find($dsItem->{$relationTable.'_id'})->{$relation->config()->fields[0]})->{$settings->language} : @$dsItems->find($dsItem->{$relationTable.'_id'})->{$relation->config()->fields[0]} }}" type="text" class="form-control easy-tree-selected-text" placeholder="Selecione.." readonly />
 									      <div class="input-group-addon"><i class="fa fa-chevron-down"></i></div>
 									    </div>
 										<div class="easy-tree-list">

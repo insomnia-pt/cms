@@ -26,11 +26,11 @@
         @endif
       </a>
       @if(array_key_exists($datasource->table.'.delete', $_groupPermissions))
-        <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o registo?" data-reply="" data-toggle="modal" data-descr="{{ $item->{$datasource->config()[0]->name} }}" data-url="{{ route('cms/ds/delete', array($datasource->id, $item->id)) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
+        <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o registo?" data-reply="" data-toggle="modal" data-descr="{{ $datasource->config()[0]->multilang ? @json_decode($item->{$datasource->config()[0]->name})->{$settings->language} : $item->{$datasource->config()[0]->name} }}" data-url="{{ route('cms/ds/delete', array($datasource->id, $item->id)) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
       @endif
     </div>
     @if(count($subItems)>0)
-      {{ $item->{$datasource->config()[0]->name} }}
+      {{ $datasource->config()[0]->multilang ? @json_decode($item->{$datasource->config()[0]->name})->{$settings->language} : $item->{$datasource->config()[0]->name} }}
 
       <ol class="dd-list ">
       @foreach ($subItems as $subitem)
@@ -38,6 +38,6 @@
       @endforeach
       </ol>
     @else
-      {{ $item->{$datasource->config()[0]->name} }}
+      {{ $datasource->config()[0]->multilang ? @json_decode($item->{$datasource->config()[0]->name})->{$settings->language} : $item->{$datasource->config()[0]->name} }}
     @endif
   </li>

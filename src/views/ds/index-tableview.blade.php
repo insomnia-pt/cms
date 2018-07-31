@@ -85,7 +85,7 @@
                     @if(@$config->parameters->mini_cmp)
                             @include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field.'_mini', ['component' => ['entry_id' => $dsItem->id, 'name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
                         @else
-					{{ $dsItem[$config->name] }}
+					{{ $config->multilang ? @json_decode($dsItem->{$config->name})->{$settings->language} : $dsItem[$config->name] }}
                  @endif
                  <?php $firstTableField = $firstTableField?$firstTableField:$dsItem[$config->name]; ?>
 
