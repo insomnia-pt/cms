@@ -128,10 +128,9 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	});
 
 	# Settings Management
-	Route::group(array('prefix' => 'settings'), function()
-	{
-		Route::get('/', array('as' => 'settings', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getIndex'));
-	});
+	
+	Route::get('/settings', array('as' => 'settings', 'uses' => 'Insomnia\Cms\Controllers\SettingsController@getIndex'));
+	
 
 	# Dashboard
 	Route::get('/dashboard', array('as' => 'cms', 'uses' => 'Insomnia\Cms\Controllers\DashboardController@getIndex'));

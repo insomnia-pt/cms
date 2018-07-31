@@ -81,4 +81,16 @@ return array(
 		),
 	),
 
+	'Definições' => array(
+		array(
+			'permission' => 'settings.view',
+			'label'      => 'Visualizar',
+		),
+		array(
+			'permission' => 'settings.update',
+			'label'      => 'Alterar',
+		),
+	),
+
+
 );
