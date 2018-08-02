@@ -19,26 +19,7 @@ class DashboardController extends AdminController {
 	 */
 	public function getIndex()
 	{
-		$tempFix = 1;
-		$ga_access_token = null;
-		if(!$tempFix){
-			$gaClient = Analytics::getClient();
-			$gaClient->getAuth()->refreshTokenWithAssertion();
-			$ga_access_token = json_decode($gaClient->getAccessToken());
-		}
-
-		return View::make('cms::dashboard', compact('users', 'pages','ga_access_token'));
+		return View::make('cms::dashboard', compact('users', 'pages'));
 	}
 
-	public function modoProgramador()
-	{
-		Session::put('modoProgramador', 1);
-		return Redirect::route('admin')->with('success', 'Modo Programador Activado');
-	}
-
-	public function setLang($lang)
-	{
-		Session::put('language', $lang);
-		return Redirect::route('admin')->with('success', 'Idioma de edição alterado');
-	}
 }

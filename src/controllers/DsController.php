@@ -10,7 +10,6 @@ use Insomnia\Cms\Models\Setting as Setting;
 use Input;
 use Lang;
 use Redirect;
-use Sentry;
 use Str;
 use Validator;
 use View;

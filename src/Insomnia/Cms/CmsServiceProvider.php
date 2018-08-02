@@ -24,7 +24,6 @@ class CmsServiceProvider extends ServiceProvider {
 		$this->app->register('Cartalyst\Sentry\SentryServiceProvider');
 		$this->app->register('Barryvdh\Elfinder\ElfinderServiceProvider');
 		$this->app->register('Intervention\Image\ImageServiceProvider');
-		$this->app->register('Thujohn\Analytics\AnalyticsServiceProvider');
 
 		\Config::set('cartalyst/sentry::users.model', 'Insomnia\Cms\Models\User');
 		\Config::set('cartalyst/sentry::users.login_attribute', 'username');
@@ -50,7 +49,6 @@ class CmsServiceProvider extends ServiceProvider {
 		    $loader = \Illuminate\Foundation\AliasLoader::getInstance();
 		    $loader->alias('Sentry', 'Cartalyst\Sentry\Facades\Laravel\Sentry');
 		    $loader->alias('Image', 'Intervention\Image\Facades\Image');
-		    $loader->alias('Analytics', 'Thujohn\Analytics\AnalyticsFacade');
 
 		});
 
