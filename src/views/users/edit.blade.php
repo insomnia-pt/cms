@@ -91,7 +91,7 @@ Editar Utilizador ::
               	</div>
           	</div>
 
-            @if(Sentry::getUser()->hasAccess('users.group'))
+            @if($CMS_USER->hasAccess('users.group'))
 					<div class="form-group {{ $errors->has('groups') ? 'has-error' : '' }}">
 						<label class="col-lg-2 control-label" for="groups">Grupo</label>
 						<div class="col-lg-4">
@@ -111,7 +111,7 @@ Editar Utilizador ::
 			<div class="form-group {{ $errors->has('activated') ? 'has-error' : '' }}">
 				<label class="col-lg-2 control-label" for="activated">Activo</label>
 				<div class="col-lg-2">
-					<select class="form-control" {{ ($user->id === Sentry::getUser()->id ? ' disabled="disabled"' : '') }} name="activated" id="activated">
+					<select class="form-control" {{ ($user->id === $CMS_USER->id ? ' disabled="disabled"' : '') }} name="activated" id="activated">
 						<option value="1"{{ ($user->isActivated() ? ' selected="selected"' : '') }}>Sim</option>
 						<option value="0"{{ ( ! $user->isActivated() ? ' selected="selected"' : '') }}>Não</option>
 					</select>

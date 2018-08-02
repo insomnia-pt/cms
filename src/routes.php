@@ -3,19 +3,11 @@
 
 Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 
-	Route::get('/modo-programador', array('as' => 'admin/programador', 'uses' => 'Insomnia\Cms\Controllers\DashboardController@modoProgramador'));
-	Route::get('/set-lang/{lang}', array('as' => 'admin/setlang', 'uses' => 'Insomnia\Cms\Controllers\DashboardController@setLang'));
-
 	Route::group(array('prefix' => 'auth'), function()
 	{
 		# Login
 		Route::get('signin', array('as' => 'signin', 'uses' => 'Insomnia\Cms\Controllers\AuthController@getSignin'));
 		Route::post('signin', 'Insomnia\Cms\Controllers\AuthController@postSignin');
-
-		# Register
-//		Route::get('signup', array('as' => 'signup', 'uses' => 'AuthController@getSignup'));
-//		Route::get('signup/{refCode}', 'AuthController@getSignup');
-//		Route::post('signup', 'AuthController@postSignup');
 
 		# Account Activation
 		Route::get('activate/{activationCode}', array('as' => 'activate', 'uses' => 'Insomnia\Cms\Controllers\AuthController@getActivate'));
@@ -33,25 +25,19 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 
 	});
 
-
-
 	# Upload
 	Route::post('upload', array('as' => 'upload', 'uses' => 'Insomnia\Cms\Controllers\UploaderController@upload'));
 
-
 	# File Management
-	// Route::group(array('before' => 'auth'), function()
-	// {
-        Route::any('filebrowser', 'Insomnia\Cms\Controllers\FileBrowserController@getIndex');
-		Route::get('elfinder', array('as' => 'cms/elfinder', function() { return View::make('cms::elfinder.elfinder'); }));
-        Route::any('elfinder/connector', 'Insomnia\Cms\Controllers\FileBrowserController@showConnector');
-        Route::get('elfinder/ckeditor', function() { return View::make('cms::elfinder.elfinder-cke'); });
-        Route::get('elfinder/select', function() { return View::make('cms::elfinder.elfinder-select'); });
-	// });
+	Route::any('filebrowser', 'Insomnia\Cms\Controllers\FileBrowserController@getIndex');
+	Route::get('elfinder', array('as' => 'cms/elfinder', function() { return View::make('cms::elfinder.elfinder'); }));
+	Route::any('elfinder/connector', 'Insomnia\Cms\Controllers\FileBrowserController@showConnector');
+	Route::get('elfinder/ckeditor', function() { return View::make('cms::elfinder.elfinder-cke'); });
+	Route::get('elfinder/select', function() { return View::make('cms::elfinder.elfinder-select'); });
+
 
 	# Pages Management
-	Route::group(array('prefix' => 'pages'), function()
-	{
+	Route::group(array('prefix' => 'pages'), function() {
 		Route::get('/', array('as' => 'pages', 'uses' => 'Insomnia\Cms\Controllers\PagesController@getIndex'));
 		Route::get('create', array('as' => 'pages/create', 'uses' => 'Insomnia\Cms\Controllers\PagesController@getCreate'));
 		Route::post('create', 'Insomnia\Cms\Controllers\PagesController@postCreate');
@@ -61,8 +47,7 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	});
 
 	# Data Sources Management
-	Route::group(array('prefix' => 'datasources'), function()
-	{
+	Route::group(array('prefix' => 'datasources'), function() {
 		Route::get('/', array('as' => 'datasources', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getIndex'));
 		Route::get('create', array('as' => 'datasources/create', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getCreate'));
 		Route::post('create', 'Insomnia\Cms\Controllers\DatasourcesController@postCreate');
@@ -78,17 +63,13 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	});
 
 	# Menu Management
-	Route::group(array('prefix' => 'menu'), function()
-	{
+	Route::group(array('prefix' => 'menu'), function() {
 		Route::get('/{groupId?}', array('as' => 'admin/menu', 'uses' => 'Insomnia\Cms\Controllers\MenuController@getIndex'));
 		Route::post('/{groupId?}', 'Insomnia\Cms\Controllers\MenuController@postEdit');
 	});
 
-
-
-	# Data Source Table Management
-	Route::group(array('prefix' => 'ds'), function()
-	{
+	# Datasource Table Management
+	Route::group(array('prefix' => 'ds'), function() {
 		Route::get('/{datasourceId}', array('as' => 'cms/ds', 'uses' => 'Insomnia\Cms\Controllers\DsController@getIndex'));
 		Route::post('/{datasourceId}/order', array('as' => 'cms/ds/order', 'uses' => 'Insomnia\Cms\Controllers\DsController@postOrder'));
 		Route::post('/{datasourceId}/edit/fromcomponent', array('as' => 'cms/ds/edit/fromcomponent', 'uses' => 'Insomnia\Cms\Controllers\DsController@postAjaxComponent'));
@@ -98,12 +79,10 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 		Route::post('{datasourceId}/edit/{itemId}', 'Insomnia\Cms\Controllers\DsController@postEdit');
 		Route::get('{datasourceId}/delete/{itemId}', array('as' => 'cms/ds/delete', 'uses' => 'Insomnia\Cms\Controllers\DsController@getDelete'));
 		Route::get('{datasourceId}/sub/{itemId}/{subDatasourceId}', array('as' => 'cms/ds/sub', 'uses' => 'Insomnia\Cms\Controllers\DsController@getSubIndex'));
-		// Route::get('{datasourceId}/delete/all', array('as' => 'delete/datasource/all', 'uses' => 'Insomnia\Cms\Controllers\DatasourcesController@getDeleteAll'));
 	});
 
 	# User Management
-	Route::group(array('prefix' => 'users'), function()
-	{
+	Route::group(array('prefix' => 'users'), function() {
 		Route::get('/', array('as' => 'users', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getIndex'));
 		Route::get('import', array('as' => 'users/import', 'uses' => 'Insomnia\Cms\Controllers\UsersController@getImport'));
 		Route::post('import', 'Insomnia\Cms\Controllers\UsersController@postImport');
@@ -116,8 +95,7 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	});
 
 	# Group Management
-	Route::group(array('prefix' => 'groups'), function()
-	{
+	Route::group(array('prefix' => 'groups'), function() {
 		Route::get('/', array('as' => 'groups', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getIndex'));
 		Route::get('create', array('as' => 'groups/create', 'uses' => 'Insomnia\Cms\Controllers\GroupsController@getCreate'));
 		Route::post('create', 'Insomnia\Cms\Controllers\GroupsController@postCreate');
@@ -128,20 +106,13 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	});
 
 	# Settings Management
-	
 	Route::get('/settings', array('as' => 'settings', 'uses' => 'Insomnia\Cms\Controllers\SettingsController@getIndex'));
+	Route::post('/settings', array( 'uses' => 'Insomnia\Cms\Controllers\SettingsController@postEdit'));
 	
-
 	# Dashboard
 	Route::get('/dashboard', array('as' => 'cms', 'uses' => 'Insomnia\Cms\Controllers\DashboardController@getIndex'));
 	Route::get('/', function(){
 		return Redirect::route('cms');
 	});
 
-	// include('_ext/routes.php');
-
-
-	// Route::get('teste', function(){
-	// 	return 'ok';
-	// });
 });

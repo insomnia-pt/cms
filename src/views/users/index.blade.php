@@ -57,10 +57,10 @@ Gestão de Utilizadores ::
                         <a href="{{ route('users/edit', $user->id) }}" class="btn btn-xs btn-default">@lang('cms::button.edit')</a>
                         @endif
 
-                        @if ( ! is_null($user->deleted_at))
+                        @if ( ! is_null($user->deleted_at)) 
                         <a href="{{ route('users/restore', $user->id) }}" class="btn btn-xs btn-danger">@lang('cms::button.restore')</a>
                         @else
-                        @if (Sentry::getUser()->id !== $user->id)
+                        @if ($CMS_USER->id !== $user->id)
                         <a href="{{ route('users/delete', $user->id) }}" class="btn btn-xs btn-danger">@lang('cms::button.delete')</a>
                         @else
                         <span class="btn btn-xs btn-danger disabled">@lang('cms::button.delete')</span>

@@ -37,13 +37,13 @@
 		            <ul class="nav pull-right top-menu">
 		                <li class="dropdown">
 		                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-		                	    <img alt="" src="{{ Sentry::getUser()->thumbnail(29,29) }}">
-		                        <span class="username">{{ Sentry::getUser()->fullName() }}</span>
+		                	    <img alt="" src="{{ $CMS_USER->thumbnail(29,29) }}">
+		                        <span class="username">{{ $CMS_USER->fullName() }}</span>
 		                        <b class="caret"></b>
 		                    </a>
 		                    <ul class="dropdown-menu extended logout text-center">
 		                        <div class="log-arrow-up"></div>
-		                        <li class="text-center"><a href="{{ route('users/edit', Sentry::getUser()->id ) }}"><i class=" fa fa-user"></i>Editar Perfil</a></li>
+		                        <li class="text-center"><a href="{{ route('users/edit', $CMS_USER->id ) }}"><i class=" fa fa-user"></i>Editar Perfil</a></li>
 		                        <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> Terminar Sessão</a></li>
 		                    </ul>
 		                </li>    

@@ -57,7 +57,7 @@ Editar Grupo ::
 
 						@foreach ($permissions as $area => $permissions)
                             <?php $hasAreaPermission=0; foreach ($permissions as $permission) {
-                                if(\Sentry::getUser()->hasAccess(base64_decode($permission['permission'])) || \Sentry::getUser()->getGroups()[0]->id == 1) $hasAreaPermission = 1;
+                                if($CMS_USER->hasAccess(base64_decode($permission['permission'])) || $CMS_USER->getGroups()[0]->id == 1) $hasAreaPermission = 1;
                             }
                             ?>
                             @if($hasAreaPermission)
@@ -65,7 +65,7 @@ Editar Grupo ::
                             <div class="row">
                                 <div class="col-md-2"><strong>{{ $area }}</strong></div>
                                 @foreach ($permissions as $permission)
-                                    @if(\Sentry::getUser()->hasAccess(base64_decode($permission['permission']))  || \Sentry::getUser()->getGroups()[0]->id == 1)
+                                    @if($CMS_USER->hasAccess(base64_decode($permission['permission']))  || $CMS_USER->getGroups()[0]->id == 1)
                                     <div class="text-left text-muted col-md-2">
                                         <input type="hidden" name="permissions[{{ $permission['permission'] }}]" value="0" />
                                         <label class="label_check" for="{{ $permission['permission'] }}" style="font-weight: normal">
@@ -83,7 +83,7 @@ Editar Grupo ::
                             @if($datasource->permissions())
                                 
                                 <?php $hasDatasourcePermission=0; foreach ($datasource->permissions() as $permission) {
-                                    if(\Sentry::getUser()->hasAccess($datasource->table.'.'.$permission)  || \Sentry::getUser()->getGroups()[0]->id == 1) $hasDatasourcePermission = 1;
+                                    if($CMS_USER->hasAccess($datasource->table.'.'.$permission)  || $CMS_USER->getGroups()[0]->id == 1) $hasDatasourcePermission = 1;
                                 }
                                 ?>
                                 @if($hasDatasourcePermission)
@@ -91,7 +91,7 @@ Editar Grupo ::
                                     <div class="row">
                                         <div class="col-md-2"><strong>{{ $datasource->name }}</strong></div>
                                         @foreach ($datasource->permissions() as $permission)
-                                            @if(\Sentry::getUser()->hasAccess($datasource->table.'.'.$permission)  || \Sentry::getUser()->getGroups()[0]->id == 1)
+                                            @if($CMS_USER->hasAccess($datasource->table.'.'.$permission)  || $CMS_USER->getGroups()[0]->id == 1)
                                             <div class="text-left text-muted col-md-2">
                                                 <input type="hidden" name="permissions[{{ base64_encode($datasource->table.'.'.$permission) }}]" value="0" />
                                                 <label class="label_check" for="{{ base64_encode($datasource->table.'.'.$permission) }}" style="font-weight: normal">

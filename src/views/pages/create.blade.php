@@ -138,7 +138,7 @@ Adicionar Página ::
 
 						@if(@$area->field->multilang)
 							@foreach($languages as $langkey => $language)
-							<div data-lang="lang-{{ $langkey }}" class="form-group lang-field {{ $errors->has($area->name.'['.$langkey.']') ? 'has-error' : '' }}" @if(isset($area->field->admin)&&@Sentry::getUser()->getGroups()[0]->id != 1)) style="display: none;" @endif>
+							<div data-lang="lang-{{ $langkey }}" class="form-group lang-field {{ $errors->has($area->name.'['.$langkey.']') ? 'has-error' : '' }}" @if(isset($area->field->admin)&&@$CMS_USER->getGroups()[0]->id != 1)) style="display: none;" @endif>
 								<label for="{{ $area->name }}[{{ $langkey }}]" class="col-lg-2 control-label">{{ $area->field->name }} &nbsp;<i title="Campo com possibilidade de tradução" class="fa fa-language"></i> <small class="lang-active text-muted"></small></label>
 								<div class="col-lg-{{ $area->field->size }}">
 
@@ -150,7 +150,7 @@ Adicionar Página ::
 							@endforeach
 						@else
 
-							<div class="form-group {{ $errors->has($area->name) ? 'has-error' : '' }}" @if(isset($area->field->admin)&&@Sentry::getUser()->getGroups()[0]->id != 1)) style="display: none;" @endif>
+							<div class="form-group {{ $errors->has($area->name) ? 'has-error' : '' }}" @if(isset($area->field->admin)&&@$CMS_USER->getGroups()[0]->id != 1)) style="display: none;" @endif>
 								<label for="{{ $area->name }}" class="col-lg-2 control-label">{{ $area->field->name }} </label>
 								<div class="col-lg-{{ $area->field->size }}">
 
@@ -185,7 +185,7 @@ Adicionar Página ::
 				<div class="panel-body form-horizontal tasi-form">
 
 					@foreach($pageTypeSel->config()->settings as $setting)
-						<div class="form-group {{ $errors->has($setting->name) ? 'has-error' : '' }}" @if(isset($setting->field->admin)&&@Sentry::getUser()->getGroups()[0]->id != 1)) style="display: none;" @endif>
+						<div class="form-group {{ $errors->has($setting->name) ? 'has-error' : '' }}" @if(isset($setting->field->admin)&&@$CMS_USER->getGroups()[0]->id != 1)) style="display: none;" @endif>
 							<label for="{{ $setting->name }}" class="col-lg-2 control-label">{{ $setting->field->name }}</label>
 							<div class="col-lg-{{ $setting->field->size }}">
 

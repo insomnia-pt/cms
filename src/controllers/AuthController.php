@@ -10,6 +10,8 @@ use Validator;
 use Input;
 use Session;
 use Lang;
+use Config;
+
 
 
 class AuthController extends AdminController {
@@ -260,7 +262,23 @@ class AuthController extends AdminController {
 	public function getLogout()
 	{
 		Sentry::logout();
-		return Redirect::route('cms')->with('success', 'Logout efectuado com sucesso!');
+
+		switch (Config::get('cms::config.auth_type')) {
+			
+			case 'local':
+				return Redirect::route('cms')->with('success', 'Logout efectuado com sucesso!');
+				break;
+
+			case 'keycloak':
+				return Redirect::to(Config::get('cms::config.auth_types.keycloak.authServerUrl')."/realms/".Config::get('cms::config.auth_types.keycloak.realm')."/protocol/openid-connect/logout?redirect_uri=".Config::get('cms::config.auth_types.keycloak.redirectUri'));
+				break;
+
+			default:
+				return Redirect::route('cms')->with('success', 'Logout efectuado com sucesso!');
+		}
+
+		
+		
 	}
 
 }

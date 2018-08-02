@@ -10,6 +10,29 @@ return array(
 
     /*
     |--------------------------------------------------------------------------
+    | CMS AUTH TYPE (local, keycloak)
+    |--------------------------------------------------------------------------
+    */
+    'auth_type' => 'keycloak',
+
+    'auth_types' => array(
+
+        'keycloak' => array(
+            'authServerUrl'         =>  null,
+            'realm'                 =>  null,
+            'clientId'              =>  null,
+            'clientSecret'          =>  null,
+            'redirectUri'           =>  null,
+            'encryptionAlgorithm'   =>  null,                        // optional
+            'encryptionKeyPath'     =>  null,                        // optional
+            'encryptionKey'         =>  null                         // optional
+        )
+    ),
+
+
+
+    /*
+    |--------------------------------------------------------------------------
     | PACKAGE ASSETS PATH
     |--------------------------------------------------------------------------
     */

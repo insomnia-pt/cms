@@ -89,7 +89,7 @@ Adicionar Utilizador ::
               	</div>
           	</div>
 
-            @if(Sentry::getUser()->hasAccess('users.group'))
+            @if($CMS_USER->hasAccess('users.group'))
   						<div class="form-group {{ $errors->has('groups') ? 'has-error' : '' }}">
   							<label class="col-lg-2 control-label" for="groups">Grupo</label>
   							<div class="col-lg-4">

@@ -14,43 +14,62 @@ class AdminController extends Controller {
 	public function __construct()
 	{		
 		// Apply the admin auth filter
-		$this->beforeFilter('admin-auth');
-
-		// Set default session language if none is set
-		if(!Session::has('language'))
-		{
-		    Session::put('language', Config::get('app.locale'));
-		}
+		$this->beforeFilter('auth-'.Config::get('cms::config.auth_type'));
+		
+		//cms default lang
+		Session::put('language', 'pt');
 
 		if (\Sentry::check()){
-			$userGroup = \Sentry::getUser()->getGroups()[0]->id;
-			$userGroupId = $userGroup?$userGroup:1;
+			$user = \Sentry::getUser();
 
-			$group = \Sentry::getGroupProvider()->findById($userGroupId);
-			$_groupPermissions = $group->getPermissions();
-			View::share('_groupPermissions', $_groupPermissions);
+			///
+			$userGroupId = 1;
+			$_groupPermissions = [];
+			//
 
+            if (Config::get('cms::config.auth_type') == 'local') {
+                $userGroup = \Sentry::getUser()->getGroups()[0]->id;
+                $userGroupId = $userGroup?$userGroup:1;
+
+                $group = \Sentry::getGroupProvider()->findById($userGroupId);
+                $_groupPermissions = $group->getPermissions();
+                
+            }
+			
 			$settings = Setting::where('name', 'general')->first()->config();
 			$menus = Menu::where('id_parent', 0)->where('visible', 1)->where('group_id', $userGroupId)->orderBy('order')->get();
 
             Session::put('settings_super_user', Setting::where('name', 'super_user')->first()->value&&$userGroupId!=1?true:false );
 
-
+			View::share('_groupPermissions', $_groupPermissions);
 			View::share('menus', $menus);
 			View::share('settings', $settings);
+			View::share('CMS_USER', $user);
 		}
 	}
 
 	public function checkPermission($requiredPermission) 
 	{
-		if (!\Sentry::getUser()->hasAccess($requiredPermission))
-		{
-			Redirect::route('cms')->send();
-			die();
-			return false;
-		}
 
-		return true;
+		switch (Config::get('cms::config.auth_type')) {
+			
+			case 'local':
+				if (!\Sentry::getUser()->hasAccess($requiredPermission)){
+					Redirect::route('cms')->send();
+					die();
+					return false;
+				}
+
+				return true;
+				break;
+
+			case 'keycloak':
+				return true;
+				break;
+
+			default:
+				return false;
+		}
 	}
 
 
