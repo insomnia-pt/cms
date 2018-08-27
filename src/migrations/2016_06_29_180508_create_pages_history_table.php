@@ -19,7 +19,7 @@ class CreatePagesHistoryTable extends Migration {
 			$table->increments('id')->unsigned();
 			$table->string('title');
 			$table->string('slug');
-			$table->text('content');
+			$table->mediumText('content');
 			$table->integer('page_id')->unsigned();
 			$table->integer('page_type')->unsigned();
 			$table->integer('user_id')->unsigned();

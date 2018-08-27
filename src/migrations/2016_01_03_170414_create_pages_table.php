@@ -19,7 +19,7 @@ class CreatePagesTable extends Migration {
 			$table->increments('id')->unsigned();
 			$table->string('title');
 			$table->string('slug');
-			$table->text('content');
+			$table->mediumText('content');
 			$table->text('meta')->nullable();
 			$table->integer('id_parent')->unsigned()->default(0);
 			$table->integer('system')->unsigned();

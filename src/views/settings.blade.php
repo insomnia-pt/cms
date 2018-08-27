@@ -34,11 +34,13 @@ Definições ::
 				    <div class="tab-content">
 					    <header class="panel-heading form-group"></header>
 					    <div id="tab-general" class="tab-pane active">
+
+
         
 						    <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                                 <label for="title" class="col-lg-2 control-label">Título</label>
                                 <div class="col-lg-7">
-                                    <input type="text" class="form-control" name="title" id="title" value="{{ Input::old('title', json_decode($allSettings->get('general')->value)->title) }}" />
+                                    <input type="text" class="form-control" name="general" id="general" value="aaaa" />
                                     {{ $errors->first('title', '<p class="help-block">:message</p>') }}
                                 </div>
                             </div>
@@ -46,7 +48,7 @@ Definições ::
                             <div class="form-group {{ $errors->has('subtitle') ? 'has-error' : '' }}">
                                 <label for="subtitle" class="col-lg-2 control-label">Sub-Título</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" name="subtitle" id="subtitle" value="{{ Input::old('subtitle', json_decode($allSettings->get('general')->value)->subtitle) }}" />
+                                    <input type="text" class="form-control" name="superuser" id="superuser" value="bbb" />
                                     {{ $errors->first('subtitle', '<p class="help-block">:message</p>') }}
                                 </div>
                             </div>

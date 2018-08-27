@@ -13,7 +13,7 @@ class DatasourcefieldtypeTableSeeder extends Seeder {
 
         $datasourcefieldtype = new DatasourceFieldtype;
         $datasourcefieldtype->name = 'Inteiro';
-        $datasourcefieldtype->type = 'integer';
+        $datasourcefieldtype->type = 'string';
         $datasourcefieldtype->config = '{"field":"number"}';
         $datasourcefieldtype->save();
 
@@ -37,7 +37,7 @@ class DatasourcefieldtypeTableSeeder extends Seeder {
 
         $datasourcefieldtype = new DatasourceFieldtype;
         $datasourcefieldtype->name = 'Editor Texto';
-        $datasourcefieldtype->type = 'text';
+        $datasourcefieldtype->type = 'mediumText';
         $datasourcefieldtype->config = '{"field":"textarea"}';
         $datasourcefieldtype->save();
 
@@ -73,7 +73,7 @@ class DatasourcefieldtypeTableSeeder extends Seeder {
 
         $datasourcefieldtype = new DatasourceFieldtype;
         $datasourcefieldtype->name = 'Switch';
-        $datasourcefieldtype->type = 'integer';
+        $datasourcefieldtype->type = 'string';
         $datasourcefieldtype->config = '{"field":"switch", "parameters":["mini_cmp"]}';
         $datasourcefieldtype->save();
     }
