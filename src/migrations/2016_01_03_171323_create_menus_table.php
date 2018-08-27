@@ -18,14 +18,7 @@ class CreateMenusTable extends Migration {
 			
 			$table->increments('id')->unsigned();
 			$table->string('name')->nullable();
-			$table->string('icon')->nullable();
-			$table->string('url')->nullable();
-			$table->integer('id_parent')->unsigned()->default(0);
-			$table->integer('datasource_id')->unsigned()->nullable();
-			$table->integer('order')->unsigned();
-			$table->integer('visible')->unsigned()->default(0);
 			$table->integer('system')->unsigned()->default(0);
-			$table->integer('group_id')->unsigned();
 		});
 	}
 

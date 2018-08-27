@@ -16,7 +16,8 @@ class AddRelations extends Migration {
 		    $table->foreign('pagetype_id')->references('id')->on('pages_types');
 		});
 
-		Schema::table('menus', function($table){
+		Schema::table('menus_items', function($table){
+		    $table->foreign('menu_id')->references('id')->on('menus');
 		    $table->foreign('datasource_id')->references('id')->on('datasources');
 		});
 
@@ -37,7 +38,8 @@ class AddRelations extends Migration {
 		    $table->dropForeign('pages_pagetype_id_foreign');
 		});
 
-		Schema::table('menus', function($table){
+		Schema::table('menus_items', function($table){
+		    $table->dropForeign('menus_menu_id_foreign');
 		    $table->dropForeign('menus_datasource_id_foreign');
 		});
 

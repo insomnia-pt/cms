@@ -63,9 +63,9 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	});
 
 	# Menu Management
-	Route::group(array('prefix' => 'menu'), function() {
-		Route::get('/{groupId?}', array('as' => 'admin/menu', 'uses' => 'Insomnia\Cms\Controllers\MenuController@getIndex'));
-		Route::post('/{groupId?}', 'Insomnia\Cms\Controllers\MenuController@postEdit');
+	Route::group(array('prefix' => 'menus'), function() {
+		Route::get('/{menuId?}', array('as' => 'admin/menus', 'uses' => 'Insomnia\Cms\Controllers\MenusController@getIndex'));
+		Route::post('/{menuId?}', 'Insomnia\Cms\Controllers\MenusController@postEdit');
 	});
 
 	# Datasource Table Management
@@ -108,6 +108,7 @@ Route::group(array('prefix' => Config::get('cms::config.uri')), function () {
 	# Settings Management
 	Route::get('/settings', array('as' => 'settings', 'uses' => 'Insomnia\Cms\Controllers\SettingsController@getIndex'));
 	Route::post('/settings', array( 'uses' => 'Insomnia\Cms\Controllers\SettingsController@postEdit'));
+	Route::get('/settings/keycloak/roles', array('uses' => 'Insomnia\Cms\Controllers\SettingsController@getKeycloakRoles'));
 	
 	# Dashboard
 	Route::get('/dashboard', array('as' => 'cms', 'uses' => 'Insomnia\Cms\Controllers\DashboardController@getIndex'));

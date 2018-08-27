@@ -3,6 +3,7 @@
 use Insomnia\Cms\Controllers\AdminController;
 use Insomnia\Cms\Models\Datasource as Datasource;
 use Insomnia\Cms\Models\Menu as Menu;
+use Insomnia\Cms\Models\MenuItem as MenuItem;
 use Input;
 use Lang;
 use Redirect;
@@ -17,18 +18,19 @@ use Response;
 use Artisan;
 
 
-class MenuController extends AdminController {
+class MenusController extends AdminController {
 
-	public function getIndex($groupId=null)
+	public function getIndex($menuId=null)
 	{	
-		AdminController::checkPermission('menu.view');
+		AdminController::checkPermission('menus.view');
 
-		$groups = Sentry::getGroupProvider()->createModel()->paginate();
-		if(!$groupId){ $groupId = $groups[0]->id; }
+		//except 1 - Default
+		$systemMenus = Menu::all()->except(1);
+		if(!$menuId){ $menuId = $systemMenus[0]->id; }
 
-		$menulist = Menu::where('id_parent', 0)->where('visible', 1)->where('group_id', $groupId)->orderBy('order')->get();
-		$menuoutlist = Menu::where('id_parent', 0)->where('visible', 0)->where('group_id', $groupId)->orderBy('order')->get();
-		$menulistdatasources = Menu::where('datasource_id', '!=', 'null')->where('group_id', $groupId)->lists('datasource_id');
+		$menulist = MenuItem::where('id_parent', 0)->where('visible', 1)->where('menu_id', $menuId)->orderBy('order')->get();
+		$menuoutlist = MenuItem::where('id_parent', 0)->where('visible', 0)->where('menu_id', $menuId)->orderBy('order')->get();
+		$menulistdatasources = MenuItem::where('datasource_id', '!=', 'null')->where('menu_id', $menuId)->lists('datasource_id');
 
 		$datasourcelist = [];
 		if(count($menulistdatasources)) {
@@ -42,25 +44,26 @@ class MenuController extends AdminController {
 
 		
 
-		return View::make('cms::menu/index', compact('menulist','allmenuoutlist','groups','groupId'));
+		return View::make('cms::menus/index', compact('menulist','allmenuoutlist','systemMenus','menuId'));
 	}
 
-	public function postEdit($groupId=null)
+	public function postEdit($menuId=null)
 	{
-		AdminController::checkPermission('menu.update');
+		AdminController::checkPermission('menus.update');
 
-		$groups = Sentry::getGroupProvider()->createModel()->paginate();
-		if(!$groupId){ $groupId = $groups[0]->id; }
+		//except 1 - Default
+		$systemMenus = Menu::all()->except(1);
+		if(!$menuId){ $menuId = $systemMenus[0]->id; }
 
 		$inputs = Input::except('_token');
 		
 		$menulist = json_decode(Input::get('menuconfig'));
 		$menuoutlist = json_decode(Input::get('menuoutconfig'));
 
-		Menu::where('group_id', $groupId)->delete();
+		MenuItem::where('menu_id', $menuId)->delete();
 
 		foreach ($menulist as $key => $menuitem) {
-			$menu = new Menu;
+			$menu = new MenuItem;
 			$menu->name = $menuitem->name;
 			$menu->icon = $menuitem->icon;
 			$menu->url = $menuitem->url;
@@ -69,12 +72,12 @@ class MenuController extends AdminController {
 			$menu->order = $key;
 			$menu->visible = 1;
 			$menu->system = @$menuitem->system?$menuitem->system:0;
-			$menu->group_id = $groupId;
+			$menu->menu_id = $menuId;
 			$menu->save();
 
 			if(count(@$menuitem->children)){
 				foreach ($menuitem->children as $keychildren => $menuitemchildren) {
-					$menuchildren = new Menu;
+					$menuchildren = new MenuItem;
 					$menuchildren->name = $menuitemchildren->name;
 					$menuchildren->icon = $menuitemchildren->icon;
 					$menuchildren->url = $menuitemchildren->url;
@@ -83,7 +86,7 @@ class MenuController extends AdminController {
 					$menuchildren->order = $keychildren;
 					$menuchildren->visible = 1;
 					$menuchildren->system = @$menuitemchildren->system?$menuitemchildren->system:0;
-					$menuchildren->group_id = $groupId;
+					$menuchildren->menu_id = $menuId;
 					$menuchildren->save();
 				}
 			}
@@ -92,7 +95,7 @@ class MenuController extends AdminController {
 		if($menuoutlist) {
 			foreach ($menuoutlist as $key => $menuitem) {
 				if(!@$menuitem->datasource_id) {
-					$menu = new Menu;
+					$menu = new MenuItem;
 					$menu->name = $menuitem->name;
 					$menu->icon = $menuitem->icon;
 					$menu->url = $menuitem->url;
@@ -101,13 +104,13 @@ class MenuController extends AdminController {
 					$menu->order = $key;
 					$menu->visible = 0;
 					$menu->system = @$menuitem->system?$menuitem->system:0;
-					$menu->group_id = $groupId;
+					$menu->menu_id = $menuId;
 					$menu->save();
 
 					if(count(@$menuitem->children)){
 						foreach ($menuitem->children as $keychildren => $menuitemchildren) {
 							if(!@$menuitemchildren->datasource_id) {
-								$menuchildren = new Menu;
+								$menuchildren = new MenuItem;
 								$menuchildren->name = $menuitemchildren->name;
 								$menuchildren->icon = $menuitemchildren->icon;
 								$menuchildren->url = $menuitemchildren->url;
@@ -116,7 +119,7 @@ class MenuController extends AdminController {
 								$menuchildren->order = $keychildren;
 								$menuchildren->visible = 0;
 								$menuchildren->system = @$menuitemchildren->system?$menuitemchildren->system:0;
-								$menuchildren->group_id = $groupId;
+								$menuchildren->menu_id = $menuId;
 								$menuchildren->save();
 							}
 						}
@@ -125,15 +128,15 @@ class MenuController extends AdminController {
 			}
 		}
 
-  		$allMenus = Menu::orderBy('order')->get();
-  		Menu::truncate();
+  		$allMenus = MenuItem::orderBy('order')->get();
+  		MenuItem::truncate();
 
   		$parentMenus = $allMenus->filter(function($menu) {
 		    return $menu->id_parent == 0;
 		})->values();
 
 		foreach ($parentMenus as $menuitem) {
-			$newMenu = new Menu;
+			$newMenu = new MenuItem;
 			$newMenu->name = $menuitem->name;
 			$newMenu->icon = $menuitem->icon;
 			$newMenu->url = $menuitem->url;
@@ -142,7 +145,7 @@ class MenuController extends AdminController {
 			$newMenu->order = $menuitem->order;
 			$newMenu->visible = $menuitem->visible;
 			$newMenu->system = $menuitem->system;
-			$newMenu->group_id = $menuitem->group_id;
+			$newMenu->menu_id = $menuitem->menu_id;
 			$newMenu->save();
 
 			$subMenus = $allMenus->filter(function($submenu) use ($menuitem) {
@@ -150,7 +153,7 @@ class MenuController extends AdminController {
 			})->values();
 
 			foreach ($subMenus as $submenuitem) {
-				$newSubMenu = new Menu;
+				$newSubMenu = new MenuItem;
 				$newSubMenu->name = $submenuitem->name;
 				$newSubMenu->icon = $submenuitem->icon;
 				$newSubMenu->url = $submenuitem->url;
@@ -159,7 +162,7 @@ class MenuController extends AdminController {
 				$newSubMenu->order = $submenuitem->order;
 				$newSubMenu->visible = $submenuitem->visible;
 				$newSubMenu->system = $submenuitem->system;
-				$newSubMenu->group_id = $submenuitem->group_id;
+				$newSubMenu->menu_id = $submenuitem->menu_id;
 				$newSubMenu->save();
 				
 			}

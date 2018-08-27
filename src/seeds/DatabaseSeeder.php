@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('Insomnia\Cms\GroupTableSeeder');
 		$this->call('Insomnia\Cms\UserTableSeeder');
 		$this->call('Insomnia\Cms\Seeds\MenuTableSeeder');
+		$this->call('Insomnia\Cms\Seeds\MenuitemTableSeeder');
 		$this->call('Insomnia\Cms\PagetypeTableSeeder');
 		$this->call('Insomnia\Cms\PageTableSeeder');
 		$this->call('Insomnia\Cms\DatasourceTableSeeder');

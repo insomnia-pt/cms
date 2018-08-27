@@ -27,17 +27,17 @@ Gestão de Menus ::
 	  	<div class="row panel-body">
 	  		<div class="col-md-3">
 
-	  			<label>Menu Grupo</label>&nbsp;&nbsp;
+	  			<label>Menu</label>&nbsp;&nbsp;
 	  			<div class="btn-group">
 	              <button class="btn btn-white" type="button">
-	              	@foreach($groups as $group)
-						@if($group->id==$groupId){{ $group->name }}@endif
+	              	@foreach($systemMenus as $menu)
+						@if($menu->id==$menuId){{ $menu->name }}@endif
 					@endforeach
 	              </button>
 	              <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button"><span class="caret"></span></button>
 	              <ul role="menu" class="dropdown-menu">
-	                @foreach($groups as $group)
-						@if($group->id!=$groupId)<li><a href="{{ URL::to('cms/menu/'.$group->id) }}">{{ $group->name }}</a></li>@endif
+	                @foreach($systemMenus as $menu)
+						@if($menu->id!=$menuId)<li><a href="{{ URL::to('cms/menus/'.$menu->id) }}">{{ $menu->name }}</a></li>@endif
 					@endforeach
 	              </ul>
           		</div>
