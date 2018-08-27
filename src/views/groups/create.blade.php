@@ -54,7 +54,7 @@ Adicionar Grupo ::
 								<select class="form-control" name="copy" id="copy">
 									<option value="0">Não</option>
 									@foreach ($groups as $group)
-										@if(Session::get('settings_super_user') && $group->id == 1)
+										@if(Session::get('settings_super_group') && $group->hasAccess('admin'))
 										@else
 											<option value="{{ $group->id }}">{{ $group->name }}</option>
 										@endif

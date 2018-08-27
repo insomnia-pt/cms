@@ -63,13 +63,13 @@
 			<td class="text-right">
 				<a href="{{ URL::to($page->slug) }}" target="_blank" class="btn btn-xs" title="Abrir Página"><i class="fa fa-external-link"></i> Abrir</a>|
 				<a href="{{ route('pages/edit', $page->id) }}" class="btn btn-xs btn-default">
-	          @if(array_key_exists($datasource->table.'.update', $_groupPermissions))
+	          @if(CMS_Helper::checkPermission($datasource->table.'.update'))
 	            @lang('cms::button.edit')
 	          @else
 	            @lang('cms::button.view')
 	          @endif
         	</a>
-	        @if(array_key_exists($datasource->table.'.delete', $_groupPermissions))
+	        @if(CMS_Helper::checkPermission($datasource->table.'.delete'))
 					<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar a página?@if(@count($page->contentdatasources())) <br /><br />NOTA: Esta acção também irá remover os componentes associados à página, assim como todos os seus registos. @endif" data-reply="" data-toggle="modal" data-descr="{{ $page->title }}" data-url="{{ route('pages/delete', $page->id) }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" href="#modal-confirm">@lang('cms::button.delete')</a>
 	        @endif
 			</td>

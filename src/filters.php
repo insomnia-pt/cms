@@ -13,7 +13,7 @@ Route::filter('auth-local', function()
     }
 
     // Check if the user has access to the admin page
-    if (!Sentry::getUser()->hasAnyAccess(array('admin','backoffice')))
+    if (!Sentry::getUser()->hasAnyAccess(array('admin','cms')))
     {
         return App::abort(403);
     }
@@ -29,7 +29,6 @@ Route::filter('auth-keycloak', function()
 			'authServerUrl'         => Config::get('cms::config.auth_types.keycloak.authServerUrl'),
 			'realm'                 => Config::get('cms::config.auth_types.keycloak.realm'),
 			'clientId'              => Config::get('cms::config.auth_types.keycloak.clientId'),
-			'clientSecret'          => null,
 			'redirectUri'           => Config::get('cms::config.auth_types.keycloak.redirectUri')
 		]);
 		
@@ -67,8 +66,11 @@ Route::filter('auth-keycloak', function()
                     $CmsUser->save();
                 } 
 
+
                 $CmsUser = Sentry::findUserById($CmsUser->id);
                 Sentry::login($CmsUser, false);
+
+               
         
                 // printf('Hello %s!', $user->getName());
             } catch (Exception $e) {
@@ -86,7 +88,6 @@ Route::filter('auth-keycloak', function()
 			'authServerUrl'         => Config::get('cms::config.auth_types.keycloak.authServerUrl'),
 			'realm'                 => Config::get('cms::config.auth_types.keycloak.realm'),
 			'clientId'              => Config::get('cms::config.auth_types.keycloak.clientId'),
-			'clientSecret'          => null,
 			'redirectUri'           => Config::get('cms::config.auth_types.keycloak.redirectUri')
 		]);
 		
@@ -101,6 +102,12 @@ Route::filter('auth-keycloak', function()
                     Session::forget('token');
                     Sentry::logout();
                 }
+
+                 // Check if the user has access to the admin page
+                if (!\CMS_Helper::checkPermission('cms'))
+                {
+                    return App::abort(403);
+                }
                 
                 return Redirect::to(Request::url());
             }
@@ -108,13 +115,17 @@ Route::filter('auth-keycloak', function()
             Sentry::logout();
             return Redirect::to('/cms');
         }
-            
-            
+
+        // Check if the user has access to the admin page
+        if (!\CMS_Helper::checkPermission('cms'))
+        {
+            return App::abort(403);
+        }
         
     }
 
     // Check if the user has access to the admin page
-    // if (!Sentry::getUser()->hasAnyAccess(array('admin','backoffice')))
+    // if (!Sentry::getUser()->hasAnyAccess(array('admin','cms')))
     // {
     //     return App::abort(403);
     // }

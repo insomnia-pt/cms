@@ -41,19 +41,19 @@ Gestão de Grupos ::
 
 				@if ($groups->count() >= 1)
 				@foreach ($groups as $group)
-          @if(Session::get('settings_super_user') && $group->id == 1)
+                    @if(Session::get('settings_super_group') && $group->hasAccess('admin'))
 
-          @else
-            <tr class="odd gradeX">
-              <td class="hidden-phone">{{ $group->name }}</td>
-              <td class="hidden-phone text-center">{{ $group->users()->count() }}</td>
-              <td class="hidden-phone">{{ $group->created_at }}</td>
-              <td class="text-right">
-                <a href="{{ route('groups/edit', $group->id) }}" class="btn btn-xs btn-default">@lang('cms::button.edit')</a>
-                <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o grupo?" data-reply="" data-toggle="modal" data-descr="{{ $group->name }}" data-url="{{ route('groups/delete', $group->id) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
-              </td>
-            </tr>
-          @endif
+                    @else
+                        <tr class="odd gradeX">
+                        <td class="hidden-phone">{{ $group->name }}</td>
+                        <td class="hidden-phone text-center">{{ $group->users()->count() }}</td>
+                        <td class="hidden-phone">{{ $group->created_at }}</td>
+                        <td class="text-right">
+                            <a href="{{ route('groups/edit', $group->id) }}" class="btn btn-xs btn-default">@lang('cms::button.edit')</a>
+                            <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o grupo?" data-reply="" data-toggle="modal" data-descr="{{ $group->name }}" data-url="{{ route('groups/delete', $group->id) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
+                        </td>
+                        </tr>
+                    @endif
 				@endforeach
 				@else
 				<tr>

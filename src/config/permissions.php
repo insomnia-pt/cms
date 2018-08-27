@@ -4,8 +4,8 @@ return array(
 
 	'Geral' => array(
 		array(
-			'permission' => 'backoffice',
-			'label'      => 'Acesso ao Backoffice',
+			'permission' => 'cms',
+			'label'      => 'Acesso ao CMS',
 		),
 		array(
 			'permission' => 'component.ckeditor.adv',
@@ -70,6 +70,25 @@ return array(
 		),
 		array(
 			'permission' => 'datasources.delete',
+			'label'      => 'Eliminar',
+		),
+	),
+
+	'Menus' => array(
+		array(
+			'permission' => 'menus.view',
+			'label'      => 'Visualizar',
+		),
+		array(
+			'permission' => 'menus.create',
+			'label'      => 'Criar',
+		),
+		array(
+			'permission' => 'menus.update',
+			'label'      => 'Alterar',
+		),
+		array(
+			'permission' => 'menus.delete',
 			'label'      => 'Eliminar',
 		),
 	),

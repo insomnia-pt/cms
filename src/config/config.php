@@ -13,16 +13,17 @@ return array(
     | CMS AUTH TYPE (local, keycloak)
     |--------------------------------------------------------------------------
     */
-    'auth_type' => 'keycloak',
+    'auth_type' => 'local',
 
     'auth_types' => array(
 
         'keycloak' => array(
-            'authServerUrl'         =>  null,
-            'realm'                 =>  null,
-            'clientId'              =>  null,
+            'authServerUrl'         => 'http://192.168.15.176:4040/auth',
+            'realm'                 => 'master',
+            'clientId'              => 'CMS',
+            'clientUuid'            => '4a2cb7ec-db86-463d-9360-758c16527e0e',
             'clientSecret'          =>  null,
-            'redirectUri'           =>  null,
+            'redirectUri'           => 'http://cms.localhost/cms/dashboard',
             'encryptionAlgorithm'   =>  null,                        // optional
             'encryptionKeyPath'     =>  null,                        // optional
             'encryptionKey'         =>  null                         // optional

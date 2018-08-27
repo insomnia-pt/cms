@@ -91,14 +91,14 @@ Editar Utilizador ::
               	</div>
           	</div>
 
-            @if($CMS_USER->hasAccess('users.group'))
+            @if(CMS_Helper::checkPermission('users.group'))
 					<div class="form-group {{ $errors->has('groups') ? 'has-error' : '' }}">
 						<label class="col-lg-2 control-label" for="groups">Grupo</label>
 						<div class="col-lg-4">
 							<select class="form-control" name="groups[]" id="groups">
 								@if(!count($userGroups))<option value="0">(Não definido)</option>@endif
 								@foreach ($groups as $group)
-									@if(Session::get('settings_super_user') && $group->id == 1)
+									@if(Session::get('settings_super_group') && $group->hasAccess('admin'))
 									@else
 										<option value="{{ $group->id }}"{{ (array_key_exists($group->id, $userGroups) ? ' selected="selected"' : '') }}>{{ $group->name }}</option>
 									@endif

@@ -2,6 +2,7 @@
 
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
 use Insomnia\Cms\Models\Cmslog as Cmslog;
+use Insomnia\Cms\Classes\JWT as JWT;
 
 class Helpers {
 
@@ -105,5 +106,32 @@ class Helpers {
         $log->module = $module;
         $log->user_id = $user_id?$user_id:\Sentry::getUser()->id;
         $log->save();
+    }
+
+    public static function checkPermission($requiredPermission) {
+
+        switch (Config::get('cms::config.auth_type')) {
+			case 'local':
+				if (!\Sentry::getUser()->hasAccess($requiredPermission)){
+					return false;
+				}
+
+				return true;
+				break;
+
+			case 'keycloak':
+
+				$token = Session::get('token');
+				$payload_data = JWT::decode($token, null, false);
+				if(@!in_array($requiredPermission, $payload_data->resource_access->{Config::get('cms::config.auth_types.keycloak.clientId')}->roles)) {
+					return false;
+				}
+
+				return true;
+				break;
+
+			default:
+				return false;
+		}
     }
 }

@@ -17,7 +17,7 @@ Gestão de Páginas ::
 						@if($pageGlobal)
 						<a href="{{ route('pages/edit', $pageGlobal->id) }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Definições Globais</a>
 						@endif
-	          @if(array_key_exists('pages.create', $_groupPermissions))
+	          @if(CMS_Helper::checkPermission('pages.create'))
 	          <a href="{{ route('pages/create') }}{{ Input::get('group')?'?group='.Input::get('group'):null }}" class="btn btn-small btn-info pull-right" style="margin-right: 5px;"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
 	          @endif
 	      </div>

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Routing\Controller;
 use Insomnia\Cms\Models\Setting as Setting;
 use Insomnia\Cms\Models\Menu as Menu;
+use Insomnia\Cms\Models\MenuItem as MenuItem;
+use Insomnia\Cms\Classes\JWT as JWT;
 
 use Session;
 use Config;
@@ -18,30 +20,24 @@ class AdminController extends Controller {
 		
 		//cms default lang
 		Session::put('language', 'pt');
+		$displayMenu = null;
 
 		if (\Sentry::check()){
 			$user = \Sentry::getUser();
 
-			///
-			$userGroupId = 1;
-			$_groupPermissions = [];
-			//
+			$displayMenus = Menu::lists('id');
+			foreach($displayMenus as $displayMenuId){
+				if(\CMS_Helper::checkPermission('display.menu.'.$displayMenuId)) {
+					$displayMenu = $displayMenuId;
+				}
+			}
 
-            if (Config::get('cms::config.auth_type') == 'local') {
-                $userGroup = \Sentry::getUser()->getGroups()[0]->id;
-                $userGroupId = $userGroup?$userGroup:1;
-
-                $group = \Sentry::getGroupProvider()->findById($userGroupId);
-                $_groupPermissions = $group->getPermissions();
-                
-            }
-			
 			$settings = Setting::where('name', 'general')->first()->config();
-			$menus = Menu::where('id_parent', 0)->where('visible', 1)->where('group_id', $userGroupId)->orderBy('order')->get();
+			$menus = MenuItem::where('id_parent', 0)->where('visible', 1)->where('menu_id', $displayMenu)->orderBy('order')->get();
 
-            Session::put('settings_super_user', Setting::where('name', 'super_user')->first()->value&&$userGroupId!=1?true:false );
+			// settings_super_group is only active if is active in "settings" table and if the user group not have the "admin" permission 
+			Session::put('settings_super_group', Setting::where('name', 'super_group')->first()->value&&!\CMS_Helper::checkPermission('admin')?true:false );
 
-			View::share('_groupPermissions', $_groupPermissions);
 			View::share('menus', $menus);
 			View::share('settings', $settings);
 			View::share('CMS_USER', $user);
@@ -50,26 +46,13 @@ class AdminController extends Controller {
 
 	public function checkPermission($requiredPermission) 
 	{
-
-		switch (Config::get('cms::config.auth_type')) {
-			
-			case 'local':
-				if (!\Sentry::getUser()->hasAccess($requiredPermission)){
-					Redirect::route('cms')->send();
-					die();
-					return false;
-				}
-
-				return true;
-				break;
-
-			case 'keycloak':
-				return true;
-				break;
-
-			default:
-				return false;
+		if(!\CMS_Helper::checkPermission($requiredPermission)){
+			Redirect::route('cms')->send();
+			die();
+			return false;
 		}
+
+		return true;
 	}
 
 

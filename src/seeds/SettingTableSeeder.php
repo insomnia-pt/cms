@@ -23,8 +23,8 @@ class SettingTableSeeder extends Seeder {
 
         $setting = new Setting;
         $setting->id = 2;
-        $setting->name = 'super_user';
-        $setting->description = 'Torna o grupo "Administradores" como grupo super com super poderes e oculta-o do sistema';
+        $setting->name = 'super_group';
+        $setting->description = 'Ativa permissões extra para grupos com a permissão "admin" e oculta-os do sistema para os restantes grupos.';
         $setting->value = '1';
         $setting->id_parent = 0;
         $setting->system = 1;

@@ -18,7 +18,7 @@ Gestão de {{ $datasource->name }} ::
 	              <li><span class="active">{{ $datasource->name }}</span></li>
 	          </ul>
 
-	        @if(array_key_exists($datasource->table.'.create', $_groupPermissions))
+	        @if(CMS_Helper::checkPermission($datasource->table.'.create'))
 				<a href="{{ route('cms/ds/create', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}} @endif" class="btn btn-small btn-info pull-right"><i class="icon-plus-sign icon-white"></i> Adicionar</a>
 			@endif
 

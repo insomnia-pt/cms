@@ -44,10 +44,9 @@ class UsersController extends AdminController {
 			$users = $users->onlyTrashed();
 		}
 
-		//if settings_super_user is active and current user not in admin group, hide admin users
-		if(Session::get('settings_super_user') && Sentry::getUser()->getGroups()[0]->id != 1){
-            $group = Sentry::findGroupById(1);
-            $admins = Sentry::findAllUsersInGroup($group);
+		//if settings_super_group is active and current user not in a group with admin permission, hide admin users
+		if(Session::get('settings_super_group') && !\CMS_Helper::checkPermission('admin')){
+            $admins = Sentry::findAllUsersWithAccess(array('admin'));
             $adminsId = [];
             foreach ($admins as $admin) {
                 array_push($adminsId, $admin->id);
@@ -102,10 +101,12 @@ class UsersController extends AdminController {
 				if(Sentry::getUser()->hasAccess('users.group')){
 					foreach (Input::get('groups', array()) as $groupId){
 
-                        if(Session::get('settings_super_user') && $groupId == 1) {
+						$group = Sentry::getGroupProvider()->findById($groupId);
+
+                        if(Session::get('settings_super_group') && $group->hasAccess('admin')) {
                             return Redirect::route('users')->with('error', 'Sem permissões');
                         } else {
-                            $group = Sentry::getGroupProvider()->findById($groupId);
+                            
                             $user->addGroup($group);
                         }
 
@@ -160,8 +161,8 @@ class UsersController extends AdminController {
 			// Get the user information
 			$user = Sentry::getUserProvider()->findById($id);
 
-            //if settings_super_user is active and the user to edit is in admin group, return error
-            if(Session::get('settings_super_user') && @$user->getGroups()[0]->id == 1) {
+            //if settings_super_group is active and the user to edit is in a group with "admin" permission, return error
+            if(Session::get('settings_super_group') && @$user->hasAccess('admin')) {
                 return Redirect::route('users')->with('error', 'Sem permissões');
             }
 
@@ -213,7 +214,7 @@ class UsersController extends AdminController {
 		try
 		{
 			$user = Sentry::getUserProvider()->findById($id);
-            if(Session::get('settings_super_user') && @$user->getGroups()[0]->id == 1) {
+            if(Session::get('settings_super_group') && @$user->hasAccess('admin')) {
                 return Redirect::route('users')->with('error', 'Sem permissões');
             }
 
@@ -288,10 +289,10 @@ class UsersController extends AdminController {
                     // Assign the user to groups
                     foreach ($groupsToAdd as $groupId)
                     {
-                        if(Session::get('settings_super_user') && $groupId == 1) {
+						$group = Sentry::getGroupProvider()->findById($groupId);
+                        if(Session::get('settings_super_group') && $group->hasAccess('admin')) {
                             return Redirect::route('users/edit', $id)->with('error', 'Sem permissões');
                         } else {
-                            $group = Sentry::getGroupProvider()->findById($groupId);
                             $user->addGroup($group);
                         }
 

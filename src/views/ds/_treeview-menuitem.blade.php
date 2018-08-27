@@ -19,13 +19,13 @@
         @endif
       @endforeach
       <a href="{{ route('cms/ds/edit', array($datasource->id, $item->id)) }}" class="btn btn-xs btn-default">
-        @if(array_key_exists($datasource->table.'.update', $_groupPermissions))
+        @if(CMS_Helper::checkPermission($datasource->table.'.update'))
           @lang('cms::button.edit')
         @else
           @lang('cms::button.view')
         @endif
       </a>
-      @if(array_key_exists($datasource->table.'.delete', $_groupPermissions))
+      @if(CMS_Helper::checkPermission($datasource->table.'.delete'))
         <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o registo?" data-reply="" data-toggle="modal" data-descr="{{ $datasource->config()[0]->multilang ? @json_decode($item->{$datasource->config()[0]->name})->{$settings->language} : $item->{$datasource->config()[0]->name} }}" data-url="{{ route('cms/ds/delete', array($datasource->id, $item->id)) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
       @endif
     </div>

@@ -8,7 +8,7 @@
         <div class="actions pull-right">
             @if($item->editable)
                 <a href="{{ route('pages/edit', $item->id) }}" class="btn btn-xs btn-default">
-                @if(array_key_exists('pages.update', $_groupPermissions))
+                @if(CMS_Helper::checkPermission('pages.update'))
                     @lang('cms::button.edit')
                 @else
                     @lang('cms::button.view')
@@ -20,7 +20,7 @@
                 </a>
             @endif
             @if(!$item->system)
-                @if(array_key_exists('pages.delete', $_groupPermissions))
+                @if(CMS_Helper::checkPermission('pages.delete'))
                 <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o registo?" data-reply="" data-toggle="modal" data-descr="{{ $item->id }}" data-url="{{ route('pages/delete', $item->id) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
                 @endif
             @endif

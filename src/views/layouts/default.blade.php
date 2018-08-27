@@ -91,7 +91,7 @@
 		<script type="text/javascript">
 
 			var $cms_url = "{{ Config::get('app.url') }}/{{ Config::get('cms::config.uri') }}";
-			var $cms_ckeditor_toolbar = @if(array_key_exists('component.ckeditor.adv', $_groupPermissions))"Full"@else"Mini"@endif;
+			var $cms_ckeditor_toolbar = @if(CMS_Helper::checkPermission('component.ckeditor.adv'))"Full"@else"Mini"@endif;
 
 		</script>
 		<script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.js') }}"></script>

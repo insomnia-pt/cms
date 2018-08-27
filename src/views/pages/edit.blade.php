@@ -135,7 +135,7 @@ Editar Página ::
 				<div class="form-group">
 					<div class="col-lg-12 text-right">
 						@if($page->editable)
-							@if(array_key_exists('pages.update', $_groupPermissions))<button class="btn btn-danger" type="submit">Guardar</button>@endif
+							@if(CMS_Helper::checkPermission('pages.update'))<button class="btn btn-danger" type="submit">Guardar</button>@endif
 						@endif
 						<a class="btn btn-default" href="{{ route('pages') }}{{ @$datasource->options()->group?'?group='.$page->id_parent:null }}">Cancelar</a>
 					</div>

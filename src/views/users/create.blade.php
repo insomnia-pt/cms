@@ -89,13 +89,13 @@ Adicionar Utilizador ::
               	</div>
           	</div>
 
-            @if($CMS_USER->hasAccess('users.group'))
+            @if(CMS_Helper::checkPermission('users.group'))
   						<div class="form-group {{ $errors->has('groups') ? 'has-error' : '' }}">
   							<label class="col-lg-2 control-label" for="groups">Grupo</label>
   							<div class="col-lg-4">
   								<select class="form-control" name="groups[]" id="groups">
   									@foreach ($groups as $group)
-                      @if(Session::get('settings_super_user') && $group->id == 1)
+                      @if(Session::get('settings_super_group') && $group->hasAccess('admin'))
                       @else
   									   <option value="{{ $group->id }}"{{ (in_array($group->id, $selectedGroups) ? ' selected="selected"' : '') }}>{{ $group->name }}</option>
                       @endif

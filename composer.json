@@ -14,7 +14,8 @@
         "intervention/imagecache": "2.3.3",
         "barryvdh/laravel-elfinder": "0.2.@dev",
         "cartalyst/sentry": "2.1.*",
-        "stevenmaguire/oauth2-keycloak": "^2.1"
+        "stevenmaguire/oauth2-keycloak": "^2.1",
+        "guzzlehttp/psr7": "~1.1"
     },
     "autoload": {
         "classmap": [
