@@ -41,8 +41,8 @@ Gestão de Data Sources ::
 						<td>{{ $datasource->name }}</td>
 						<td class="hidden-phone">{{ $datasource->created_at }}</td>
 						<td class="text-right">
-							@if(!$datasource->system)
 							<a href="{{ route('datasources/edit', $datasource->id) }}" class="btn btn-xs btn-default">@lang('cms::button.edit')</a>
+							@if(!$datasource->system)
 							<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o datasource?" data-reply="" data-toggle="modal" data-descr="{{ $datasource->name }}" data-url="{{ route('datasources/delete', $datasource->id) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
 							@endif
 						</td>

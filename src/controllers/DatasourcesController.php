@@ -4,7 +4,7 @@ use Insomnia\Cms\Controllers\AdminController;
 use Insomnia\Cms\Models\Datasource as Datasource;
 use Insomnia\Cms\Models\DatasourceRelation as DatasourceRelation;
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
-use Insomnia\Cms\Models\Menu as Menu;
+use Insomnia\Cms\Models\MenuItem as MenuItem;
 use Insomnia\Cms\Models\ModelBuilder as CMS_ModelBuilder;
 use Input;
 use Lang;
@@ -225,7 +225,7 @@ class DatasourcesController extends AdminController {
 			'description'  		=> 'required',
 			'type'   			=> 'required',
 			'datasource'   		=> 'required',
-			'identify'   		=> 'required',
+			'config_identify'   		=> 'required',
 		);
 
 		$validator = Validator::make(Input::all(), $rules);
@@ -250,7 +250,16 @@ class DatasourcesController extends AdminController {
 				Schema::table($relationDatasource->table, function($table) use($relationDatasource, $datasource) {
 				$table->integer($datasource->table.'_id')->nullable();
 			});
-				break;
+			break;
+
+			case 'belongsToMany':
+				Schema::create($datasource->table.'_'.$relationDatasource->table, function($table) use($relationDatasource, $datasource) {
+					$table->engine = 'InnoDB';
+					$table->integer($datasource->table.'_id')->unsigned();
+					$table->integer($relationDatasource->table.'_id')->unsigned();
+				});
+				
+			break;
 
 		}
 
@@ -258,7 +267,7 @@ class DatasourcesController extends AdminController {
 			'relation_datasource_id' => Input::get('datasource'),
 			'relation_type' => Input::get('type'),
 			'relation_description' => Input::get('description'),
-			'config' => stripslashes(json_encode(array("fields" => array(Input::get('identify')))))
+			'config' => stripslashes(json_encode(array("fields" => array(Input::get('config_identify')), "area" => Input::get('config_area'))))
 		));
 
 		$datasource->relations()->save($datasourceRelation);
@@ -316,6 +325,10 @@ class DatasourcesController extends AdminController {
 					$table->dropColumn($datasource->table.'_id');
 				});
 				break;
+
+			case 'belongsToMany':
+				Schema::drop($datasource->table.'_'.$relation->relation_datasource->table);
+				break;
 		}
 
 		$relation->delete();
@@ -362,7 +375,7 @@ class DatasourcesController extends AdminController {
 	static function DsCreate($dsName, $dsSubItems, $dsTableConfig){
 
         $date = new \DateTime();
-	    $newTableName = Str::limit(Config::get('cms::config.datasource_table_prefix').Str::slug($dsName), 20, '').'_'.$date->getTimestamp();
+		$newTableName = Str::limit(Config::get('cms::config.datasource_table_prefix').Str::slug($dsName), 20, '');
 
         $newtableschema = array(
             'table_name' => $newTableName,
@@ -422,7 +435,7 @@ class DatasourcesController extends AdminController {
     static function DsDelete($datasource){
 
         Schema::drop($datasource->table);
-        Menu::where('datasource_id', $datasource->id)->delete();
+        MenuItem::where('datasource_id', $datasource->id)->delete();
         $datasource->relations()->delete();
         $datasource->delete();
 

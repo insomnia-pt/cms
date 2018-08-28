@@ -66,11 +66,16 @@ class DsController extends AdminController {
 
 		AdminController::checkPermission($datasource->table.'.'.'create');
 
+		$hasSettings = null;
+		foreach($datasource->relations as $relation){
+			if($relation->config()->area == "settings") $hasSettings = true;
+		}
+
 		$languages = Setting::where('name', 'languages')->first()->config();
 		$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
 		$parameters = $this::parameters();
 
-		return View::make('cms::ds/create', compact('datasource','parameters','datasourceFieldtypes','languages'));
+		return View::make('cms::ds/create', compact('datasource','parameters','datasourceFieldtypes','languages','hasSettings'));
 	}
 
     /**
@@ -158,7 +163,9 @@ class DsController extends AdminController {
 		}
 
 		foreach ($datasource->relations as $key => $relation) {
-			array_push($inputsAllowed, Datasource::find($relation->relation_datasource_id)->table.'_id');
+			if($relation->relation_type == 'hasOne'){
+				array_push($inputsAllowed, Datasource::find($relation->relation_datasource_id)->table.'_id');
+			}
 		}
 
 		if(Input::get('pds')){
@@ -191,6 +198,20 @@ class DsController extends AdminController {
 		//////
 
 		if($ds->save()) {
+			
+			foreach ($datasource->relations as $key => $relation) {
+				if($relation->relation_type == 'belongsToMany'){
+					$relationDatasource = Datasource::find($relation->relation_datasource_id);
+					$relationTable = CMS_ModelBuilder::fromTable($datasource->table.'_'.$relationDatasource->table);
+					if(Input::get($relationDatasource->table)){
+						foreach(Input::get($relationDatasource->table) as $item){
+							$relationTable->insert([$datasource->table.'_id' => $ds->id, $relationDatasource->table.'_id' => $item ]);
+						}
+					}
+				}
+			}
+
+
             Helpers::cmslog('Inserção', $inputs, $datasource->id, $ds->id);
 
 			return Redirect::to('cms/ds/'.$datasource->id.'/edit/'.$ds->id.$returnUrlParams)->with('success', Lang::get('cms::ds/message.success.create'));
@@ -208,12 +229,17 @@ class DsController extends AdminController {
 
 		AdminController::checkPermission($datasource->table.'.'.'view');
 
+		$hasSettings = null;
+		foreach($datasource->relations as $relation){
+			if($relation->config()->area == "settings") $hasSettings = true;
+		}
+
 		$languages = Setting::where('name', 'languages')->first()->config();
 		$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
 		$dsItem = CMS_ModelBuilder::fromTable($datasource->table)->find($itemId);
 		$parameters = $this::parameters();
 
-		return View::make('cms::ds/edit', compact('datasource','dsItem','parameters','datasourceFieldtypes','languages'));
+		return View::make('cms::ds/edit', compact('datasource','dsItem','parameters','datasourceFieldtypes','languages','hasSettings'));
 	}
 
 	public function postEdit($id, $itemId)
@@ -237,6 +263,17 @@ class DsController extends AdminController {
 		foreach ($relations as $key => $relation) {
 			if($relation->relation_type == 'hasOne'){
 				array_push($inputsAllowed, Datasource::find($relation->relation_datasource_id)->table.'_id');
+			}
+
+			if($relation->relation_type == 'belongsToMany'){
+				$relationDatasource = Datasource::find($relation->relation_datasource_id);
+				$relationTable = CMS_ModelBuilder::fromTable($datasource->table.'_'.$relationDatasource->table);
+				$relationTable->where($datasource->table.'_id', $itemId)->delete();
+				if(Input::get($relationDatasource->table)){
+					foreach(Input::get($relationDatasource->table) as $item){
+						$relationTable->insert([$datasource->table.'_id' => $itemId, $relationDatasource->table.'_id' => $item ]);
+					}
+				}
 			}
 		}
 
@@ -276,6 +313,15 @@ class DsController extends AdminController {
 			CMS_ModelBuilder::fromTable($datasource->table)->where('id_parent', $dsItem->id)->update(array('id_parent' => null));
 		}
 		$dsItem->delete();
+
+		$relations = $datasource->relations;
+		foreach ($relations as $key => $relation) {
+			if($relation->relation_type == 'belongsToMany'){
+				$relationDatasource = Datasource::find($relation->relation_datasource_id);
+				$relationTable = CMS_ModelBuilder::fromTable($datasource->table.'_'.$relationDatasource->table);
+				$relationTable->where($datasource->table.'_id', $itemId)->delete();
+			}
+		}
 
         Helpers::cmslog('Remoção', $dsItem, $datasource->id, $itemId);
 

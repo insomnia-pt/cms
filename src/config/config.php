@@ -18,15 +18,15 @@ return array(
     'auth_types' => array(
 
         'keycloak' => array(
-            'authServerUrl'         => 'http://192.168.15.176:4040/auth',
-            'realm'                 => 'master',
-            'clientId'              => 'CMS',
-            'clientUuid'            => '4a2cb7ec-db86-463d-9360-758c16527e0e',
-            'clientSecret'          =>  null,
-            'redirectUri'           => 'http://cms.localhost/cms/dashboard',
-            'encryptionAlgorithm'   =>  null,                        // optional
-            'encryptionKeyPath'     =>  null,                        // optional
-            'encryptionKey'         =>  null                         // optional
+            'authServerUrl'         => null,
+            'realm'                 => null,
+            'clientId'              => null,
+            'clientUuid'            => null,
+            'clientSecret'          => null,
+            'redirectUri'           => null,
+            'encryptionAlgorithm'   => null,                        // optional
+            'encryptionKeyPath'     => null,                        // optional
+            'encryptionKey'         => null                         // optional
         )
     ),
 

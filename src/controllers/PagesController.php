@@ -8,6 +8,7 @@ use Insomnia\Cms\Models\PageHistory as PageHistory;
 use Insomnia\Cms\Models\Datasource as Datasource;
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
 use Insomnia\Cms\Models\Setting as Setting;
+use Insomnia\Cms\Models\ModelBuilder as CMS_ModelBuilder;
 use Input;
 use Lang;
 use Redirect;
@@ -54,19 +55,30 @@ class PagesController extends AdminController {
 		$pageTypes = PageType::where('system', 0)->get();
 		$pageTypeSel = null;
 		$datasourceFieldtypes = null;
+		$hasSettings = null;
 
 		if(Input::get('pageType')) {
 			$languages = Setting::where('name', 'languages')->first()->config();
 			$datasource = Datasource::where('table', 'pages')->first();
 			$pageTypeSel = PageType::find(Input::get('pageType'));
 			$datasourceFieldtypes = DatasourceFieldtype::orderBy('id')->get();
+
+			foreach($datasource->relations as $relation){
+				if($relation->config()->area == "settings") $hasSettings = true;
+			}
+
 		}
-		return View::make('cms::pages/create', compact('pageTypes','pageTypeSel','datasourceFieldtypes', 'datasource', 'languages'));
+		
+		return View::make('cms::pages/create', compact('pageTypes','pageTypeSel','datasourceFieldtypes', 'datasource', 'languages','hasSettings'));
 	}
 
 	public function postCreate()
 	{
 		AdminController::checkPermission('pages.create');
+
+		$page = new Page;
+
+		$datasource = Datasource::where('table', 'pages')->first();
 
 		$rules = array(
 			'pageType'   => 'required',
@@ -81,6 +93,18 @@ class PagesController extends AdminController {
 		$inputs = Input::except('_token');
 		$validator = Validator::make($inputs, $rules);
 
+		//if relation exist, save values in columns, not in "content" column
+		$inputsContentExcept = ['_token','title','pageType','group','slug'];
+		foreach ($datasource->relations as $key => $relation) {
+			array_push($inputsContentExcept, Datasource::find($relation->relation_datasource_id)->table.'_id');
+			array_push($inputsContentExcept, Datasource::find($relation->relation_datasource_id)->table);
+
+			if($relation->relation_type == 'hasOne'){
+				$page->{Datasource::find($relation->relation_datasource_id)->table.'_id'} = Input::get(Datasource::find($relation->relation_datasource_id)->table.'_id');
+			}
+		}
+		//
+
 		if ($validator->fails()) {
 			Input::merge(array('slug' => $slugOrigin));
 			return Redirect::back()->withInput()->withErrors($validator);
@@ -88,11 +112,11 @@ class PagesController extends AdminController {
 
         $pageType = PageType::find(Input::get('pageType'));
 
-		$page = new Page;
+		
 		$page->pagetype_id    = $pageType->id;
 		$page->slug           = $slug;
 		$page->title          = Input::get('title');
-		$page->content        = json_encode(Input::except('_token','title','pageType','group','slug'));
+		$page->content        = json_encode(Input::except($inputsContentExcept));
 		if(isset($inputs['id_parent'])) { $page->id_parent = Input::get('id_parent'); }
 
 		if($page->save()) {
@@ -110,7 +134,19 @@ class PagesController extends AdminController {
                 $page->content = json_encode(array_add($pageContent, 'datasources', $datasourcesIds));
                 $page->save();
             }
-            ////
+			////
+			
+			foreach ($datasource->relations as $key => $relation) {
+				if($relation->relation_type == 'belongsToMany'){
+					$relationDatasource = Datasource::find($relation->relation_datasource_id);
+					$relationTable = CMS_ModelBuilder::fromTable($datasource->table.'_'.$relationDatasource->table);
+					if(Input::get($relationDatasource->table)){
+						foreach(Input::get($relationDatasource->table) as $item){
+							$relationTable->insert([$datasource->table.'_id' => $page->id, $relationDatasource->table.'_id' => $item ]);
+						}
+					}
+				}
+			}
 
 			$pageVersion = new PageHistory();
 			$pageVersion->page_id = $page->id;
@@ -147,7 +183,13 @@ class PagesController extends AdminController {
 		$datasource = Datasource::where('table', 'pages')->first();
 		$datasourceFieldtypes = DatasourceFieldtype::get();
 		$hasDatasources = count($page->datasources);
-		return View::make('cms::pages/edit', compact('page','datasourceFieldtypes','datasource','hasDatasources','pageGlobal','languages'));
+
+		$hasSettings = null;
+		foreach($datasource->relations as $relation){
+			if($relation->config()->area == "settings") $hasSettings = true;
+		}
+
+		return View::make('cms::pages/edit', compact('page','datasourceFieldtypes','datasource','hasDatasources','pageGlobal','languages', 'hasSettings'));
 	}
 
 
@@ -160,6 +202,8 @@ class PagesController extends AdminController {
 			return Redirect::to('cms/pages')->with('error',Lang::get('cms::pages/message.does_not_exist'));
 		}
 
+		$datasource = Datasource::where('table', 'pages')->first();
+
 		$rules = array(
 			'title'   => 'required|min:3',
 		);
@@ -167,16 +211,27 @@ class PagesController extends AdminController {
 
 		$validator = Validator::make($inputs, $rules);
 
-		if ($validator->fails())
-		{
+		if ($validator->fails()){
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 
+		//if relation exist, save values in columns, not in "content" column
+		$inputsContentExcept = ['_token','title','pageType','group'];
+		foreach ($datasource->relations as $key => $relation) {
+			array_push($inputsContentExcept, Datasource::find($relation->relation_datasource_id)->table.'_id');
+			array_push($inputsContentExcept, Datasource::find($relation->relation_datasource_id)->table);
+
+			if($relation->relation_type == 'hasOne'){
+				$page->{Datasource::find($relation->relation_datasource_id)->table.'_id'} = Input::get(Datasource::find($relation->relation_datasource_id)->table.'_id');
+			}
+		}
+		//
+
 		if(@count($page->contentdatasources())){
-            $pageContent = Input::except('_token','title','pageType','group');
+            $pageContent = Input::except($inputsContentExcept);
             $page->content = json_encode(array_add($pageContent, 'datasources', $page->contentdatasources()));
         } else {
-            $page->content = json_encode(Input::except('_token','title','pageType','group'));
+            $page->content = json_encode(Input::except($inputsContentExcept));
         }
 
 		$page->title          = Input::get('title');
@@ -184,6 +239,19 @@ class PagesController extends AdminController {
 		if(isset($inputs['id_parent'])) { $page->id_parent = Input::get('id_parent'); }
 
 		if($page->save()) {
+
+			foreach ($datasource->relations as $key => $relation) {
+				if($relation->relation_type == 'belongsToMany'){
+					$relationDatasource = Datasource::find($relation->relation_datasource_id);
+					$relationTable = CMS_ModelBuilder::fromTable($datasource->table.'_'.$relationDatasource->table);
+					$relationTable->where($datasource->table.'_id', $page->id)->delete();
+					if(Input::get($relationDatasource->table)){
+						foreach(Input::get($relationDatasource->table) as $item){
+							$relationTable->insert([$datasource->table.'_id' => $page->id, $relationDatasource->table.'_id' => $item ]);
+						}
+					}
+				}
+			}
 
 			$pageVersion = new PageHistory();
 			$pageVersion->page_id = $page->id;
@@ -209,8 +277,19 @@ class PagesController extends AdminController {
             return Redirect::to('cms/pages')->with('error',Lang::get('cms::pages/message.does_not_exist'));
         }
 
+		$datasource = Datasource::where('table', 'pages')->first();
 
-        Page::where('id_parent', $page->id)->update(array('id_parent' => null));
+		Page::where('id_parent', $page->id)->update(array('id_parent' => null));
+
+		$relations = $datasource->relations;
+		foreach ($relations as $key => $relation) {
+			if($relation->relation_type == 'belongsToMany'){
+				$relationDatasource = Datasource::find($relation->relation_datasource_id);
+				$relationTable = CMS_ModelBuilder::fromTable($datasource->table.'_'.$relationDatasource->table);
+				$relationTable->where($datasource->table.'_id', $page->id)->delete();
+			}
+		}
+
         $page->datasources()->detach();
 
         //SE HOUVER "DATASOURCES" NO "CONTENT" DA PÁGINA, ELIMINA-OS
@@ -220,7 +299,9 @@ class PagesController extends AdminController {
                 DatasourcesController::DsDelete($datasource);
             }
         }
-        ////
+		////
+		
+		
 
         $page->delete();
 

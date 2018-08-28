@@ -25,7 +25,7 @@ Editar Página ::
 
   <div class="row">
   	<form method="post" action="" autocomplete="off">
-	  <div class="col-lg-{{ ($hasDatasources||@count($page->pagetype->config()->settings))?'9':'12' }}">
+	  <div class="col-lg-{{ ($hasDatasources||@count($page->pagetype->config()->settings) || $hasSettings)?'9':'12' }}">
 		<section class="panel">
 
 			<header class="panel-heading">Detalhes da Página</header>
@@ -145,7 +145,7 @@ Editar Página ::
 		</section>
 	  </div>
 
-	  @if($hasDatasources || @count($page->pagetype->config()->settings))
+	  @if($hasDatasources || @count($page->pagetype->config()->settings) || $hasSettings)
 	  	<div class="col-lg-3">
 	  		@if(@$page->pagetype->config()->settings)
 	  		<section class="panel">
@@ -167,6 +167,85 @@ Editar Página ::
 			</section>
 			@endif
 
+			@foreach($datasource->relations as $relation)
+
+			
+								
+				<?php
+					$relationDatasource = Insomnia\Cms\Models\Datasource::find($relation->relation_datasource_id);
+					$relationTable = $relationDatasource->table;
+				?>
+				
+				@if($relation->relation_type=="belongsToMany" && $relation->config()->area == "settings")
+					<?php 
+						$relationDatasourceItems = CMS_ModelBuilder::fromTable($relationTable)->get(); 
+						$relationItems = CMS_ModelBuilder::fromTable($datasource->table.'_'.$relationDatasource->table);
+						$relationItemsIds = $relationItems->where($datasource->table.'_id', $page->id)->lists($relationTable.'_id');
+					?>
+
+					<section class="panel">
+						<header class="panel-heading">{{ $relation->relation_description }}</header>
+						<div class="panel-body form-horizontal tasi-form">
+							<div class="form-group">
+								<div class="col-lg-12">
+									<select name="{{ $relationTable }}[]" class="multiselect" multiple="multiple">
+										@foreach($relationDatasourceItems as $relationDatasourceItem)
+										<option value="{{ $relationDatasourceItem->id }}" @if(in_array($relationDatasourceItem->id, $relationItemsIds)) selected @endif >{{ $relationDatasourceItem[$relation->config()->fields[0]] }}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+						</div>
+					</section>
+				@endif
+
+				@if($relation->relation_type == "hasOne" && $relation->config()->area == "settings")
+					<?php
+
+						$field = null;
+						foreach($relationDatasource->config() as $struct) {
+							if ($relation->config()->fields[0] == $struct->name) {
+								$field = $struct;
+								break;
+							}
+						}
+						
+					?>
+					<section class="panel">
+						<header class="panel-heading">{{ $relation->relation_description }}</header>
+						<div class="panel-body form-horizontal tasi-form">
+							<div class="form-group">
+								<div class="col-lg-12">
+									<div class='easy-tree'>
+										<?php
+											$relationTableModel = $relationDatasource;
+											$dsItems = CMS_ModelBuilder::fromTable($relationTable)->get();
+											$parentItems = $dsItems->filter(function($item) { return $item->id_parent == 0; })->values();
+										?>
+										<input type="hidden" name="{{ $relationTable }}_id" id="{{ $relationTable }}_id" value="{{ $page->{$relationTable.'_id'} }}" class="form-control easy-tree-selected"  />
+										<div class="input-group easy-tree-openlist">
+											<input value="{{ @$field->multilang ? @json_decode(@$dsItems->find($page->{$relationTable.'_id'})->{$relation->config()->fields[0]})->{$settings->language} : @$dsItems->find($page->{$relationTable.'_id'})->{$relation->config()->fields[0]} }}" type="text" class="form-control easy-tree-selected-text" placeholder="Selecione.." readonly />
+											<div class="input-group-addon"><i class="fa fa-chevron-down"></i></div>
+										</div>
+										<div class="easy-tree-list">
+											<ul>
+												@foreach ($parentItems as $parentitem)
+												@include('cms::ds._treeview-combolist', array('item' => $parentitem, 'relation' => $relation))
+												@endforeach
+											</ul>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</section>
+				@endif
+
+			
+			@endforeach
+			
+			
 
 			@if($hasDatasources)
 			<section class="panel">
@@ -195,6 +274,7 @@ Editar Página ::
 @section('styles')
 	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet">
 	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
+	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/bootstrap-multiselect.css') }}" rel="stylesheet">
 	<link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/easyTree.css') }}" rel="stylesheet">
 	@yield('substyles')
 @stop
@@ -206,11 +286,13 @@ Editar Página ::
     <script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.tagsinput.js') }}"></script>
 	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/easyTree.js') }}"></script>
     <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/plugins/ckeditor/ckeditor.js') }}"></script>
+	<script type="text/javascript" src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/bootstrap-multiselect.js') }}"></script>
 	<script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.popupWindow.js') }}"></script>
 	@yield('subscripts')
 
     <script type="text/javascript">
-    	$('.easy-tree').EasyTree();
+		$('.easy-tree').EasyTree();
+		$('.multiselect').multiselect();		
 
 		$('.lang-selection').on('keypress click', function(e){
 			e.preventDefault();

@@ -28,7 +28,7 @@ Editar Data Source ::
 			<header class="panel-heading tab-bg-dark-navy-blue ">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#tab-general" data-toggle="tab">Geral</a></li>
-          			<li><a href="#tab-fields" data-toggle="tab">Campos</a></li>
+					@if(!$datasource->system)<li><a href="#tab-fields" data-toggle="tab">Campos</a></li>@endif
           			<li><a href="#tab-relations" data-toggle="tab">Relações</a></li>
 				</ul>
 			</header>
@@ -69,6 +69,7 @@ Editar Data Source ::
 						</form>
 			        </div>
 
+				@if(!$datasource->system)	
 			        <div id="tab-fields" class="tab-pane">
 
 			        	<button class="pull-right btn btn-xs btn-info" data-toggle="modal" data-target="#modal-new_field">Adicionar Campo</button>
@@ -120,6 +121,7 @@ Editar Data Source ::
 
 			        	<div class="form-group"></div>
 			        </div>
+				@endif
 
 			        <div id="tab-relations" class="tab-pane">
 
@@ -136,7 +138,7 @@ Editar Data Source ::
 		        			@foreach($datasource->relations as $relation)
 		        			<tr>
 								<td>{{ $relation->relation_description }}</td>
-								<td>@if($relation->relation_type=='hasOne') 1 - 1 @else {{ $relation->relation_type }} @endif</td>
+								<td>@if($relation->relation_type=='hasOne') 1 - 1 @elseif($relation->relation_type=='hasMany') 1 - N @elseif($relation->relation_type=='belongsToMany') N - N @endif</td>
 								<td>{{ $relation->relationdatasource->table }}</td>
 								<td class="text-right">
 									<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar a relação?" data-reply="" data-toggle="modal" data-descr="{{ $relation->relation_description }}" data-url="{{ route('delete/datasource/relation', array($datasource->id, $relation->id)) }}" href="#modal-confirm">Eliminar</a>
@@ -376,8 +378,8 @@ Editar Data Source ::
 							<div class="col-lg-4">
 								<select class="form-control" name="type">
 	                          		<option value="hasOne">1 - 1</option>
-	                          		<option value="hasMany">1 - *</option>
-	                         		<!-- <option value="belongsToMany">* - *</option> -->
+	                          		<option value="hasMany">1 - N</option>
+	                         		<option value="belongsToMany">N - N</option>
 	                         	</select>
 							</div>
 						</div>
@@ -405,9 +407,9 @@ Editar Data Source ::
 						<hr />
 
 						<div class="form-group">
-							<label for="identify" class="col-lg-2 control-label">Identificador</label>
+							<label for="config_identify" class="col-lg-2 control-label">Identificador</label>
 							<div class="col-lg-5">
-								<select class="form-control relation_identify" name="identify">
+								<select class="form-control relation_identify" name="config_identify">
 
 	                         	</select>
 	                         	@foreach($datasources as $datasourcesItem)
@@ -423,6 +425,17 @@ Editar Data Source ::
 	                      		@endforeach
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label for="config_area" class="col-lg-2 control-label">Área</label>
+							<div class="col-lg-4">
+								<select class="form-control" name="config_area">
+	                          		<option value="form">Campo formulário</option>
+	                          		<option value="settings">Settings</option>
+	                         	</select>
+							</div>
+						</div>
+
 		          	</div>
 
 		          </div>

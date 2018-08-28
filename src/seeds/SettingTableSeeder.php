@@ -15,7 +15,7 @@ class SettingTableSeeder extends Seeder {
         $setting->id = 1;
         $setting->name = 'general';
         $setting->description = 'Geral';
-        $setting->value = '{"title":"CMS", "subtitle":"Demo"}';
+        $setting->value = '{"title":"CMS", "subtitle":"Demo", "language":"pt"}';
         $setting->id_parent = 0;
         $setting->system = 1;
         $setting->order = 1;

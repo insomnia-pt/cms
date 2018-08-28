@@ -47,7 +47,7 @@
       <header class="panel-heading">
         Lista de Registos
         @if($parameters['pds'])
-          - <b>{{ $parentDatasourceItem[Str::slug($parentDatasource->config()[0]->description, '_')] }}</b>
+          - <b>{{ $parentDatasource->config()[0]->multilang ? @json_decode($parentDatasourceItem->{$parentDatasource->config()[0]->name})->{$settings->language} : $parentDatasourceItem[$parentDatasource->config()[0]->name] }}</b>
         @endif
         <input class="form-control pull-right input-smmm" type="text" id="dataTable1filter" placeholder="Procurar.." style="width: 200px; margin-left: 10px;">
 				@if(@!$datasource->options()->orderby)
@@ -85,7 +85,8 @@
                     @if(@$config->parameters->mini_cmp)
                             @include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field.'_mini', ['component' => ['entry_id' => $dsItem->id, 'name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
                         @else
-					{{ $config->multilang ? @json_decode($dsItem->{$config->name})->{$settings->language} : $dsItem[$config->name] }}
+                        
+                        {{ $config->multilang ? @json_decode($dsItem->{$config->name})->{$settings->language} : $dsItem[$config->name] }}
                  @endif
                  <?php $firstTableField = $firstTableField?$firstTableField:$dsItem[$config->name]; ?>
 
