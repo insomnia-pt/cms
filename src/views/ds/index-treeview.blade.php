@@ -51,6 +51,7 @@ $parentItems = $dsItems->filter(function($item) {
   });
 
   $('#dslist').nestable({
+    @if(@$datasource->options()->subitems_level)maxDepth: {{ $datasource->options()->subitems_level }},@endif 
     callback: function(l,e){
       $("#ds-orderlist-listview").val(JSON.stringify($('#dslist').nestable('serialize')));
     }

@@ -50,8 +50,16 @@ class Helpers {
         		$dataType = "INT";
         		break;
 
+            case 'string':
+        		$dataType = "VARCHAR(50)";
+                break;
+
         	case 'text':
         		$dataType = "TEXT";
+                break;
+                
+            case 'mediumText':
+        		$dataType = "MEDIUMTEXT";
         		break;
 
         	case 'date':
@@ -64,7 +72,7 @@ class Helpers {
         };
 
 
-        return $fieldType;
+        return $dataType;
     }
 
     public static function asset($path)
@@ -133,5 +141,12 @@ class Helpers {
 			default:
 				return false;
 		}
+    }
+
+
+    public static function jsonLang($json, $lang)
+    {   
+        $data = json_decode($json);
+        return $data->{$lang};
     }
 }

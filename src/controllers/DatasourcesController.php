@@ -197,6 +197,7 @@ class DatasourcesController extends AdminController {
 
 		$queryFieldType = Helpers::translateFieldTypes($editField['datatype']);
 
+
 	    DB::statement('ALTER TABLE `'.$datasource->table.'` CHANGE `'.$fieldName.'` `'.$editField['name'].'` '.$queryFieldType);
 
 	    $datasourceConfigs = $datasource->config();
