@@ -20,6 +20,8 @@
 	    <link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/style-responsive.css') }}" rel="stylesheet" />
 		<link rel="shortcut icon" href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/img/favicon.png') }}">
 
+		<script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.js') }}"></script>
+
 	    <!--[if lt IE 9]>
 	      <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/html5shiv.js') }}"></script>
 	      <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/respond.min.js') }}"></script>
@@ -94,7 +96,7 @@
 			var $cms_ckeditor_toolbar = @if(CMS_Helper::checkPermission('component.ckeditor.adv'))"Full"@else"Mini"@endif;
 
 		</script>
-		<script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.js') }}"></script>
+		
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/bootstrap.min.js') }}"></script>
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.scrollTo.min.js') }}"></script>
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.nicescroll.js') }}" type="text/javascript"></script>
@@ -102,7 +104,6 @@
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.multi-select.js') }}" type="text/javascript"></script>
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/jquery.quicksearch.js') }}" type="text/javascript"></script>
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/js.cookie.js') }}" type="text/javascript"></script>
-        <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/ga.js') }}" type="text/javascript" ></script>
 
 	    <script src="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/js/common-scripts.js') }}"></script>
 

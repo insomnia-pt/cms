@@ -76,6 +76,7 @@ class DatasourcefieldtypeTableSeeder extends Seeder {
         $datasourcefieldtype->type = 'string';
         $datasourcefieldtype->config = '{"field":"switch", "parameters":["mini_cmp"]}';
         $datasourcefieldtype->save();
+        
     }
 
 }

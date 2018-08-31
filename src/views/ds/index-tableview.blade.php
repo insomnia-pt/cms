@@ -83,11 +83,14 @@
                 <td @if(@$config->parameters->mini_cmp) class="nosort text-center" @endif>
                     @if(!$firstTableField)<div class="dd-handle"></div> @endif
                     @if(@$config->parameters->mini_cmp)
-                            @include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field.'_mini', ['component' => ['entry_id' => $dsItem->id, 'name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
-                        @else
-                        
+                        @include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field.'_mini', ['component' => ['entry_id' => $dsItem->id, 'name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
+                    @elseif(@$config->parameters->values)
+                        @foreach(explode(';', @$config->parameters->values) as $fieldOption)
+                            @if(@explode(',', $fieldOption)[0] == $dsItem[$config->name]) {{ @explode(',', $fieldOption)[1] }} @endif
+                        @endforeach
+                    @else
                         {{ $config->multilang ? @json_decode($dsItem->{$config->name})->{$settings->language} : $dsItem[$config->name] }}
-                 @endif
+                    @endif
                  <?php $firstTableField = $firstTableField?$firstTableField:$dsItem[$config->name]; ?>
 
                 </td>
