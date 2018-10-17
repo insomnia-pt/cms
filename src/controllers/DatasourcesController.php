@@ -5,6 +5,7 @@ use Insomnia\Cms\Models\Datasource as Datasource;
 use Insomnia\Cms\Models\DatasourceRelation as DatasourceRelation;
 use Insomnia\Cms\Models\DatasourceFieldtype as DatasourceFieldtype;
 use Insomnia\Cms\Models\MenuItem as MenuItem;
+use Insomnia\Cms\Models\Setting as Setting;
 use Insomnia\Cms\Models\ModelBuilder as CMS_ModelBuilder;
 use Input;
 use Lang;
@@ -200,13 +201,35 @@ class DatasourcesController extends AdminController {
 
 	    DB::statement('ALTER TABLE `'.$datasource->table.'` CHANGE `'.$fieldName.'` `'.$editField['name'].'` '.$queryFieldType);
 
-	    $datasourceConfigs = $datasource->config();
+		$datasourceConfigs = $datasource->config();
+		$datasourceConfigsBK = $datasourceConfigs;
 		$key = $this->searchForFieldName($fieldName, $datasourceConfigs);
 		$datasourceConfigs[$key] = $editField;
 		$datasource->config = stripslashes(json_encode($datasourceConfigs, JSON_UNESCAPED_UNICODE));
 
 		if($datasource->save())
 		{
+
+			//if multilang-fix checked, convert the data in this column to correct format
+			$settings = Setting::where('name', 'general')->first()->config();
+			foreach($datasourceConfigsBK as $config) { if($config->name == $fieldName) $multilangOld = $config->multilang;  }
+			if(Input::get('multilang-fix') && $multilangOld && !Input::get('multilang')) {
+
+				$tableData = CMS_ModelBuilder::fromTable($datasource->table)->get(['id', $editField['name']]);
+				foreach($tableData as $data){
+					if($data->{$editField['name']}) $tableDataUpdate = CMS_ModelBuilder::fromTable($datasource->table)->where('id', $data->id)->update([$editField['name'] => json_decode(@$data->{$editField['name']})->{$settings->language}]);
+				}
+
+			} else if(Input::get('multilang-fix') && !$multilangOld && Input::get('multilang')) {
+
+				$tableData = CMS_ModelBuilder::fromTable($datasource->table)->get(['id', $editField['name']]);
+				foreach($tableData as $data){
+					if($data->{$editField['name']}) $tableDataUpdate = CMS_ModelBuilder::fromTable($datasource->table)->where('id', $data->id)->update([$editField['name'] 
+					=> json_encode([$settings->language => @$data->{$editField['name']}] )]);
+				}
+			}
+			
+			// dd('antes: '.$antes[0]->multilang.' - agora: '.Input::get('multilang'));
 			return Redirect::back()->with('success', Lang::get('cms::datasources/message.update.success'));
 		}
 

@@ -314,14 +314,24 @@ Editar Data Source ::
 							</div>
 						</div>
 
+						<hr />
+
 						<div class="form-group">
 							<label for="" class="col-lg-2 control-label">Traduzir</label>
-							<div class="col-lg-8">
+							<div class="col-lg-3">
 								<div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-remove'></i>">
 	                            	<input type="checkbox" name="multilang" id="modal-edit_field-multilang" class="" />
 	                          	</div>
 							</div>
+							<label for="" class="col-lg-3 control-label" style="text-align: right"><i class="fa fa-warning"></i> &nbsp;Corrigir dados</label>
+							<div class="col-lg-4">
+								<div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-remove'></i>">
+	                            	<input type="checkbox" name="multilang-fix" id="modal-edit_field-multilang-fix" class="" />
+	                          	</div>
+							</div>
 						</div>
+
+						<hr />
 
 						<div class="form-group">
 							<label for="size" class="col-lg-2 control-label">Largura</label>
