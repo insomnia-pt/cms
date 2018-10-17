@@ -29,35 +29,52 @@ class UsersController extends AdminController {
 
 	public function getIndex()
 	{
-		AdminController::checkPermission('users.view');
 
-		// Grab all the users
-		$users = Sentry::getUserProvider()->createModel();
+		switch (Config::get('cms::config.auth_type')) {
+			case 'local':
+				
+				AdminController::checkPermission('users.view');
 
-		// Do we want to include the deleted users?
-		if (Input::get('withTrashed'))
-		{
-			$users = $users->withTrashed();
+				// Grab all the users
+				$users = Sentry::getUserProvider()->createModel();
+		
+				// Do we want to include the deleted users?
+				if (Input::get('withTrashed'))
+				{
+					$users = $users->withTrashed();
+				}
+				else if (Input::get('onlyTrashed'))
+				{
+					$users = $users->onlyTrashed();
+				}
+		
+				//if settings_super_group is active and current user not in a group with admin permission, hide admin users
+				if(Session::get('settings_super_group') && !\CMS_Helper::checkPermission('admin')){
+					$admins = Sentry::findAllUsersWithAccess(array('admin'));
+					$adminsId = [];
+					foreach ($admins as $admin) {
+						array_push($adminsId, $admin->id);
+					}
+					$users = $users->whereNotIn('id', $adminsId)->get();
+				} else {
+					$users = $users->get();
+				}
+		
+				return View::make('cms::users/index', compact('users'));
+
+				break;
+
+			case 'keycloak':
+				$keycloakUsersUrl = Config::get('cms::config.auth_types.keycloak.authServerUrl');
+				return View::make('cms::users/keycloak', compact('keycloakUsersUrl'));
+
+				break;
+
+			default:
+				return false;
 		}
-		else if (Input::get('onlyTrashed'))
-		{
-			$users = $users->onlyTrashed();
-		}
 
-		//if settings_super_group is active and current user not in a group with admin permission, hide admin users
-		if(Session::get('settings_super_group') && !\CMS_Helper::checkPermission('admin')){
-            $admins = Sentry::findAllUsersWithAccess(array('admin'));
-            $adminsId = [];
-            foreach ($admins as $admin) {
-                array_push($adminsId, $admin->id);
-            }
-            $users = $users->whereNotIn('id', $adminsId)->get();
-		} else {
-            $users = $users->get();
-        }
-
-
-		return View::make('cms::users/index', compact('users'));
+		
 	}
 
 	public function getCreate()

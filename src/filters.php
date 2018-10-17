@@ -60,8 +60,8 @@ Route::filter('auth-keycloak', function()
                     $CmsUser->email = $user->getEmail();
                     $CmsUser->username = $user->toArray()['preferred_username'];
                     $CmsUser->activated = 1;
-                    $CmsUser->first_name = $user->toArray()['given_name'];
-                    $CmsUser->last_name = $user->toArray()['family_name'];
+                    $CmsUser->first_name = @$user->toArray()['given_name']?$user->toArray()['given_name']:'---';
+                    $CmsUser->last_name = @$user->toArray()['family_name']?$user->toArray()['family_name']:'---';
                     $CmsUser->password = Hash::make(str_random(8));
                     $CmsUser->save();
                 } 
