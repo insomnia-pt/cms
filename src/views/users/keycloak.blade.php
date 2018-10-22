@@ -9,7 +9,7 @@ Gestão de Utilizadores ::
 {{-- Page content --}}
 @section('content')
 
-	<iframe id="keycloak" src="{{ $keycloakUsersUrl }}/admin/{{ $keycloakRealm }}/console" frameborder="0"></iframe>
+	<iframe id="keycloak" src="{{ $iframeUrl }}" frameborder="0"></iframe>
 
 @stop
 
@@ -20,9 +20,9 @@ Gestão de Utilizadores ::
     iframe#keycloak {
         position: absolute;
         width: calc(100% - 200px);
-        height: 100%;
+        height: calc(100% - 60px);
         right: 0;
-        top: 0;
+        top: 60px;
         bottom: 0;
     }
 </style>

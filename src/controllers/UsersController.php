@@ -65,9 +65,9 @@ class UsersController extends AdminController {
 				break;
 
 			case 'keycloak':
-				$keycloakUsersUrl = Config::get('cms::config.auth_types.keycloak.authServerUrl');
-				$keycloakRealm = Config::get('cms::config.auth_types.keycloak.realm');
-				return View::make('cms::users/keycloak', compact('keycloakUsersUrl','keycloakRealm'));
+
+				$iframeUrl = Config::get('cms::config.auth_types.keycloak.authServerUrl')."/admin/".Config::get('cms::config.auth_types.keycloak.realm')."/console";
+				return View::make('cms::users/keycloak', compact('iframeUrl'));
 
 				break;
 
@@ -179,24 +179,43 @@ class UsersController extends AdminController {
 			// Get the user information
 			$user = Sentry::getUserProvider()->findById($id);
 
-            //if settings_super_group is active and the user to edit is in a group with "admin" permission, return error
-            if(Session::get('settings_super_group') && @$user->hasAccess('admin')) {
-                return Redirect::route('users')->with('error', 'Sem permissões');
-            }
+            switch (Config::get('cms::config.auth_type')) {
+                case 'local':
+                
 
-			// Get this user groups
-			$userGroups = $user->groups()->lists('name', 'group_id');
+                    //if settings_super_group is active and the user to edit is in a group with "admin" permission, return error
+                    if (Session::get('settings_super_group') && @$user->hasAccess('admin')) {
+                        return Redirect::route('users')->with('error', 'Sem permissões');
+                    }
 
-            // Get this user permissions
-            $userPermissions = array_merge(Input::old('permissions', array('superuser' => -1)), $user->getPermissions());
-            $this->encodePermissions($userPermissions);
+                    // Get this user groups
+                    $userGroups = $user->groups()->lists('name', 'group_id');
 
-            // Get a list of all the available groups
-            $groups = Sentry::getGroupProvider()->findAll();
+                    // Get this user permissions
+                    $userPermissions = array_merge(Input::old('permissions', array('superuser' => -1)), $user->getPermissions());
+                    $this->encodePermissions($userPermissions);
 
-            // Get all the available permissions
-            $permissions = Config::get('permissions');
-            $this->encodeAllPermissions($permissions);
+                    // Get a list of all the available groups
+                    $groups = Sentry::getGroupProvider()->findAll();
+
+                    // Get all the available permissions
+                    $permissions = Config::get('permissions');
+                    $this->encodeAllPermissions($permissions);
+                
+                    break;
+
+
+
+                case 'keycloak':
+
+                    $iframeUrl = Config::get('cms::config.auth_types.keycloak.authServerUrl')."/realms/".Config::get('cms::config.auth_types.keycloak.realm')."/account";
+                    return View::make('cms::users/keycloak', compact('iframeUrl'));
+
+                    break;
+
+                default:
+                    return false;
+            };
 
 		}
 		catch (UserNotFoundException $e)

@@ -55,16 +55,23 @@ Route::filter('auth-keycloak', function()
             try {
                 $user = $provider->getResourceOwner($token);
                 
-                if (!$CmsUser = User::where('email', $user->getEmail())->first()) {
+                if (!$CmsUser = User::where('username', $user->toArray()['preferred_username'])->first()) {
                     $CmsUser = new User;
-                    $CmsUser->email = $user->getEmail();
+                    $CmsUser->email = @$user->getEmail()?$user->getEmail():(Hash::make(str_random(8)).'@no.defined');
                     $CmsUser->username = $user->toArray()['preferred_username'];
                     $CmsUser->activated = 1;
                     $CmsUser->first_name = @$user->toArray()['given_name']?$user->toArray()['given_name']:'---';
                     $CmsUser->last_name = @$user->toArray()['family_name']?$user->toArray()['family_name']:'---';
                     $CmsUser->password = Hash::make(str_random(8));
                     $CmsUser->save();
-                } 
+                } else {
+                    
+                    if(@$user->getEmail()) $CmsUser->email = $user->getEmail();
+                    $CmsUser->first_name = @$user->toArray()['given_name']?$user->toArray()['given_name']:'---';
+                    $CmsUser->last_name = @$user->toArray()['family_name']?$user->toArray()['family_name']:'---';
+                    $CmsUser->save();
+                    
+                }
 
 
                 $CmsUser = Sentry::findUserById($CmsUser->id);
