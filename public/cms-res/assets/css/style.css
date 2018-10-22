@@ -155,7 +155,6 @@ a:hover {
     color: #888;
 }
 
-
 .form-control:focus, #focusedInput {
     border: 1px solid #517397;
     box-shadow: none;
@@ -251,7 +250,6 @@ ul {
     color: #FFFFFF;
 }
 
-
 .btn-white {
     box-shadow: none !important;
 }
@@ -284,7 +282,6 @@ ul {
     box-shadow: 0 4px #d1595a;
 }
 
-
 /*dropdown shadow*/
 
 .btn-group.open .dropdown-toggle, .btn-white.active, .btn:active, .btn.active {
@@ -312,7 +309,6 @@ ul {
 .breadcrumb {
     background-color: #fff;
 }
-
 
 /*tab*/
 
@@ -399,16 +395,13 @@ ul {
     background: #f0f2f7;
 }
 
-
 /*table*/
 
 .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td {
     padding: 10px;
 }
 
-
 /**/
-
 
 #container {
     width: 100%;
@@ -536,7 +529,6 @@ ul {
     box-shadow: 0 4px #2bb4e8;
     float:left;
 }
-
 
 /*sidebar navigation*/
 
@@ -668,7 +660,6 @@ ul.sidebar-menu li.active a i {
     color: #da9f3b;
 }
 
-
 #sidebar ul > li > a .arrow {
     border-bottom: 4px solid transparent;
     border-left: 4px solid #A0A0A0;
@@ -766,7 +757,6 @@ a.logo span {
     color: #da9f3b;
     display: inline-block;
 }
-
 
 /*notification*/
 
@@ -1064,7 +1054,6 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     border-top-color: #a9d86e !important;
 }
 
-
 /*search*/
 
 .search {
@@ -1109,7 +1098,6 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     display: inline-block;
     font-size: 20px;
 }
-
 
 .sidebar-closed > #sidebar > ul {
     display: none;
@@ -1306,7 +1294,6 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     font-size: 10px;
 }
 
-
 /*spark line*/
 .chart {
     display: inline-block;
@@ -1392,7 +1379,6 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     border-radius: 4px 4px 0px 0px;
 }
 
-
 /*personal task*/
 
 .task-thumb {
@@ -1426,7 +1412,6 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     padding-top: 5px;
     color: #a4aaba;
 }
-
 
 .personal-task tbody tr td{
     padding: 11px 15px;
@@ -1493,7 +1478,6 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 .badge.bg-inverse {
     background: #2A3542;
 }
-
 
 /*timeline*/
 
@@ -1680,7 +1664,6 @@ h3.timeline-title {
     margin-bottom: 4px;
 }
 
-
 .timeline-item.alt:before {
     display: none;
 }
@@ -1717,7 +1700,6 @@ h3.timeline-title {
     margin-top: 20px;
     padding: 8px;
 }
-
 
 .timeline-item.alt .panel {
     margin-left: 0;
@@ -1822,7 +1804,6 @@ h3.timeline-title {
         margin-bottom: -4px;
     };
 }
-
 
 .panel-footer.revenue-foot ul  {
     margin: 0;
@@ -1937,7 +1918,6 @@ ul.ft-link li:last-child {
 ul.ft-link li a i {
     display: block;
 }
-
 
 #owl-demo .item img{
     display: block;
@@ -2120,7 +2100,6 @@ ul.ft-link li a i {
 .twite h1 {
     margin: 50px 0;
 }
-
 
 .social-footer {
     display: inline;
@@ -2622,7 +2601,6 @@ ul.inbox-pagination li {
     font-family: 'Open Sans', sans-serif;
 }
 
-
 /*404 page*/
 
 .body-404 {
@@ -2642,7 +2620,6 @@ ul.inbox-pagination li {
     display: inline-block;
     margin-left: 30px;
 }
-
 
 .error-wrapper h1 {
     font-size: 90px;
@@ -2668,7 +2645,6 @@ ul.inbox-pagination li {
 .error-wrapper p.page-404 a, .error-wrapper p.page-500 a,  .error-wrapper p.page-404 a:hover, .error-wrapper p.page-500 a:hover {
     color: #fff;
 }
-
 
 /*500 page*/
 
@@ -2766,7 +2742,6 @@ ul.inbox-pagination li {
     margin: 6px 0 0;
     font-size: 12px;
 }
-
 
 .p-text-area, .p-text-area:focus {
     border: none;
@@ -3008,7 +2983,6 @@ ul.summary-list > li:last-child  {
     background: #F4F4F4 ;
     display: inline-block;
 }
-
 
 .activity .activity-desk .arrow {
     border-right: 8px solid #F4F4F4 !important;
@@ -3263,7 +3237,6 @@ ul.amounts li {
     margin-top: 10px;
 }
 
-
 /*button*/
 
 .btn-row {
@@ -3337,7 +3310,6 @@ ul.amounts li {
     border-radius: 4px 0 0 0;
     -webkit-border-radius: 4px 0 0 0;
 }
-
 
 .tab-right {
     height: 38px;
@@ -3417,7 +3389,6 @@ ul.amounts li {
     z-index: 5;
 }
 
-
 .carousel-control.left, .carousel-control.right {
     background: none;
     filter:none;
@@ -3445,9 +3416,7 @@ ul.amounts li {
     right: 3px !important;
 }
 
-
 /*form*/
-
 
 .sm-input {
     width: 175px;
@@ -3465,17 +3434,14 @@ ul.amounts li {
     margin-bottom: 0px;
 }
 
-
 .form-horizontal.tasi-form .form-group .help-block {
     margin-bottom: 0;
 }
-
 
 .round-input {
     border-radius: 500px;
     -webkit-border-radius: 500px;
 }
-
 
 .m-bot15 {
     margin-bottom: 15px;
@@ -3485,7 +3451,6 @@ ul.amounts li {
     margin-top: 1px;
     border:none;
 }
-
 
 /*form validation*/
 
@@ -3510,7 +3475,6 @@ input:focus:invalid:focus, textarea:focus:invalid:focus, select:focus:invalid:fo
 .checkbox, .checkbox:hover, .checkbox:focus  {
     border:none;
 }
-
 
 /*slider*/
 table.sliders tr td {
@@ -3545,11 +3509,9 @@ table.sliders tr td {
     border-top-left-radius: 0 !important;
 }
 
-
 #eq span {
     height:120px; float:left; margin:15px
 }
-
 
 .ui-widget-content {
     background: #f0f2f7 !important;
@@ -3594,9 +3556,7 @@ table.sliders tr td {
     margin-bottom: 15px;
 }
 
-
 /*----switch ----*/
-
 
 .has-switch {
     border-radius: 30px;
@@ -3756,7 +3716,6 @@ table.sliders tr td {
     text-indent: -6px;
 }
 
-
 /*tag input*/
 
 .tagsinput {
@@ -3868,9 +3827,7 @@ table.sliders tr td {
     height: 0px;
 }
 
-
 /*checkbox & radio style*/
-
 
 .checkboxes label, .radios label {
     display: block;
@@ -3919,7 +3876,6 @@ table.sliders tr td {
 
 /*date picker*/
 
-
 .add-on {
     border: 1px solid #E2E2E4;
     border-radius: 4px;
@@ -3941,7 +3897,6 @@ table.sliders tr td {
     padding-bottom: 0;
     padding-top: 8px;
 }
-
 
 .daterangepicker td.active, .daterangepicker td.active:hover,
 .datepicker td.active:hover, .datepicker td.active:hover:hover, .datepicker td.active:active, .datepicker td.active:hover:active, .datepicker td.active.active, .datepicker td.active.active:hover, .datepicker td.active.disabled, .datepicker td.active.disabled:hover, .datepicker td.active[disabled], .datepicker td.active[disabled]:hover,
@@ -3968,7 +3923,6 @@ table.sliders tr td {
     height: 40px;
     line-height: 40px;
 }
-
 
 /*ck editor*/
 
@@ -4029,7 +3983,6 @@ table.sliders tr td {
     display: block;
 }
 
-
 .stepy-titles li {
     color: #757575;
     cursor: pointer;
@@ -4060,7 +4013,6 @@ table.sliders tr td {
     height: 100px;
     line-height: 100px;
 }
-
 
 /*widget*/
 
@@ -4135,7 +4087,6 @@ table.sliders tr td {
     width: 100%;
 }
 
-
 .twt-category ul li{
     color: #89817f;
     font-size: 13px;
@@ -4181,7 +4132,6 @@ table.sliders tr td {
 .tasi-tab .media-body p {
     /*color: #b8bac6;*/
 }
-
 
 /*Timeline chat*/
 
@@ -4231,7 +4181,6 @@ table.sliders tr td {
 .timeline-messages, .msg-time-chat , .timeline-messages .msg-in, .timeline-messages .msg-out {
     position: relative;
 }
-
 
 .timeline-messages .msg-in  .arrow {
     /*border-right: 8px solid #F4F4F4 !important;*/
@@ -4337,7 +4286,6 @@ table.sliders tr td {
     font-size: 13px;
 }
 
-
 /*custom select*/
 
 span.customSelect {
@@ -4357,11 +4305,6 @@ span.customSelect.changed {
     background:url(../img/customSelect-arrow.gif) no-repeat center right;
 }
 
-
-
-
-
-
 /* insomniafix - Fix bootstrap callendar using switch plugin*/
 .datepicker .switch {
     display: table-cell;
@@ -4371,10 +4314,6 @@ span.customSelect.changed {
     -webkit-mask: none;
     mask: none;
 }
-
-
-
-
 
 .cd-accordion-menu ul {
     display: none;
@@ -4458,8 +4397,6 @@ span.customSelect.changed {
     border-radius: 0;
 }
 
-
-
 .input-smmm {
     height: 24px;
     padding: 5px 10px;
@@ -4486,7 +4423,6 @@ span.customSelect.changed {
 /*.nicescroll-rails {
     bottom: 0px;
 }*/
-
 
 body.dragging, body.dragging * {
     cursor: move !important;
@@ -4548,7 +4484,6 @@ hr.top-line {
     font-size: 14px;
 }
 
-
 .jFiler-theme-default .jFiler-input {
     width: 500px !important;
 }
@@ -4582,4 +4517,9 @@ hr.top-line {
     opacity:.5;
     bottom: 10px;
     text-align: center;
+}
+
+.multiselect-container {
+    max-height: 150px;
+    overflow: auto;
 }
