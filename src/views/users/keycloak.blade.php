@@ -9,7 +9,7 @@ Gestão de Utilizadores ::
 {{-- Page content --}}
 @section('content')
 
-	<iframe id="keycloak" src="{{ $keycloakUsersUrl }}/admin/master/console" frameborder="0"></iframe>
+	<iframe id="keycloak" src="{{ $keycloakUsersUrl }}/admin/{{ $keycloakRealm }}/console" frameborder="0"></iframe>
 
 @stop
 

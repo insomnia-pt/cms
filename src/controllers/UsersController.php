@@ -66,7 +66,8 @@ class UsersController extends AdminController {
 
 			case 'keycloak':
 				$keycloakUsersUrl = Config::get('cms::config.auth_types.keycloak.authServerUrl');
-				return View::make('cms::users/keycloak', compact('keycloakUsersUrl'));
+				$keycloakRealm = Config::get('cms::config.auth_types.keycloak.realm');
+				return View::make('cms::users/keycloak', compact('keycloakUsersUrl','keycloakRealm'));
 
 				break;
 
