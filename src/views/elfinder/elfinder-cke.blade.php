@@ -6,9 +6,9 @@
 		<title>File Manager</title>
 
 		<!-- jQuery and jQuery UI (REQUIRED) -->
-		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css">
-	    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-	    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="{{ asset(Config::get('cms::config.packages_path').'/barryvdh/laravel-elfinder/css/jquery-ui-1.9.2.custom.min.css') }}">
+	    <script src="{{ asset(Config::get('cms::config.packages_path').'/barryvdh/laravel-elfinder/js/jquery-1.8.3.js') }}"></script>
+	    <script src="{{ asset(Config::get('cms::config.packages_path').'/barryvdh/laravel-elfinder/js/jquery-ui-1.9.2.custom.min.js') }}"></script>
 
 		<!-- elFinder CSS (REQUIRED) -->
 		<link rel="stylesheet" type="text/css" media="screen" href="{{ asset(Config::get('cms::config.packages_path').'/barryvdh/laravel-elfinder/css/elfinder.min.css') }}">
