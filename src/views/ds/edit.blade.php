@@ -159,7 +159,7 @@ Editar Registo ::
 
 								<div class="form-group {{ $errors->has($config->name) ? 'has-error' : '' }}">
 									<label for="{{ $config->name }}" class="col-lg-2 control-label">{{ $config->description }}</label>
-									<div class="col-lg-7">
+									<div class="col-lg-{{ $config->size }}">
 
 										@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
 
@@ -292,7 +292,11 @@ Editar Registo ::
 
     <script type="text/javascript">
 		$('.easy-tree').EasyTree();
-		$('.multiselect').multiselect();									
+		$('.multiselect').multiselect({
+			enableCaseInsensitiveFiltering: true,
+			includeSelectAllOption: true,
+			numberDisplayed: 1
+		});							
 
 		$('.lang-selection').on('keypress click', function(e){
 			e.preventDefault();

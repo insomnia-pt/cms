@@ -286,7 +286,11 @@ Adicionar Registo ::
 
     <script type="text/javascript">
 		$('.easy-tree').EasyTree();
-		$('.multiselect').multiselect();
+		$('.multiselect').multiselect({
+			enableCaseInsensitiveFiltering: true,
+			includeSelectAllOption: true,
+			numberDisplayed: 1
+		});
 
 		$('.lang-selection').on('keypress click', function(e){
 			e.preventDefault();
