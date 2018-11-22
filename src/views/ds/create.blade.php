@@ -1,4 +1,4 @@
-@extends('cms::layouts/default')
+@extends('cms::layouts/'.($parameters['modal']?'modal':'default'))
 
 {{-- Page title --}}
 @section('title')
@@ -11,13 +11,16 @@ Adicionar Registo ::
 
 	<div class="row">
       <div class="col-lg-12">
-          <ul class="breadcrumb pull-left">
-              <li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
-              <li><a href="{{ route('cms/ds', $datasource->id) }}">{{ $datasource->name }}</a></li>
-              <li><span class="active">Adicionar</span></li>
-          </ul>
 
-          <a href="{{ route('cms/ds', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}} @endif" class="btn btn-small btn-default pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
+	  		@if(!$parameters['modal'])
+          	<ul class="breadcrumb pull-left">
+            	<li><a href="{{ route('cms') }}"><i class="icon-home"></i> Home</a></li>
+            	<li><a href="{{ route('cms/ds', $datasource->id) }}">{{ $datasource->name }}</a></li>
+            	<li><span class="active">Adicionar</span></li>
+          	</ul>
+		  	@endif
+
+          <a href="{{ route('cms/ds', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}}@if($parameters['modal'])&modal=true @endif @elseif($parameters['modal'])?modal=true @endif" class="btn btn-small btn-default pull-right" @if($parameters['modal']) style="margin-bottom: 10px" @endif><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
       </div>
   </div>
 
@@ -168,7 +171,7 @@ Adicionar Registo ::
 						<div class="form-group">
 							<div class="col-lg-12 text-right">
 								<button class="btn btn-danger" type="submit">Adicionar</button>
-								<a class="btn btn-default" href="{{ route('cms/ds', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}} @endif">Cancelar</a>
+								<a class="btn btn-default" href="{{ route('cms/ds', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}}@if($parameters['modal'])&modal=true @endif @elseif($parameters['modal'])?modal=true @endif">Voltar</a>
 							</div>
 						</div>
 

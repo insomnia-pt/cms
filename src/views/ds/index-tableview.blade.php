@@ -52,7 +52,7 @@
         <input class="form-control pull-right input-smmm" type="text" id="dataTable1filter" placeholder="Procurar.." style="width: 200px; margin-left: 10px;">
 				@if(@!$datasource->options()->orderby)
 				<button type="button" class="btn btn-xs btn-default pull-right" data-status-on="Cancelar" data-status-off="Reordenar" id="bt-tableorder" style="margin-top:-2px"><span>Reordenar</span> <i class="fa fa-sort-amount-asc"></i></button>
-				<form class="pull-right" action="{{ route('cms/ds/order', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}} @endif" id="form-savetableorder" method="post" style="margin-top:-2px;margin-right:5px;display:none;">
+				<form class="pull-right" action="{{ route('cms/ds/order', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}}@if($parameters['modal'])&modal=true @endif @elseif($parameters['modal'])?modal=true @endif" id="form-savetableorder" method="post" style="margin-top:-2px;margin-right:5px;display:none;">
 					<input type="hidden" name="ds-orderlist" id="ds-orderlist" value="">
 					<button type="submit" class="btn btn-xs btn-danger">Guardar Alterações</button>
 				</form>
@@ -99,26 +99,30 @@
 
     			<td class="text-right">
     				@foreach($datasource->relations as $relation)
-              <?php
-                $relationTable = Insomnia\Cms\Models\Datasource::find($relation->relation_datasource_id)->table;
-              ?>
-    					@if($relation->relation_type=="hasMany")<a href="{{ route('cms/ds', $relation->relation_datasource_id).'?pds='.$datasource->id.'&item='.$dsItem->id }}" class="btn btn-xs btn-info">{{ $relation->relation_description }}</a>@endif
-              @if($relation->relation_type=="hasOne")
-                @if($relationTable == 'pages' && $dsItem->{'pages_id'})
-                <a href="{{ route('pages/edit', $dsItem->{'pages_id'}) }}" target="_blank" class="btn btn-xs"><i class="fa fa-external-link"></i> Editar {{ $relation->relation_description }}</a>
-                @endif
-              @endif
+                        <?php
+                            $relationTable = Insomnia\Cms\Models\Datasource::find($relation->relation_datasource_id)->table;
+                        ?>
+                        
+                        @if($relation->relation_type=="hasMany")<a href="{{ route('cms/ds', $relation->relation_datasource_id).'?pds='.$datasource->id.'&item='.$dsItem->id }}@if($parameters['modal'])&modal=true @endif" class="btn btn-xs btn-info">{{ $relation->relation_description }}</a>@endif
+                        
+                        @if($relation->relation_type=="hasOne")
+                            @if($relationTable == 'pages' && $dsItem->{'pages_id'})
+                                <a href="{{ route('pages/edit', $dsItem->{'pages_id'}) }}" target="_blank" class="btn btn-xs"><i class="fa fa-external-link"></i> Editar {{ $relation->relation_description }}</a>
+                            @endif
+                        @endif
     				@endforeach
-    				<a href="{{ route('cms/ds/edit', array($datasource->id, $dsItem->id)) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}} @endif" class="btn btn-xs btn-default">
-              @if(CMS_Helper::checkPermission($datasource->table.'.update'))
-                @lang('cms::button.edit')
-              @else
-                @lang('cms::button.view')
-              @endif
-            </a>
-            @if(CMS_Helper::checkPermission($datasource->table.'.delete'))
-    				<a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o registo?" data-reply="" data-toggle="modal" data-descr="{{ $firstTableField }}" data-url="{{ route('cms/ds/delete', array($datasource->id, $dsItem->id)) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
-            @endif
+    				
+                    <a href="{{ route('cms/ds/edit', array($datasource->id, $dsItem->id)) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}}@if($parameters['modal'])&modal=true @endif @elseif($parameters['modal'])?modal=true @endif" class="btn btn-xs btn-default">
+                        @if(CMS_Helper::checkPermission($datasource->table.'.update'))
+                            @lang('cms::button.edit')
+                        @else
+                            @lang('cms::button.view')
+                        @endif
+                    </a>
+                    
+                    @if(CMS_Helper::checkPermission($datasource->table.'.delete'))
+    				    <a class="btn btn-xs btn-danger" data-msg="Confirma eliminar o registo?" data-reply="" data-toggle="modal" data-descr="{{ $firstTableField }}" data-url="{{ route('cms/ds/delete', array($datasource->id, $dsItem->id)) }}" href="#modal-confirm">@lang('cms::button.delete')</a>
+                    @endif
     			</td>
     		</tr>
     		@endforeach

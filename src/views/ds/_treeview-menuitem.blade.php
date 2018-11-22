@@ -18,7 +18,7 @@
           @endif
         @endif
       @endforeach
-      <a href="{{ route('cms/ds/edit', array($datasource->id, $item->id)) }}" class="btn btn-xs btn-default">
+      <a href="{{ route('cms/ds/edit', array($datasource->id, $item->id)) }}@if($parameters['modal'])?modal=true @endif" class="btn btn-xs btn-default">
         @if(CMS_Helper::checkPermission($datasource->table.'.update'))
           @lang('cms::button.edit')
         @else

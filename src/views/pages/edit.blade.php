@@ -264,7 +264,7 @@ Editar Página ::
 
 					@foreach($page->datasources as $component)
 					<div class="list-group">
-                      <a class="list-group-item" target="_blank" href="{{ @$component->options()->url?URL::to(Config::get('cms::config.uri').$component->options()->url):URL::to(Config::get('cms::config.uri').'/ds/'.$component->id) }}">
+                      <a class="list-group-item" data-url="{{ @$component->options()->url?URL::to(Config::get('cms::config.uri').$component->options()->url):URL::to(Config::get('cms::config.uri').'/ds/'.$component->id) }}?modal=true" data-toggle="modal" data-descr="{{ $component->name }}" href="#modal-ds">
                           <i class="pull-right fa fa-external-link"></i>
                           <h4 class="list-group-item-heading">{{ $component->name }}</h4>
                           <p class="text-muted list-group-item-text">{{ $component->description }}</p>

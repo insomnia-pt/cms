@@ -22,7 +22,7 @@ use URL;
 class DsController extends AdminController {
 
 	public function parameters() {
-		$parameters = array('pds'=>Input::get('pds'), 'item'=> Input::get('item'));
+		$parameters = array('pds'=>Input::get('pds'), 'item'=> Input::get('item'), 'modal'=> Input::get('modal'));
 
 		return $parameters;
 	}
@@ -88,9 +88,10 @@ class DsController extends AdminController {
 			return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 		}
 
-		//se houver parent datasource (pds) e parent id (item), retorna no link
+		//se houver parent datasource (pds) e parent id (item), ou pedido janela modal retorna no link
 		$returnUrlParams = null;
-		if(Input::get('pds')){ $returnUrlParams = '?pds='.Input::get('pds').'&item='.Input::get('item'); }
+		if(Input::get('pds')) $returnUrlParams = '?pds='.Input::get('pds').'&item='.Input::get('item'); 
+		if(Input::get('modal')) $returnUrlParams .= (Input::get('pds')?'&':'?').'modal='.Input::get('modal'); 
 		//////
 
 		if(Input::get('ds-orderlist')){
@@ -192,10 +193,12 @@ class DsController extends AdminController {
 		$ds = CMS_ModelBuilder::fromTable($datasource->table);
 		$ds->fill(array_filter($inputs, 'strlen'));
 
-		//se houver parent datasource (pds) e parent id (item), retorna no link
+		//se houver parent datasource (pds) e parent id (item), ou pedido janela modal retorna no link
 		$returnUrlParams = null;
-		if(Input::get('pds')){ $returnUrlParams = '?pds='.Input::get('pds').'&item='.Input::get('item'); }
+		if(Input::get('pds')) $returnUrlParams = '?pds='.Input::get('pds').'&item='.Input::get('item'); 
+		if(Input::get('modal')) $returnUrlParams .= (Input::get('pds')?'&':'?').'modal='.Input::get('modal'); 
 		//////
+
 
 		if($ds->save()) {
 			

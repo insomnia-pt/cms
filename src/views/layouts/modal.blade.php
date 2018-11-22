@@ -2,14 +2,6 @@
 <html lang="pt">
 	<head>
 		<meta charset="utf-8" />
-		<title>
-			@section('title')
-			{{ $settings->title }}
-			@show
-		</title>
-		<meta name="keywords" content="" />
-		<meta name="author" content="Miguel Pereira [insomnia.pt]" />
-		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	    <link href="{{ Helpers::asset(Config::get('cms::config.assets_path').'/assets/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -33,37 +25,8 @@
 
 	<body>
 		<section id="container" class="">
-		    <header class="header white-bg">
-		        <a href="/" class="logo">{{ $settings->title }} <span>{{ $settings->subtitle }}</span></a>
-		        <div class="top-nav ">
-		            <ul class="nav pull-right top-menu">
-		                <li class="dropdown">
-		                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-		                	    <img alt="" src="{{ $CMS_USER->thumbnail(29,29) }}">
-		                        <span class="username">{{ $CMS_USER->fullName() }}</span>
-		                        <b class="caret"></b>
-		                    </a>
-		                    <ul class="dropdown-menu extended logout text-center">
-		                        <div class="log-arrow-up"></div>
-		                        <li class="text-center"><a href="{{ route('users/edit', $CMS_USER->id ) }}"><i class=" fa fa-user"></i>Editar Perfil</a></li>
-		                        <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> Terminar Sessão</a></li>
-		                    </ul>
-		                </li>    
-		            </ul>    
-		        </div>
-		    </header>
-
-		    <aside>
-		       	<div id="sidebar"  class="nav-collapse ">
-		    	   	<ul class="sidebar-menu">
-						@include('cms::layouts/menu')
-			        </ul>
-					@if(@Config::get('app.version'))<div class="appversion">{{ Config::get('app.version') }}</div>@endif
-				</div>
-		    </aside>
-
-		    <section id="main-content">
-		        <section class="wrapper">
+		    <section id="main-content" style="margin-left: 0">
+		        <section class="wrapper" style="margin-top: 0">
 
 		            @yield('content')
 
@@ -86,20 +49,6 @@
 		        		<button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
 		              	<a id="modal-bt-confirm" href="" class="btn btn-danger"> Confirmar</a>
 		          	</div>
-		      	</div>
-		  	</div>
-		</div>
-
-		<div class="modal fade" id="modal-ds" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-dialog" style="width: 1300px; max-width: 98%">
-		    	<div class="modal-content">
-		        	<div class="modal-header">
-		            	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		              	<h4 class="modal-title" id="modal-ds-descr"></h4>
-		          	</div>
-		          	
-					  <iframe style="width: 100%; height: 600px" id="modal-ds-url" frameborder="0"></iframe>
-		          	
 		      	</div>
 		  	</div>
 		</div>
@@ -140,15 +89,6 @@
 				$(e.currentTarget).find('#modal-bt-confirm').attr("href", $(e.relatedTarget).data('url'));
 				$(e.currentTarget).find('#modal-descr').html("# "+$(e.relatedTarget).data('descr'));
 				$(e.currentTarget).find('#modal-msg').html($(e.relatedTarget).data('msg'));
-			});
-
-			$('#modal-ds').on('show.bs.modal', function(e) {
-				$(e.currentTarget).find('#modal-ds-url').attr("src", $(e.relatedTarget).data('url'));
-				$(e.currentTarget).find('#modal-ds-descr').html("# "+$(e.relatedTarget).data('descr'));
-			});
-
-			$('#modal-ds').on('hide.bs.modal', function(e) {
-				$(e.currentTarget).find('#modal-ds-url').attr("src", "");
 			});
 
 
