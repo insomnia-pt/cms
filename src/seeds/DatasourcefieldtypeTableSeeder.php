@@ -38,7 +38,7 @@ class DatasourcefieldtypeTableSeeder extends Seeder {
         $datasourcefieldtype = new DatasourceFieldtype;
         $datasourcefieldtype->name = 'Editor Texto';
         $datasourcefieldtype->type = 'mediumText';
-        $datasourcefieldtype->config = '{"field":"textarea"}';
+        $datasourcefieldtype->config = '{"field":"wysiwyg"}';
         $datasourcefieldtype->save();
 
         $datasourcefieldtype = new DatasourceFieldtype;
@@ -75,6 +75,12 @@ class DatasourcefieldtypeTableSeeder extends Seeder {
         $datasourcefieldtype->name = 'Switch';
         $datasourcefieldtype->type = 'string';
         $datasourcefieldtype->config = '{"field":"switch", "parameters":["mini_cmp"]}';
+        $datasourcefieldtype->save();
+
+        $datasourcefieldtype = new DatasourceFieldtype;
+        $datasourcefieldtype->name = 'Área de Texto';
+        $datasourcefieldtype->type = 'text';
+        $datasourcefieldtype->config = '{"field":"textarea"}';
         $datasourcefieldtype->save();
         
     }
