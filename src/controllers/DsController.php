@@ -35,6 +35,10 @@ class DsController extends AdminController {
 
 		AdminController::checkPermission($datasource->table.'.'.'view');
 
+		//se for um modulo, redireciona para a rota do modulo
+		if(@$datasource->options()->module->route) return Redirect::route($datasource->options()->module->route, $this::parameters());
+		//
+
 		$orderBy = @$datasource->options()->orderby?$datasource->options()->orderby:'order';
 
 		$parentDatasource = null;
