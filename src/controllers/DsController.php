@@ -40,6 +40,7 @@ class DsController extends AdminController {
 		//
 
 		$orderBy = @$datasource->options()->orderby?$datasource->options()->orderby:'order';
+		$orderDirection = @$datasource->options()->orderdirection?$datasource->options()->orderdirection:'desc';
 
 		$parentDatasource = null;
 		$parentDatasourceItem = null;
@@ -48,10 +49,10 @@ class DsController extends AdminController {
 				return Redirect::to('cms')->with('error', Lang::get('cms::ds/message.does_not_exist'));
 			}
 			$parentDatasourceItem = CMS_ModelBuilder::fromTable($parentDatasource->table)->find(Input::get('item'));
-			$dsItems = CMS_ModelBuilder::fromTable($datasource->table)->where($parentDatasource->table.'_id', Input::get('item'))->orderBy($orderBy)->get();
+			$dsItems = CMS_ModelBuilder::fromTable($datasource->table)->where($parentDatasource->table.'_id', Input::get('item'))->orderBy($orderBy, $orderDirection)->get();
 
 		} else {
-			$dsItems = CMS_ModelBuilder::fromTable($datasource->table)->orderBy($orderBy)->get();
+			$dsItems = CMS_ModelBuilder::fromTable($datasource->table)->orderBy($orderBy, $orderDirection)->get();
 		}
 
 		$parameters = $this::parameters();
