@@ -246,7 +246,6 @@ span.jFiler-icon-file.f-audio {
     color: #4d4d4c;
 }
 
-
 .jFiler-items-default .jFiler-item .jFiler-item-icon {
     font-size: 32px;
     color: #48A0DC;
@@ -299,7 +298,8 @@ span.jFiler-icon-file.f-audio {
 
 /* Thumbnails: Grid */
 .jFiler-items-grid .jFiler-item {
-    float: left;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container {

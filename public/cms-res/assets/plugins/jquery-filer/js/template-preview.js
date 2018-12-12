@@ -47,7 +47,7 @@
                             </div>\
                             <div class="jFiler-item-assets jFiler-row">\
                                 <ul class="list-inline pull-left">\
-                                    <li><span class="jFiler-item-others">{{fi-icon}}</span></li>\
+                                    <li><span class="jFiler-item-others"><i class="fa fa-arrows-alt" style="cursor:grab"></i> &nbsp; {{fi-icon}}</span></li>\
                                 </ul>\
                                 <ul class="list-inline pull-right">\
                                     <li><a class="icon-jfi-trash jFiler-item-trash-action"></a></li>\

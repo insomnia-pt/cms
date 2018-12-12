@@ -113,7 +113,7 @@ Editar Página ::
 							<label for="{{ $area->name }}[{{ $langkey }}]" class="col-lg-2 control-label">{{ $area->field->name }} &nbsp;<i title="Campo com possibilidade de tradução" class="fa fa-language"></i> <small class="lang-active text-muted"></small></label>
 							<div class="col-lg-{{ $area->field->size }}">
 
-								@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name.'['.$langkey.']', 'data' => Input::old($area->name.'.'.$langkey, @$page->areas()->{$area->name}->{$langkey}), 'limit' => @$area->field->parameters->limit, 'extensions' => @$area->field->parameters->extensions, 'items' => @$area->field->parameters->values, 'folder' => @$area->field->parameters->folder]])
+								@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name.'['.$langkey.']', 'data' => Input::old($area->name.'.'.$langkey, @$page->areas()->{$area->name}->{$langkey}), 'limit' => @$area->field->parameters->limit, 'extensions' => @$area->field->parameters->extensions, 'items' => @$area->field->parameters->values, 'folder' => @$area->field->parameters->folder, 'compress' => @$config->parameters->compress]])
 
 								{{ $errors->first($area->name.'['.$langkey.']', '<p class="help-block">:message</p>') }}
 							</div>
@@ -130,7 +130,7 @@ Editar Página ::
 							<label for="{{ $area->name }}" class="col-lg-2 control-label">{{ $area->field->name }}</label>
 							<div class="col-lg-{{ $area->field->size }}">
 
-								@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name, 'data' => Input::old($area->name, @$page->areas()->{$area->name}), 'limit' => @$area->field->parameters->limit, 'extensions' => @$area->field->parameters->extensions, 'items' => @$area->field->parameters->values, 'folder' => @$area->field->parameters->folder]])
+								@include('cms::components.'.$datasourceFieldtypes->find($area->field->datatype)->config()->field, ['component' => ['name' => $area->name, 'data' => Input::old($area->name, @$page->areas()->{$area->name}), 'limit' => @$area->field->parameters->limit, 'extensions' => @$area->field->parameters->extensions, 'items' => @$area->field->parameters->values, 'folder' => @$area->field->parameters->folder, 'compress' => @$config->parameters->compress]])
 
 								{{ $errors->first($area->name, '<p class="help-block">:message</p>') }}
 							</div>
@@ -167,7 +167,7 @@ Editar Página ::
 							<label for="{{ $setting->name }}" class="col-lg-2 control-label">{{ $setting->field->name }}</label>
 							<div class="col-lg-{{ $setting->field->size }}">
 
-								@include('cms::components.'.$datasourceFieldtypes->find($setting->field->datatype)->config()->field, ['component' => ['name' => $setting->name, 'data' => Input::old($setting->name, @$page->areas()->{$setting->name}), 'limit' => @$setting->field->parameters->limit, 'extensions' => @$setting->field->parameters->extensions, 'items' => @$setting->field->parameters->values, 'folder' => @$setting->field->parameters->folder]])
+								@include('cms::components.'.$datasourceFieldtypes->find($setting->field->datatype)->config()->field, ['component' => ['name' => $setting->name, 'data' => Input::old($setting->name, @$page->areas()->{$setting->name}), 'limit' => @$setting->field->parameters->limit, 'extensions' => @$setting->field->parameters->extensions, 'items' => @$setting->field->parameters->values, 'folder' => @$setting->field->parameters->folder, 'compress' => @$config->parameters->compress]])
 								
 
 								{{ $errors->first($setting->name, '<p class="help-block">:message</p>') }}

@@ -151,7 +151,7 @@ Editar Registo ::
 									<label for="{{ $config->name }}[{{ $langkey }}]" class="col-lg-2 control-label">{{ $config->description }} &nbsp;<i title="Campo com possibilidade de tradução" class="fa fa-language"></i> <small class="lang-active text-muted"></small></label>
 									<div class="col-lg-{{ $config->size }}">
 
-										@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name.'['.$langkey.']', 'data' => Input::old($config->name.'.'.$langkey, @json_decode($dsItem->{$config->name})->{$langkey}), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
+										@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name.'['.$langkey.']', 'data' => Input::old($config->name.'.'.$langkey, @json_decode($dsItem->{$config->name})->{$langkey}), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder, 'compress' => @$config->parameters->compress ]])
 
 										{{ $errors->first($config->name.'['.$langkey.']', '<p class="help-block">:message</p>') }}
 									</div>
@@ -164,7 +164,7 @@ Editar Registo ::
 									<label for="{{ $config->name }}" class="col-lg-2 control-label">{{ $config->description }}</label>
 									<div class="col-lg-{{ $config->size }}">
 
-										@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder ]])
+										@include('cms::components.'.$datasourceFieldtypes->find($config->datatype)->config()->field, ['component' => ['name' => $config->name, 'data' => Input::old($config->name, $dsItem[$config->name]), 'limit' => @$config->parameters->limit, 'extensions' => @$config->parameters->extensions, 'items' => @$config->parameters->values, 'folder' => @$config->parameters->folder, 'compress' => @$config->parameters->compress ]])
 
 										{{ $errors->first($config->name, '<p class="help-block">:message</p>') }}
 									</div>
