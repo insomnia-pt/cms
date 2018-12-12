@@ -98,7 +98,7 @@
 		              	<h4 class="modal-title" id="modal-ds-descr"></h4>
 		          	</div>
 		          	
-					  <iframe style="width: 100%; height: 600px" id="modal-ds-url" frameborder="0"></iframe>
+					  <iframe style="width: 100%; height: 650px" id="modal-ds-url" frameborder="0"></iframe>
 		          	
 		      	</div>
 		  	</div>
@@ -143,7 +143,7 @@
 			});
 
 			$('#modal-ds').on('show.bs.modal', function(e) {
-				$(e.currentTarget).find('#modal-ds-url').attr("src", $(e.relatedTarget).data('url'));
+				setTimeout(function(){ $(e.currentTarget).find('#modal-ds-url').attr("src", $(e.relatedTarget).data('url')); }, 800);
 				$(e.currentTarget).find('#modal-ds-descr').html("# "+$(e.relatedTarget).data('descr'));
 			});
 
