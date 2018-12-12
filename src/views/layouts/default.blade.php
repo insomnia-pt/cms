@@ -152,10 +152,9 @@
 			});
 
 
-			if($('.date').length) $('.date').datepicker({
-				viewMode: "months", 
-				minViewMode: "days",
-				maxViewMode: "days"
+			if($('.date').length) $('.date').datetimepicker({
+				locale: 'pt-pt',
+				allowInputToggle: true
 			});
 
 			if($('.component-tags').length){
