@@ -154,7 +154,13 @@
 
 			if($('.date').length) $('.date').datetimepicker({
 				locale: 'pt-pt',
-				allowInputToggle: true
+				allowInputToggle: true,
+				icons: {
+					time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-arrow-up",
+					down: "fa fa-arrow-down"
+				}
 			});
 
 			if($('.component-tags').length){
