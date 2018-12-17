@@ -19,7 +19,7 @@ class UploaderController extends AdminController {
 
 
     if(Input::get('compress')){
-        $fileArray = array('image' => Input::file(Input::get('field'))[0]);
+        $fileArray = array('image' =>  is_array(Input::file(Input::get('field'))) ? Input::file(Input::get('field'))[0] : Input::file(Input::get('field')) );
         $rules = array(
             'image' => 'mimes:jpeg,jpg,png,gif'
         );
@@ -28,19 +28,20 @@ class UploaderController extends AdminController {
         if (!$validator->fails())
         {
             $file = $_FILES[$_POST['field']];
+            $filename = is_array($file["tmp_name"]) ? $file["tmp_name"][0] : $file["tmp_name"];
             $width = Input::get('compress'); // max width
             $height = Input::get('compress'); // max height
-            $img = \Image::make($file["tmp_name"][0]);
+            $img = \Image::make($filename);
             if($img->height() > Input::get('compress') || $img->width() > Input::get('compress')) {
                 $img->height() > $img->width() ? $width=null : $height=null;
                 $img->resize($width, $height, function ($constraint) {
                     $constraint->aspectRatio();
                 });
 
-                $a = filesize($file["tmp_name"][0]);
+                $a = filesize($filename);
                 $img->save();
                 clearstatcache();
-                $fileresize = filesize($file["tmp_name"][0]);   
+                $fileresize = filesize($filename);   
             }
             
         }
