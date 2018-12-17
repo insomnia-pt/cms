@@ -40,7 +40,7 @@ class DsController extends AdminController {
 		//
 
 		$orderBy = @$datasource->options()->orderby?$datasource->options()->orderby:'order';
-		$orderDirection = @$datasource->options()->orderdirection?$datasource->options()->orderdirection:'desc';
+		$orderDirection = @$datasource->options()->orderdirection?$datasource->options()->orderdirection:'asc';
 
 		$parentDatasource = null;
 		$parentDatasourceItem = null;
