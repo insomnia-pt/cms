@@ -55,8 +55,8 @@
                         ['view']
                     ]
                 },
-                getFileCallback : function(file) {
-                    window.opener.CKEDITOR.tools.callFunction(funcNum, file.url);
+                getFileCallback : function(file, fm) {
+                    window.opener.CKEDITOR.tools.callFunction(funcNum, file.path);
                     window.close();
                 }
             }).elfinder('instance');
@@ -65,8 +65,8 @@
 
             $window.resize(function(){
                 var win_height = $window.height()-20;
-                if( $elfinder.height() != win_height ){
-                    $elfinder.height(win_height).resize();
+                if( $('#elfinder').height() != win_height ){
+                    $('#elfinder').height(win_height).resize();
                 }
             });
         });
