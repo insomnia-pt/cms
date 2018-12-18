@@ -20,16 +20,16 @@ class JWT
     {
         $tks = explode('.', $jwt);
         if (count($tks) != 3) {
-            throw new UnexpectedValueException('Wrong number of segments');
+            throw new \Exception('Wrong number of segments');
         }
         list($headb64, $payloadb64, $cryptob64) = $tks;
         if (null === ($header = JWT::jsonDecode(JWT::urlsafeB64Decode($headb64)))
         ) {
-            throw new UnexpectedValueException('Invalid segment encoding');
+            throw new \Exception('Invalid segment encoding');
         }
         if (null === $payload = JWT::jsonDecode(JWT::urlsafeB64Decode($payloadb64))
         ) {
-            throw new UnexpectedValueException('Invalid segment encoding');
+            throw new \Exception('Invalid segment encoding');
         }
         $sig = JWT::urlsafeB64Decode($cryptob64);
         if ($verify) {
@@ -37,7 +37,7 @@ class JWT
                 throw new DomainException('Empty algorithm');
             }
             if ($sig != JWT::sign("$headb64.$payloadb64", $key, $header->alg)) {
-                throw new UnexpectedValueException('Signature verification failed');
+                throw new \Exception('Signature verification failed');
             }
         }
         return $payload;

@@ -110,10 +110,16 @@ Route::filter('auth-keycloak', function()
                     Sentry::logout();
                 }
 
-                 // Check if the user has access to the admin page
-                if (!\CMS_Helper::checkPermission('cms'))
-                {
-                    return App::abort(403);
+                try {
+                    // Check if the user has access to the admin page
+                    if (!\CMS_Helper::checkPermission('cms'))
+                    {
+                        return App::abort(403);
+                    }
+
+                } catch (Exception $e){
+                    Session::forget('token');
+                    Sentry::logout();
                 }
                 
                 return Redirect::to(Request::url());
