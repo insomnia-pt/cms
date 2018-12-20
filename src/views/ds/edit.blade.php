@@ -20,7 +20,9 @@ Editar Registo ::
           	</ul>
 			@endif
 
+			
 	        <a href="{{ route('cms/ds', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}}@if($parameters['modal'])&modal=true @endif @elseif($parameters['modal'])?modal=true @endif" class="btn btn-small btn-default pull-right" @if($parameters['modal']) style="margin-bottom: 10px" @endif><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
+			@if(CMS_Helper::checkPermission($datasource->table.'.update'))<button class="btn btn-danger pull-right" type="button" onclick="document.getElementById('btn-save-form').click()" style="margin-right: 10px">Guardar</button>@endif
     	</div>
 	</div>
 
@@ -175,7 +177,7 @@ Editar Registo ::
 
 						<div class="form-group">
 							<div class="col-lg-12 text-right">
-								@if(CMS_Helper::checkPermission($datasource->table.'.update'))<button class="btn btn-danger" type="submit">Guardar</button>@endif
+								@if(CMS_Helper::checkPermission($datasource->table.'.update'))<button id="btn-save-form" class="btn btn-danger" type="submit">Guardar</button>@endif
 								<a class="btn btn-default" href="{{ route('cms/ds', $datasource->id) }}@if($parameters['pds'])?pds={{$parameters['pds']}}&item={{$parameters['item']}}@if($parameters['modal'])&modal=true @endif @elseif($parameters['modal'])?modal=true @endif">Voltar</a>
 							</div>
 						</div>

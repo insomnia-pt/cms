@@ -18,6 +18,9 @@ Editar Página ::
           </ul>
 
           <a href="{{ route('pages') }}{{ @$datasource->options()->group?'?group='.$page->id_parent:null }}" class="btn btn-small btn-default pull-right"><i class="icon-circle-arrow-left icon-white"></i> Voltar</a>
+		  @if($page->editable)
+			@if(CMS_Helper::checkPermission('pages.update'))<button class="btn btn-danger pull-right" type="button" onclick="document.getElementById('btn-save-form').click()" style="margin-right: 10px">Guardar</button>@endif
+		@endif
       </div>
   </div>
 
@@ -145,7 +148,7 @@ Editar Página ::
 				<div class="form-group">
 					<div class="col-lg-12 text-right">
 						@if($page->editable)
-							@if(CMS_Helper::checkPermission('pages.update'))<button class="btn btn-danger" type="submit">Guardar</button>@endif
+							@if(CMS_Helper::checkPermission('pages.update'))<button id="btn-save-form" class="btn btn-danger" type="submit">Guardar</button>@endif
 						@endif
 						<a class="btn btn-default" href="{{ route('pages') }}{{ @$datasource->options()->group?'?group='.$page->id_parent:null }}">Cancelar</a>
 					</div>
