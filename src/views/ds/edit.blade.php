@@ -149,7 +149,7 @@ Editar Registo ::
 							@if(@$config->multilang)
 								@foreach($languages as $langkey => $language)
 								
-								<div data-lang="lang-{{ $langkey }}"  class="form-group lang-field {{ $errors->has($config->name.'['.$langkey.']') ? 'has-error' : '' }}">
+								<div data-lang="lang-{{ $langkey }}"  class="form-group lang-field {{ $errors->has($config->name.'['.$langkey.']') ? 'has-error' : '' }}" @if(isset($config->admin)&&@$CMS_USER->getGroups()[0]->id != 1)) style="display: none;" @endif>
 									<label for="{{ $config->name }}[{{ $langkey }}]" class="col-lg-2 control-label">{{ $config->description }} &nbsp;<i title="Campo com possibilidade de tradução" class="fa fa-language"></i> <small class="lang-active text-muted"></small></label>
 									<div class="col-lg-{{ $config->size }}">
 
@@ -162,7 +162,7 @@ Editar Registo ::
 								@endforeach
 							@else
 
-								<div class="form-group {{ $errors->has($config->name) ? 'has-error' : '' }}">
+								<div class="form-group {{ $errors->has($config->name) ? 'has-error' : '' }}" @if(isset($config->admin)&&@$CMS_USER->getGroups()[0]->id != 1)) style="display: none;" @endif>
 									<label for="{{ $config->name }}" class="col-lg-2 control-label">{{ $config->description }}</label>
 									<div class="col-lg-{{ $config->size }}">
 
