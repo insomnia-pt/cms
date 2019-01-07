@@ -122,7 +122,7 @@ Route::filter('auth-keycloak', function()
                     Sentry::logout();
                 }
                 
-                return Redirect::to(Request::url());
+                // return Redirect::to(Request::url());
             }
         } else {
             Sentry::logout();
